@@ -1,0 +1,2 @@
+include ':app', ':models'
+rootProject.name='Gylog'
