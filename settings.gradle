@@ -1,2 +1,2 @@
-include ':app', ':models'
+include ':app', ':models', ':ui-programs', ':base'
 rootProject.name='Gylog'

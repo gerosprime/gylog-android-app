@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ui-programs</string>
+    <string name="your_own_programs">Your own Programs</string>
+    <string name="existing_programs">Existing Programs</string>
+</resources>
