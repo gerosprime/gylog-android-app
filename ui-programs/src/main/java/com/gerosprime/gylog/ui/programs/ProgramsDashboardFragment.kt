@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.OnItemClickListener
+import com.gerosprime.gylog.base.utils.FetchStateUtils
 import com.gerosprime.gylog.models.programs.ProgramEntity
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -86,25 +87,8 @@ class ProgramsDashboardFragment : Fragment() {
     }
 
     private fun fetchStateChanged(fetchState: FetchState) {
-        when (fetchState) {
-
-            FetchState.FETCHING -> {
-                mainContent.visibility = View.INVISIBLE
-                progressContent.visibility = View.VISIBLE
-                errorContent.visibility = View.INVISIBLE
-            }
-            FetchState.LOADED -> {
-                mainContent.visibility = View.VISIBLE
-                progressContent.visibility = View.INVISIBLE
-                errorContent.visibility = View.INVISIBLE
-            }
-            FetchState.ERROR -> {
-                mainContent.visibility = View.INVISIBLE
-                progressContent.visibility = View.INVISIBLE
-                errorContent.visibility = View.VISIBLE
-            }
-
-        }
+        FetchStateUtils.updateViewContentsByState(fetchState,
+            mainContent, progressContent, errorContent)
     }
 
 }

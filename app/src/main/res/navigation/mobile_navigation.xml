@@ -12,14 +12,21 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_programs"
         android:name="com.gerosprime.gylog.ui.programs.ProgramsDashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_programs"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.gerosprime.gylog.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_exercises"
+        android:name="com.gerosprime.gylog.ui.exercises.dashboard.DashboardExercisesFragment"
+        android:label="@string/title_exercises"
+        tools:layout="@layout/fragment_dashboard" />
+
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_notifications"-->
+<!--        android:name="com.gerosprime.gylog.ui.notifications.NotificationsFragment"-->
+<!--        android:label="@string/title_notifications"-->
+<!--        tools:layout="@layout/fragment_notifications" />-->
 </navigation>

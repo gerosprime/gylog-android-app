@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">models</string>
+
+    <string name="triceps">Triceps</string>,
+    <string name="biceps">Biceps</string>,
+    <string name="chest">Chest</string>,
+    <string name="chest_lower">Chest (Lower)</string>,
+    <string name="chest_upper">Chest (Upper)</string>,
+    <string name="back_upper">Back (Upper)</string>,
+    <string name="back_lower">Back (Lower)</string>,
+    <string name="hamstrings">Hamstrings</string>,
+    <string name="forearms">Forearms</string>,
+    <string name="shoulder_side">Shoulder (Side)</string>,
+    <string name="shoulder_front">Shoulder (Front)</string>,
+    <string name="shoulder_back">Shoulder (Back)</string>,
+    <string name="traps">Traps</string>,
+    <string name="abs">Abs</string>,
+    <string name="quads">Quads</string>,
+    <string name="calves">Calves</string>,
+
 </resources>
