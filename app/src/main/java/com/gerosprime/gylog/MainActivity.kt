@@ -7,6 +7,8 @@ import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -43,11 +45,16 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        navView.setOnNavigationItemSelectedListener { navigationItemSelected(it) }
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            run {
+                navigationItemSelected(destination)
+            }
+        }
+        // navView.setOnNavigationItemSelectedListener { navigationItemSelected(it) }
     }
 
-    private fun navigationItemSelected(menuItem: MenuItem) : Boolean {
-        when (menuItem.itemId) {
+    private fun navigationItemSelected(destination: NavDestination) : Boolean {
+        when (destination.id) {
             R.id.navigation_programs -> programsNavigationSelected()
             R.id.navigation_home -> homeNavigationSelected()
             R.id.navigation_exercises -> exerciseNavigationSelected()
@@ -56,8 +63,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun exerciseNavigationSelected() {
-        if (floatingActionButton.isOrWillBeHidden)
-            floatingActionButton.show()
+
+        if (floatingActionButton.isOrWillBeShown)
+            floatingActionButton.hide()
+
+        floatingActionButton.show()
 
         floatingActionButton.setOnClickListener {
         }
@@ -75,8 +85,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun programsNavigationSelected() {
 
-        if (floatingActionButton.isOrWillBeHidden)
-            floatingActionButton.show()
+        if (floatingActionButton.isOrWillBeShown)
+            floatingActionButton.hide()
+
+        floatingActionButton.show()
 
         floatingActionButton.setOnClickListener {
             startActivity(Intent(this, ProgramsAddActivity::class.java))
