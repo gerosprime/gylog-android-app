@@ -1,4 +1,4 @@
-package com.gerosprime.gylog.components.di.modules
+package com.gerosprime.gylog.components.di.modules.models
 
 import com.gerosprime.gylog.models.exercises.DefaultExercisesLoader
 import com.gerosprime.gylog.models.exercises.ExercisesLoader

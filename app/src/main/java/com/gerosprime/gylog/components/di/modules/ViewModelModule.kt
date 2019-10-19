@@ -4,9 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gerosprime.gylog.base.components.di.ViewModelKey
 import com.gerosprime.gylog.models.exercises.ExercisesLoader
+import com.gerosprime.gylog.models.programs.NewProgramCacheSetterUseCase
 import com.gerosprime.gylog.models.programs.ProgramsLoader
+import com.gerosprime.gylog.models.workouts.WorkoutAddToCacheUseCase
 import com.gerosprime.gylog.ui.exercises.dashboard.DefaultDashboardExercisesViewModel
 import com.gerosprime.gylog.ui.programs.DefaultProgramsDashboardViewModel
+import com.gerosprime.gylog.ui.programs.add.DefaultProgramsAddViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -32,6 +35,18 @@ class ViewModelModule {
         return DefaultDashboardExercisesViewModel(MutableLiveData(), MutableLiveData(),
             MutableLiveData(), exercisesLoader, Schedulers.io(),
             AndroidSchedulers.mainThread())
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultProgramsAddViewModel::class)
+    fun provideDefaultProgramsAddViewModel(workoutAddTCUC: WorkoutAddToCacheUseCase,
+                                           newProgramCSUC: NewProgramCacheSetterUseCase
+    ) : ViewModel {
+        return DefaultProgramsAddViewModel(
+            MutableLiveData(), MutableLiveData(), MutableLiveData(),
+            workoutAddTCUC, newProgramCSUC, AndroidSchedulers.mainThread(),
+            Schedulers.io())
     }
 
 }

@@ -24,8 +24,6 @@ class FakeProgramsLoader : ProgramsLoader {
                 "BLS Phase 3", "", arrayListOf()),
             ProgramEntity(0,
                 "BLS Phase 3", "", arrayListOf()))
-        var programs = listOf(ProgramEntity(0,
-            "BLS Phase 1", "", arrayListOf()))
 
         return Single.just(LoadedProgramResult(userList, userList))
     }

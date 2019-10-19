@@ -1,5 +1,29 @@
 <resources>
     <string name="app_name">ui-programs</string>
+
     <string name="your_own_programs">Your own Programs</string>
     <string name="existing_programs">Existing Programs</string>
+
+    <string name="program_name">Name</string>
+    <string name="program_description">Description</string>
+
+    <string name="workout_name">Name</string>
+    <string name="workout_description">Description</string>
+    <string name="no_exercises_yet">No exercises added yet</string>
+
+    <string name="day_format">Day %d</string>
+    <string name="click_to_add_workouts">Click + to add workouts</string>
+
+    <string name="add_workout">Add Workout</string>
+    <string name="add_exercises">Add Exercises</string>
+    <string name="program_info">Program Info</string>
+    <string name="save">Save</string>
+
+    <string name="program_name_is_required">Program name is required.</string>
+    <string name="workout_name_is_required">Workout name is required.</string>
+
+    <plurals name="sets_format">
+        <item quantity="one">%d Set</item>
+        <item quantity="other">%d Sets</item>
+    </plurals>
 </resources>

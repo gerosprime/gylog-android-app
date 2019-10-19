@@ -4,9 +4,7 @@ import android.os.SystemClock
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.gerosprime.gylog.models.programs.ProgramsLoader
-import it.cosenonjaviste.daggermock.DaggerMockRule
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
@@ -22,7 +20,7 @@ class DashboardProgramsFragmentTest {
 
     @Before
     fun setUp() {
-        DaggerTestUiComponent.create().inject(this)
+        // DaggerTestUiComponent.create().inject(this)
     }
 
     @Test

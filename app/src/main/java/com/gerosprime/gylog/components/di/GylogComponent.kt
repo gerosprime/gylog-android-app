@@ -1,17 +1,17 @@
 package com.gerosprime.gylog.components.di
 
 import com.gerosprime.gylog.GylogApplication
-import com.gerosprime.gylog.components.di.modules.ExercisesModelModule
-import com.gerosprime.gylog.components.di.modules.FragmentBuilders
-import com.gerosprime.gylog.components.di.modules.ProgramsModelModule
-import com.gerosprime.gylog.components.di.modules.ViewModelModule
+import com.gerosprime.gylog.components.di.modules.*
+import com.gerosprime.gylog.components.di.modules.models.ExercisesModelModule
+import com.gerosprime.gylog.components.di.modules.models.ModelsModule
+import com.gerosprime.gylog.components.di.modules.models.ProgramsModelModule
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
-@Component(modules = [FragmentBuilders::class, ViewModelModule::class,
-    ProgramsModelModule::class, ExercisesModelModule::class,
+@Component(modules = [ActivityBuilders::class, FragmentBuilders::class, ViewModelModule::class,
+    ModelsModule::class,
     AndroidInjectionModule::class, AndroidSupportInjectionModule::class])
 @Singleton
 interface GylogComponent {

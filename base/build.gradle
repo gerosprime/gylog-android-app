@@ -28,10 +28,12 @@ android {
 
 }
 
-def room_version = '2.1.0'
+def room_version = '2.2.0'
 def dagger_version = '2.19'
 
 def cardview_version = '1.0.0'
+
+def material_version = '1.0.0'
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
@@ -41,6 +43,7 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     api 'androidx.recyclerview:recyclerview:1.0.0'
     api "androidx.cardview:cardview:$cardview_version"
+    api "com.google.android.material:material:$material_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

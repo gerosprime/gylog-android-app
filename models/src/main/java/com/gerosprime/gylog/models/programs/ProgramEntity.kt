@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 
 @Entity
-data class ProgramEntity (@PrimaryKey val recordId: Long,
-               val name : String, val description : String,
-               val workouts : List<WorkoutEntity>)
+data class ProgramEntity (@PrimaryKey val recordId: Long? = null,
+               var name : String? = null, var description : String? = null,
+               var workouts : ArrayList<WorkoutEntity>? = null)

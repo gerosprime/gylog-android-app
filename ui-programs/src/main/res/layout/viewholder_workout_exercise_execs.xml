@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?selectableItemBackground"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/viewholder_workout_exercise_execs_image"
+            android:layout_width="200dp"
+            android:layout_height="140dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/viewholder_workout_exercise_execs_name"
+        android:gravity="center"
+        android:maxLines="2"
+        tools:text="Incline Bench Press"
+        android:padding="4dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/viewholder_workout_exercise_execs_sets"
+        android:gravity="center"
+        android:maxLines="2"
+        tools:text="10 Sets"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

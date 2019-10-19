@@ -1,9 +1,11 @@
 package com.gerosprime.gylog.models.exercises
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+interface SetEntity {
 
-@Entity
-data class SetEntity(@PrimaryKey val recordId : Long, val reps : Int,
-                     val weight:Float, val counterWeight:Float,
-                     val durationSeconds:Int)
+    val recordId : Long
+    val reps : Int
+    val weight:Float
+    val counterWeight:Float
+    val durationSeconds:Int
+
+}
