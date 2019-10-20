@@ -4,4 +4,4 @@ import com.gerosprime.gylog.models.programs.ProgramEntity
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 
 class EditProgramEntityState (var newProgram : ProgramEntity?,
-                              var workouts : List<WorkoutEntity>?)
+                              var workouts : ArrayList<WorkoutEntity>?)

@@ -48,6 +48,8 @@
             android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/viewholder_program_workouts_empty"
+                android:visibility="invisible"
                 android:layout_margin="16dp"
                 android:text="@string/no_exercises_yet"
                 android:layout_centerInParent="true"
@@ -55,7 +57,7 @@
                 android:layout_height="120dp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:id="@+id/viewholder_program_workouts_exercises"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

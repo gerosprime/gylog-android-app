@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.gerosprime.gylog.ui.exercises.test", appContext.packageName)
+        assertEquals("com.gerosprime.gylog.ui.exercisesMap.test", appContext.packageName)
     }
 }

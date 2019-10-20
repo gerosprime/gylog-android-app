@@ -1,9 +1,10 @@
 package com.gerosprime.gylog.ui.programs.add
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -11,15 +12,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-import com.gerosprime.gylog.models.exercises.ExerciseTemplatesAddToCacheResult
-import com.gerosprime.gylog.models.programs.NewProgramSetToCacheResult
+import com.gerosprime.gylog.base.OnItemClickListener
+import com.gerosprime.gylog.models.programs.EditProgramSetToCacheResult
 import com.gerosprime.gylog.models.workouts.WorkoutAddToCacheResult
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
+import com.gerosprime.gylog.ui.exercises.add.WorkoutExerciseEditActivity
 import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.DialogTags.TAG_ADD_WORKOUT_DIALOG
+import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.RequestCodes.WORKOUT_EDIT
 import com.gerosprime.gylog.ui.programs.add.workouts.ProgramWorkoutsAdapter
 import com.gerosprime.gylog.ui.programs.workouts.AddWorkoutDialogFragment
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
 import dagger.android.AndroidInjection
 import javax.inject.Inject
@@ -32,7 +34,7 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
 
     @Inject
     lateinit var factory : ViewModelProvider.Factory
-    lateinit var viewModel : ProgramsAddViewModel
+    private lateinit var viewModel : ProgramsAddViewModel
 
     private lateinit var workoutsRecyclerView: RecyclerView
     private lateinit var workoutAddButton : Button
@@ -41,6 +43,10 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
 
     private object DialogTags {
         var TAG_ADD_WORKOUT_DIALOG = "add_workout_dialog"
+    }
+
+    private object RequestCodes {
+        const val WORKOUT_EDIT = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,25 +70,53 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
         viewModel.programSetToCacheResultMLD.observe(this, Observer { newProgramLoaded(it) })
         viewModel.workoutAddToCacheResultMLD.observe(this,
             Observer { workoutAddedToCache(it) })
-        viewModel.exerciseTemplateAddResultMTD.observe(this,
-            Observer { exerciseAddedToWorkout(it) })
 
         if (savedInstanceState == null)
             viewModel.loadNewProgram()
     }
 
-    private fun newProgramLoaded(newProgramSetToCacheResult: NewProgramSetToCacheResult) {
-        workoutsRecyclerView.adapter = ProgramWorkoutsAdapter(newProgramSetToCacheResult.workouts)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            WORKOUT_EDIT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val workoutIndex = data!!.getIntExtra(
+                        WorkoutExerciseEditActivity.EXTRAS.EXTRA_WORKOUT_INDEX,
+                        -1
+                    )
+
+                    var adapter = workoutsRecyclerView.adapter as ProgramWorkoutsAdapter?
+                    adapter!!.refreshWorkoutContent(workoutIndex)
+                }
+            }
+        }
+    }
+
+    private fun newProgramLoaded(editProgramSetToCacheResult: EditProgramSetToCacheResult) {
+
+        val adapter = ProgramWorkoutsAdapter(editProgramSetToCacheResult.workouts)
+        adapter.exerciseWorkoutListener = object : OnItemClickListener<Int> {
+            override fun onItemClicked(item: Int) {
+                editWorkoutExercises(item)
+            }
+        }
+        workoutsRecyclerView.adapter = adapter
+    }
+
+    private fun editWorkoutExercises(workoutIndex : Int) {
+
+        val editExerciseIntent = Intent(this,
+            WorkoutExerciseEditActivity::class.java)
+        editExerciseIntent.putExtra(WorkoutExerciseEditActivity.EXTRAS.EXTRA_WORKOUT_INDEX,
+            workoutIndex)
+
+        startActivityForResult(editExerciseIntent, WORKOUT_EDIT)
     }
 
     private fun workoutAddedToCache(result: WorkoutAddToCacheResult) {
         var adapter = workoutsRecyclerView.adapter as ProgramWorkoutsAdapter?
         adapter!!.notifyItemInserted(result.itemPosition)
         workoutsRecyclerView.scrollToPosition(result.itemPosition)
-    }
-
-    private fun exerciseAddedToWorkout(result : ExerciseTemplatesAddToCacheResult) {
-
     }
 
     override fun workoutNameDescriptionDefined(newWorkout: WorkoutEntity) {

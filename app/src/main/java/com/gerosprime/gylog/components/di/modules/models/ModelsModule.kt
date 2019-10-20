@@ -4,6 +4,4 @@ import dagger.Module
 
 @Module(includes = [CacheModule::class, ProgramsModelModule::class, WorkoutModelModule::class,
                     ExercisesModelModule::class])
-class ModelsModule {
-
-}
+class ModelsModule

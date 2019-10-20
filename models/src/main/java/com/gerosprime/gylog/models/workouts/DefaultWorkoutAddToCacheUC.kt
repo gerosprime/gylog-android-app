@@ -1,16 +1,16 @@
 package com.gerosprime.gylog.models.workouts
 
-import com.gerosprime.gylog.models.states.AddProgramEntityState
+import com.gerosprime.gylog.models.states.EditProgramEntityState
 import io.reactivex.Single
 
 class DefaultWorkoutAddToCacheUC
-    (private val addProgramEntityState: AddProgramEntityState)
+    (private val editProgramEntityState: EditProgramEntityState)
     : WorkoutAddToCacheUseCase {
 
     override fun add(workoutEntity: WorkoutEntity): Single<WorkoutAddToCacheResult> {
         return Single.fromCallable {
 
-            val workouts = addProgramEntityState.workouts
+            val workouts = editProgramEntityState.workouts
             workouts!!.add(workoutEntity)
 
             val index = workouts.indexOf(workoutEntity)

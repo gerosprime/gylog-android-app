@@ -22,8 +22,11 @@ internal class ExerciseExecutionViewHolder(itemView: View)
         this.exercise = exercise
 
         nameTextView.text = exercise!!.name
-        setsTextView.text = context.resources.getQuantityText(R.plurals.sets_format,
-            exercise.setTemplates.size)
+
+        val setsFormat : String = context.resources.getQuantityText(R.plurals.sets_format,
+            exercise.setTemplates.size).toString()
+
+        setsTextView.text = String.format(setsFormat, exercise.setTemplates.size)
 
     }
 

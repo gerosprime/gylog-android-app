@@ -10,5 +10,5 @@ data class WorkoutEntity(@PrimaryKey val recordId: Long? = null,
                          val description:String? = null,
                          val programId : Long? = null,
                          var day : Int? = null,
-                         var exercises : List<ExerciseTemplateEntity>? = null,
+                         var exercises : List<ExerciseTemplateEntity>,
                          var totalTimeSeconds : Int? = null)

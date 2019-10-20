@@ -3,8 +3,8 @@ package com.gerosprime.gylog.ui.programs.add
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
 import com.gerosprime.gylog.models.exercises.ExerciseTemplatesAddToCacheResult
-import com.gerosprime.gylog.models.programs.NewProgramCacheSetterUseCase
-import com.gerosprime.gylog.models.programs.NewProgramSetToCacheResult
+import com.gerosprime.gylog.models.programs.EditProgramCacheSetterUseCase
+import com.gerosprime.gylog.models.programs.EditProgramSetToCacheResult
 import com.gerosprime.gylog.models.programs.ProgramEntity
 import com.gerosprime.gylog.models.workouts.WorkoutAddToCacheResult
 import com.gerosprime.gylog.models.workouts.WorkoutAddToCacheUseCase
@@ -14,12 +14,11 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 
 class DefaultProgramsAddViewModel(
-    override val programSetToCacheResultMLD: MutableLiveData<NewProgramSetToCacheResult>,
+    override val programSetToCacheResultMLD: MutableLiveData<EditProgramSetToCacheResult>,
     override val workoutAddToCacheResultMLD: MutableLiveData<WorkoutAddToCacheResult>,
-    override val exerciseTemplateAddResultMTD: MutableLiveData<ExerciseTemplatesAddToCacheResult>,
 
     private val workoutAddToCacheUseCase: WorkoutAddToCacheUseCase,
-    private val newProgramCacheSetterUseCase: NewProgramCacheSetterUseCase,
+    private val editProgramCacheSetterUseCase: EditProgramCacheSetterUseCase,
 
     private val uiScheduler: Scheduler? = null,
     private val backgroundScheduler: Scheduler? = null
@@ -48,8 +47,8 @@ class DefaultProgramsAddViewModel(
 
     override fun loadNewProgram() {
 
-        var programSetToCache = newProgramCacheSetterUseCase
-            .newProgramSetToCache(ProgramEntity(workouts = arrayListOf()))
+        var programSetToCache = editProgramCacheSetterUseCase
+            .editProgramSetToCache(ProgramEntity(workouts = arrayListOf()))
 
         if (uiScheduler != null)
             programSetToCache = programSetToCache.observeOn(uiScheduler)

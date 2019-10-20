@@ -9,7 +9,7 @@ import com.gerosprime.gylog.ui.programs.R
 internal class ExerciseExecutionAdapter(var exercises: List<ExerciseTemplateEntity>)
     : RecyclerView.Adapter<ExerciseExecutionViewHolder>() {
 
-    var layoutInflater : LayoutInflater? = null
+    private var layoutInflater : LayoutInflater? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseExecutionViewHolder {
         if (layoutInflater == null)

@@ -4,9 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gerosprime.gylog.base.components.di.ViewModelKey
 import com.gerosprime.gylog.models.exercises.ExercisesLoader
-import com.gerosprime.gylog.models.programs.NewProgramCacheSetterUseCase
+import com.gerosprime.gylog.models.programs.EditProgramCacheSetterUseCase
 import com.gerosprime.gylog.models.programs.ProgramsLoader
+import com.gerosprime.gylog.models.workouts.DefaultWorkoutExerciseEditLoader
 import com.gerosprime.gylog.models.workouts.WorkoutAddToCacheUseCase
+import com.gerosprime.gylog.models.workouts.edit.WorkoutExerciseEditLoader
+import com.gerosprime.gylog.models.workouts.edit.WorkoutExerciseEditToCacheUseCase
+import com.gerosprime.gylog.models.workouts.edit.WorkoutSetExerciseCacheUC
+import com.gerosprime.gylog.ui.exercises.add.DefaultWorkoutExerciseEditViewModel
 import com.gerosprime.gylog.ui.exercises.dashboard.DefaultDashboardExercisesViewModel
 import com.gerosprime.gylog.ui.programs.DefaultProgramsDashboardViewModel
 import com.gerosprime.gylog.ui.programs.add.DefaultProgramsAddViewModel
@@ -41,12 +46,24 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(DefaultProgramsAddViewModel::class)
     fun provideDefaultProgramsAddViewModel(workoutAddTCUC: WorkoutAddToCacheUseCase,
-                                           newProgramCSUC: NewProgramCacheSetterUseCase
+                                           editProgramCSUC: EditProgramCacheSetterUseCase
     ) : ViewModel {
         return DefaultProgramsAddViewModel(
-            MutableLiveData(), MutableLiveData(), MutableLiveData(),
-            workoutAddTCUC, newProgramCSUC, AndroidSchedulers.mainThread(),
+            MutableLiveData(), MutableLiveData(),
+            workoutAddTCUC, editProgramCSUC, AndroidSchedulers.mainThread(),
             Schedulers.io())
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultWorkoutExerciseEditViewModel::class)
+    fun provideDefaultWorkoutExerciseEditViewModel(exerciseEditLoader: WorkoutExerciseEditLoader,
+                                           workoutSetExerciseCacheUC: WorkoutSetExerciseCacheUC
+    ) : ViewModel {
+        return DefaultWorkoutExerciseEditViewModel(
+            MutableLiveData(), MutableLiveData(),
+            MutableLiveData(), exerciseEditLoader, workoutSetExerciseCacheUC,
+            AndroidSchedulers.mainThread(), Schedulers.io())
     }
 
 }

@@ -17,7 +17,6 @@
     <string name="add_workout">Add Workout</string>
     <string name="add_exercises">Add Exercises</string>
     <string name="program_info">Program Info</string>
-    <string name="save">Save</string>
 
     <string name="program_name_is_required">Program name is required.</string>
     <string name="workout_name_is_required">Workout name is required.</string>

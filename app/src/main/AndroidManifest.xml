@@ -24,6 +24,9 @@
         <activity android:name=".ui.programs.add.ProgramsAddActivity"
             android:label="@string/create_program"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.exercises.add.WorkoutExerciseEditActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
