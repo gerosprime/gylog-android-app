@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="?selectableItemBackground"
+    android:background="?android:selectableItemBackground"
+    android:descendantFocusability="beforeDescendants"
+    android:clickable="true"
+    android:focusable="true"
     android:layout_marginLeft="4dp"
     android:layout_marginRight="4dp"
     android:orientation="vertical"
@@ -13,8 +16,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/viewholder_workout_exercise_execs_image"
-            android:layout_width="200dp"
-            android:layout_height="140dp" />
+            android:layout_width="180dp"
+            android:layout_height="120dp" />
     </RelativeLayout>
 
     <TextView

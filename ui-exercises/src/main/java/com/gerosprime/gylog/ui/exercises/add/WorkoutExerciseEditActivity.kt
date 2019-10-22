@@ -15,11 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
-import com.gerosprime.gylog.models.workouts.edit.WorkoutExerciseEditLoadResult
-import com.gerosprime.gylog.models.workouts.edit.WorkoutExerciseSetCacheResult
+import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoadResult
+import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutExerciseSetCacheResult
 import com.gerosprime.gylog.ui.exercises.R
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_exercise_add.*
 import javax.inject.Inject
 
 
@@ -98,7 +97,7 @@ class WorkoutExerciseEditActivity : AppCompatActivity() {
     }
 
     private fun populateExercises(result : WorkoutExerciseEditLoadResult) {
-        val adapter = WorkoutExerciseEditAdapter(result.workoutExercises, result.exercises)
+        val adapter = WorkoutExerciseEditAdapter(result.workoutExercisesMap, result.exercises)
         adapter.imageClickListener = object : OnItemClickListener<ExerciseEntity> {
             override fun onItemClicked(item: ExerciseEntity) {
                 exerciseImageClicked(item)

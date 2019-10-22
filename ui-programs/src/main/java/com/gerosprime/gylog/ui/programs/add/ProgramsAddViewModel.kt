@@ -1,9 +1,8 @@
 package com.gerosprime.gylog.ui.programs.add
 
 import androidx.lifecycle.MutableLiveData
-import com.gerosprime.gylog.models.exercises.ExerciseTemplatesAddToCacheResult
-import com.gerosprime.gylog.models.programs.EditProgramSetToCacheResult
-import com.gerosprime.gylog.models.workouts.WorkoutAddToCacheResult
+import com.gerosprime.gylog.models.programs.edit.load.EditProgramSetToCacheResult
+import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheResult
 
 interface ProgramsAddViewModel {
 

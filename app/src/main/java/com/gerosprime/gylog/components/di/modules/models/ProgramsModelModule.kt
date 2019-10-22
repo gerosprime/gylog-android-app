@@ -1,8 +1,8 @@
 package com.gerosprime.gylog.components.di.modules.models
 
-import com.gerosprime.gylog.models.programs.DefaultEditProgramCacheSetterUC
+import com.gerosprime.gylog.models.programs.edit.load.DefaultEditProgramCacheSetterUC
 import com.gerosprime.gylog.models.programs.DefaultProgramsLoader
-import com.gerosprime.gylog.models.programs.EditProgramCacheSetterUseCase
+import com.gerosprime.gylog.models.programs.edit.load.EditProgramCacheSetterUseCase
 import com.gerosprime.gylog.models.programs.ProgramsLoader
 import dagger.Binds
 import dagger.Module

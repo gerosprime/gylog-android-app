@@ -2,12 +2,10 @@ package com.gerosprime.gylog.ui.programs.add
 
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
-import com.gerosprime.gylog.models.exercises.ExerciseTemplatesAddToCacheResult
-import com.gerosprime.gylog.models.programs.EditProgramCacheSetterUseCase
-import com.gerosprime.gylog.models.programs.EditProgramSetToCacheResult
-import com.gerosprime.gylog.models.programs.ProgramEntity
-import com.gerosprime.gylog.models.workouts.WorkoutAddToCacheResult
-import com.gerosprime.gylog.models.workouts.WorkoutAddToCacheUseCase
+import com.gerosprime.gylog.models.programs.edit.load.EditProgramCacheSetterUseCase
+import com.gerosprime.gylog.models.programs.edit.load.EditProgramSetToCacheResult
+import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheResult
+import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheUseCase
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
@@ -48,7 +46,7 @@ class DefaultProgramsAddViewModel(
     override fun loadNewProgram() {
 
         var programSetToCache = editProgramCacheSetterUseCase
-            .editProgramSetToCache(ProgramEntity(workouts = arrayListOf()))
+            .editProgramSetToCache(null)
 
         if (uiScheduler != null)
             programSetToCache = programSetToCache.observeOn(uiScheduler)

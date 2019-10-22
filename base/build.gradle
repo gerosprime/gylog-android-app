@@ -28,12 +28,12 @@ android {
 
 }
 
-def room_version = '2.2.0'
+def room_version = '2.2.1'
 def dagger_version = '2.19'
 
 def cardview_version = '1.0.0'
 
-def material_version = '1.0.0'
+def material_version = '1.2.0-alpha01'
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
@@ -46,6 +46,8 @@ dependencies {
     api "com.google.android.material:material:$material_version"
 
     testImplementation 'junit:junit:4.12'
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 

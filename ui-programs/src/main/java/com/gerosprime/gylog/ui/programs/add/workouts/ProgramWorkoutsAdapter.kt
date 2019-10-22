@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import com.gerosprime.gylog.ui.programs.R
+import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionClicked
 
 internal class ProgramWorkoutsAdapter(var items : ArrayList<WorkoutEntity>)
     : RecyclerView.Adapter<ProgramWorkoutsViewHolder>() {
@@ -13,6 +14,7 @@ internal class ProgramWorkoutsAdapter(var items : ArrayList<WorkoutEntity>)
     var layoutInflater : LayoutInflater? = null
 
     var exerciseWorkoutListener : OnItemClickListener<Int>? = null
+    var exerciseExecutionListener : OnItemClickListener<ExerciseExecutionClicked>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProgramWorkoutsViewHolder {
 
@@ -22,7 +24,8 @@ internal class ProgramWorkoutsAdapter(var items : ArrayList<WorkoutEntity>)
         var inflated = layoutInflater!!.
             inflate(R.layout.viewholder_program_workouts, parent, false)
 
-        return ProgramWorkoutsViewHolder(inflated, exerciseWorkoutListener)
+        return ProgramWorkoutsViewHolder(inflated, exerciseWorkoutListener,
+            exerciseExecutionListener)
 
     }
 

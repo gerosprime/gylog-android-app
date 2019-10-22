@@ -27,6 +27,13 @@
 
         <activity android:name=".ui.exercises.add.WorkoutExerciseEditActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.exercises.templatesets.EditTemplateSetsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".ui.exercises.templatesets.detail.TemplateSetEditActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

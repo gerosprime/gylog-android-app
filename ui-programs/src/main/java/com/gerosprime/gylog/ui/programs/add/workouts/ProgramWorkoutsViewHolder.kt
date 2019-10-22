@@ -9,9 +9,15 @@ import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionAdapter
+import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionClicked
 
 internal class ProgramWorkoutsViewHolder(itemView : View,
-                                         var exerciseWorkoutListener : OnItemClickListener<Int>? = null) : RecyclerView.ViewHolder(itemView) {
+                                         private var exerciseWorkoutListener
+                                            : OnItemClickListener<Int>? = null,
+                                         private var exerciseClickListener
+                                            : OnItemClickListener<ExerciseExecutionClicked>? = null)
+
+    : RecyclerView.ViewHolder(itemView) {
 
     private var workoutEntity : WorkoutEntity? = null
     private var workoutIndex : Int = -1
@@ -53,7 +59,8 @@ internal class ProgramWorkoutsViewHolder(itemView : View,
 
             emptyTextView.visibility = View.INVISIBLE
             exercisesRecyclerView.visibility = View.VISIBLE
-            exercisesRecyclerView.adapter = ExerciseExecutionAdapter(exercises)
+            exercisesRecyclerView.adapter = ExerciseExecutionAdapter(exercises, workoutIndex,
+                exerciseClickListener)
 
 
         }

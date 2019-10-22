@@ -2,7 +2,7 @@ package com.gerosprime.gylog.models.workouts
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.gerosprime.gylog.models.exercises.ExercisePerformedEntity
+import com.gerosprime.gylog.models.exercises.performed.ExercisePerformedEntity
 
 @Entity
 data class WorkoutSessionEntity (@PrimaryKey val recordId : Long,

@@ -1,9 +1,8 @@
 package com.gerosprime.gylog.models.states
 
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
-import com.gerosprime.gylog.models.exercises.ExercisePerformedEntity
-import com.gerosprime.gylog.models.exercises.ExerciseTemplateEntity
-import com.gerosprime.gylog.models.exercises.PerformedSetEntity
+import com.gerosprime.gylog.models.exercises.performed.ExercisePerformedEntity
+import com.gerosprime.gylog.models.exercises.templates.ExerciseTemplateEntity
 import com.gerosprime.gylog.models.programs.ProgramEntity
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 

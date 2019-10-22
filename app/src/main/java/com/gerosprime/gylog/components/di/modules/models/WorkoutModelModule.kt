@@ -1,14 +1,14 @@
 package com.gerosprime.gylog.components.di.modules.models
 
 import com.gerosprime.gylog.models.exercises.ExercisesLoader
-import com.gerosprime.gylog.models.states.EditProgramEntityState
+import com.gerosprime.gylog.models.states.EditProgramEntityCache
 import com.gerosprime.gylog.models.states.ModelsCache
-import com.gerosprime.gylog.models.workouts.DefaultWorkoutAddToCacheUC
-import com.gerosprime.gylog.models.workouts.DefaultWorkoutExerciseEditLoader
-import com.gerosprime.gylog.models.workouts.WorkoutAddToCacheUseCase
-import com.gerosprime.gylog.models.workouts.edit.DefaultWorkoutSetExerciseCacheUC
-import com.gerosprime.gylog.models.workouts.edit.WorkoutExerciseEditLoader
-import com.gerosprime.gylog.models.workouts.edit.WorkoutSetExerciseCacheUC
+import com.gerosprime.gylog.models.workouts.edit.add.DefaultWorkoutAddToCacheUC
+import com.gerosprime.gylog.models.workouts.edit.load.DefaultWorkoutExerciseEditLoader
+import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheUseCase
+import com.gerosprime.gylog.models.workouts.edit.commit.DefaultWorkoutSetExerciseCacheUC
+import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoader
+import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutSetExerciseCacheUC
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -18,26 +18,30 @@ class WorkoutModelModule {
 
     @Provides
     @Singleton
-    fun provideDefaultWorkoutAddCache(state: EditProgramEntityState)
+    fun provideDefaultWorkoutAddCache(cache: EditProgramEntityCache)
             : WorkoutAddToCacheUseCase {
-        return DefaultWorkoutAddToCacheUC(state)
+        return DefaultWorkoutAddToCacheUC(cache)
     }
 
     @Provides
     @Singleton
-    fun provideDefaultWorkoutExerciseEditLoader(editProgramEntityState: EditProgramEntityState,
+    fun provideDefaultWorkoutExerciseEditLoader(editProgramEntityCache: EditProgramEntityCache,
                                                 modelsCache: ModelsCache,
                                                 exercisesLoader: ExercisesLoader)
             : WorkoutExerciseEditLoader {
-        return DefaultWorkoutExerciseEditLoader(editProgramEntityState,
-            modelsCache, exercisesLoader)
+        return DefaultWorkoutExerciseEditLoader(
+            editProgramEntityCache,
+            modelsCache, exercisesLoader
+        )
     }
 
     @Provides
     @Singleton
-    fun provideDefaultWorkoutSetExerciseCacheUC(state: EditProgramEntityState)
+    fun provideDefaultWorkoutSetExerciseCacheUC(cache: EditProgramEntityCache)
             : WorkoutSetExerciseCacheUC {
-        return DefaultWorkoutSetExerciseCacheUC(state)
+        return DefaultWorkoutSetExerciseCacheUC(
+            cache
+        )
     }
 
 }

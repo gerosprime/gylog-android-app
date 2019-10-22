@@ -4,10 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
-import com.gerosprime.gylog.models.workouts.edit.WorkoutExerciseEditLoadResult
-import com.gerosprime.gylog.models.workouts.edit.WorkoutExerciseEditLoader
-import com.gerosprime.gylog.models.workouts.edit.WorkoutExerciseSetCacheResult
-import com.gerosprime.gylog.models.workouts.edit.WorkoutSetExerciseCacheUC
+import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoadResult
+import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoader
+import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutExerciseSetCacheResult
+import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutSetExerciseCacheUC
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer

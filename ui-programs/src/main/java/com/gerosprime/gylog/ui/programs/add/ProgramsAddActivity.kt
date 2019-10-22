@@ -13,13 +13,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
-import com.gerosprime.gylog.models.programs.EditProgramSetToCacheResult
-import com.gerosprime.gylog.models.workouts.WorkoutAddToCacheResult
+import com.gerosprime.gylog.models.programs.edit.load.EditProgramSetToCacheResult
+import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheResult
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import com.gerosprime.gylog.ui.exercises.add.WorkoutExerciseEditActivity
+import com.gerosprime.gylog.ui.exercises.templatesets.EditTemplateSetsActivity
 import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.DialogTags.TAG_ADD_WORKOUT_DIALOG
+import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.RequestCodes.TEMPLATE_SET_EDIT
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.RequestCodes.WORKOUT_EDIT
+import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionClicked
 import com.gerosprime.gylog.ui.programs.add.workouts.ProgramWorkoutsAdapter
 import com.gerosprime.gylog.ui.programs.workouts.AddWorkoutDialogFragment
 import com.google.android.material.textfield.TextInputLayout
@@ -47,6 +50,7 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
 
     private object RequestCodes {
         const val WORKOUT_EDIT = 1
+        const val TEMPLATE_SET_EDIT = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +93,17 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
                     adapter!!.refreshWorkoutContent(workoutIndex)
                 }
             }
+            TEMPLATE_SET_EDIT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val workoutIndex = data!!.getIntExtra(
+                        EditTemplateSetsActivity.Extras.WORKOUT_INDEX,
+                        -1
+                    )
+
+                    var adapter = workoutsRecyclerView.adapter as ProgramWorkoutsAdapter?
+                    adapter!!.refreshWorkoutContent(workoutIndex)
+                }
+            }
         }
     }
 
@@ -98,6 +113,11 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
         adapter.exerciseWorkoutListener = object : OnItemClickListener<Int> {
             override fun onItemClicked(item: Int) {
                 editWorkoutExercises(item)
+            }
+        }
+        adapter.exerciseExecutionListener = object : OnItemClickListener<ExerciseExecutionClicked> {
+            override fun onItemClicked(item: ExerciseExecutionClicked) {
+                editExerciseExecution(item)
             }
         }
         workoutsRecyclerView.adapter = adapter
@@ -113,7 +133,19 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
         startActivityForResult(editExerciseIntent, WORKOUT_EDIT)
     }
 
+    private fun editExerciseExecution(item: ExerciseExecutionClicked) {
+        val exerciseTemplateIntent = Intent(this,
+            EditTemplateSetsActivity::class.java)
+        exerciseTemplateIntent.putExtra(EditTemplateSetsActivity.Extras.WORKOUT_INDEX,
+            item.workoutIndex)
+        exerciseTemplateIntent.putExtra(EditTemplateSetsActivity.Extras.EXERCISE_INDEX,
+            item.exerciseIndex)
+        startActivityForResult(exerciseTemplateIntent, TEMPLATE_SET_EDIT)
+    }
+
     private fun workoutAddedToCache(result: WorkoutAddToCacheResult) {
+
+        // TODO Fix null pointer crash
         var adapter = workoutsRecyclerView.adapter as ProgramWorkoutsAdapter?
         adapter!!.notifyItemInserted(result.itemPosition)
         workoutsRecyclerView.scrollToPosition(result.itemPosition)

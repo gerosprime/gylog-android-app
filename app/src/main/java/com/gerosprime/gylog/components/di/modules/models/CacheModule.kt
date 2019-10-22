@@ -1,6 +1,6 @@
 package com.gerosprime.gylog.components.di.modules.models
 
-import com.gerosprime.gylog.models.states.EditProgramEntityState
+import com.gerosprime.gylog.models.states.EditProgramEntityCache
 import com.gerosprime.gylog.models.states.ModelsCache
 import dagger.Module
 import dagger.Provides
@@ -11,7 +11,8 @@ class CacheModule {
 
     @Provides
     @Singleton
-    fun provideAddProgramCache() = EditProgramEntityState(null, null)
+    fun provideAddProgramCache() = EditProgramEntityCache(null,
+        arrayListOf(), arrayListOf(), mutableMapOf(), arrayListOf())
 
     @Provides
     @Singleton

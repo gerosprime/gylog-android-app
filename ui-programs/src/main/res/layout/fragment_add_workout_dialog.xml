@@ -23,6 +23,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="@dimen/dimen_16dp"
         android:id="@+id/fragment_add_workout_dialog_description_layout"
         android:hint="@string/workout_description"
         android:layout_width="match_parent"

@@ -30,14 +30,12 @@ class AddWorkoutDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val create = AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(context!!)
             .setTitle(R.string.add_workout)
             .setPositiveButton("Create") { dialogInterface, i -> }
             .setNegativeButton("Cancel") { dialogInterface, i -> }
             .setView(R.layout.fragment_add_workout_dialog)
             .create()
-
-        return create
 
     }
 
@@ -70,38 +68,6 @@ class AddWorkoutDialogFragment : DialogFragment() {
 
         }
     }
-
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-    }
-
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-
-//        var inflated = layoutInflater
-//            .inflate(R.layout.fragment_add_workout_dialog, container, false)
-//        nameEditTextLayout = inflated.
-//            findViewById(R.id.fragment_add_workout_dialog_name_layout)
-//        descriptionEditTextLayout = inflated.
-//            findViewById(R.id.fragment_add_workout_dialog_description_layout)
-//        cancelButton = inflated.
-//            findViewById(R.id.fragment_add_workout_dialog_cancel)
-//        cancelButton.setOnClickListener { dismiss() }
-//        createButton = inflated.
-//            findViewById(R.id.fragment_add_workout_dialog_create)
-//        createButton.setOnClickListener {
-//            defineWorkout(nameEditTextLayout.editText!!.text.toString(),
-//                descriptionEditTextLayout.editText!!.text.toString())
-//            dismiss()
-//        }
-//        return inflated
-//    }
 
     private fun defineWorkout(name : String, description : String) {
         listener!!.workoutNameDescriptionDefined(WorkoutEntity(name = name,

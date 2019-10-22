@@ -2,10 +2,10 @@ package com.gerosprime.gylog.models.exercises
 
 interface SetEntity {
 
-    val recordId : Long
-    val reps : Int
-    val weight:Float
-    val counterWeight:Float
-    val durationSeconds:Int
+    var recordId : Long?
+    var reps : Int
+    var weight:Float
+    var counterWeight:Float
+    var durationSeconds:Int
 
 }

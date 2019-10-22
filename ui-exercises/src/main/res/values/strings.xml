@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Exercises</string>
+    <string name="add_set">Add Set</string>
+
+    <string name="template_set_index_format">Set #%d</string>
+    <string name="template_set_weight_format">%.2f %s</string>
+    <string name="template_set_rest_format">%s rest</string>
+    <string name="template_set_min_max_reps_format">%d - %d Reps</string>
+
+    <string name="template_set_total_sets_format">%d Set(s)</string>
+    <string name="min_rep">Min Rep</string>
+    <string name="max_rep">Max Rep</string>
+    <string name="rest_time">Rest Time</string>
+
+    <string name="weight_is_required">Weight is required</string>
+    <string name="min_rep_is_required">Min rep is required</string>
+    <string name="max_rep_is_required">Max rep is required</string>
+
+    <string name="rest_time_format_helper_text">mm:ss, 50 minutes maximum</string>
+    <string name="invalid_rest_time_format">Invalid rest time format</string>
+    <string name="up_to_failure">Up to failure</string>
+    <string name="no_sets_added_yet">No sets added yet</string>
+
+
 </resources>
