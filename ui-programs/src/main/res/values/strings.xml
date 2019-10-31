@@ -15,7 +15,7 @@
     <string name="click_to_add_workouts">Click + to add workouts</string>
 
     <string name="add_workout">Add Workout</string>
-    <string name="add_exercises">Add Exercises</string>
+    <string name="edit_exercises">Edit Exercises</string>
     <string name="program_info">Program Info</string>
 
     <string name="program_name_is_required">Program name is required.</string>
