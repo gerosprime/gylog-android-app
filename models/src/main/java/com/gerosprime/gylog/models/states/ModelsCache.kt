@@ -7,7 +7,9 @@ import com.gerosprime.gylog.models.programs.ProgramEntity
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 
 class ModelsCache (val programsMap : MutableMap<Long, ProgramEntity>,
-                   val workouts : MutableMap<Long, WorkoutEntity>,
+                   val programs : ArrayList<ProgramEntity>,
+                   val workouts : ArrayList<WorkoutEntity>,
+                   val workoutsMap : MutableMap<Long, WorkoutEntity>,
                    var exercisesMap : MutableMap<Long, ExerciseEntity>,
                    var exercisesList : ArrayList<ExerciseEntity>,
                    val templateExercises : MutableMap<Long, ExerciseTemplateEntity>,

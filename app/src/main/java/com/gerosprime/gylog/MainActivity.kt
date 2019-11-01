@@ -13,6 +13,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.gerosprime.gylog.MainActivity.RequestCodes.PROGRAM_EDIT
+import com.gerosprime.gylog.ui.programs.ProgramsDashboardFragment
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -22,6 +24,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var floatingActionButton: FloatingActionButton
 
     lateinit var toolbar : Toolbar
+
+
+    object RequestCodes {
+        const val PROGRAM_EDIT = 32
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +58,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
         // navView.setOnNavigationItemSelectedListener { navigationItemSelected(it) }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            PROGRAM_EDIT -> {
+
+                val insertIndex =
+                    data!!.getIntExtra(ProgramsAddActivity.Result.EXTRA_PROGRAM_INSERT_INDEX, 0)
+
+                val findFragmentById =
+                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                val fragment
+                        = findFragmentById!!.childFragmentManager.fragments[0]
+                        as ProgramsDashboardFragment
+                fragment.notifyItemInserted(insertIndex)
+
+            }
+        }
+
     }
 
     private fun navigationItemSelected(destination: NavDestination) : Boolean {
@@ -91,7 +119,8 @@ class MainActivity : AppCompatActivity() {
         floatingActionButton.show()
 
         floatingActionButton.setOnClickListener {
-            startActivity(Intent(this, ProgramsAddActivity::class.java))
+            startActivityForResult(Intent(this, ProgramsAddActivity::class.java),
+                PROGRAM_EDIT)
         }
     }
 

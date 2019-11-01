@@ -22,22 +22,29 @@ class ProgramsDashboardFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory : ViewModelProvider.Factory
-    lateinit var viewModel: ProgramsDashboardViewModel
+    private lateinit var viewModel: ProgramsDashboardViewModel
 
-    lateinit var usersProgramRecyclerView : RecyclerView
-    lateinit var builtInProgramRecyclerView : RecyclerView
+    private lateinit var usersProgramRecyclerView : RecyclerView
+    private lateinit var builtInProgramRecyclerView : RecyclerView
 
-    lateinit var mainContent : View
-    lateinit var progressContent : View
-    lateinit var errorContent : View
+    private lateinit var mainContent : View
+    private lateinit var progressContent : View
+    private lateinit var errorContent : View
 
-    var itemClickListener : OnItemClickListener<ProgramEntity>? = null
+    private var itemClickListener : OnItemClickListener<ProgramEntity>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(DefaultProgramsDashboardViewModel::class.java)
+    }
+
+    fun notifyItemInserted(insertIndex : Int) {
+        val adapter = usersProgramRecyclerView.adapter
+
+        adapter!!.notifyItemInserted(insertIndex)
+        usersProgramRecyclerView.smoothScrollToPosition(0)
     }
 
     override fun onDestroy() {
@@ -74,16 +81,31 @@ class ProgramsDashboardFragment : Fragment() {
         viewModel.userProgramListLiveData.observe(this, Observer { userProgramsLoaded(it) })
         viewModel.builtInProgramsLiveData.observe(this, Observer { builtInProgramsLoaded(it) })
 
-        viewModel.loadUserPrograms()
+        if (savedInstanceState == null)
+            viewModel.loadUserPrograms()
 
     }
 
     private fun userProgramsLoaded(userPrograms : List<ProgramEntity>) {
-        usersProgramRecyclerView.adapter = ProgramsAdapter(userPrograms)
+        val adapter = ProgramsAdapter(userPrograms)
+        adapter.clickListener = object : OnItemClickListener<Int> {
+            override fun onItemClicked(item: Int) {
+
+            }
+        }
+        usersProgramRecyclerView.adapter = adapter
     }
 
     private fun builtInProgramsLoaded(userPrograms : List<ProgramEntity>) {
-        builtInProgramRecyclerView.adapter = ProgramsAdapter(userPrograms)
+
+        val adapter = ProgramsAdapter(userPrograms)
+        adapter.clickListener = object : OnItemClickListener<Int> {
+
+            override fun onItemClicked(item: Int) {
+
+            }
+        }
+        builtInProgramRecyclerView.adapter = adapter
     }
 
     private fun fetchStateChanged(fetchState: FetchState) {

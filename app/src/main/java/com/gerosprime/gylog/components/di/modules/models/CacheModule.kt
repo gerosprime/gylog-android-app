@@ -16,8 +16,9 @@ class CacheModule {
 
     @Provides
     @Singleton
-    fun provideModelCache() = ModelsCache(programsMap = mutableMapOf(),
-        workouts = mutableMapOf(), exercisesMap = mutableMapOf(),
+    fun provideModelCache() = ModelsCache(programs = arrayListOf(),
+        programsMap = mutableMapOf(),
+        workouts = arrayListOf(), workoutsMap = mutableMapOf(), exercisesMap = mutableMapOf(),
         exercisesList = arrayListOf(), templateExercises = mutableMapOf(),
         performedExercises = mutableMapOf())
 

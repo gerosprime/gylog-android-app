@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.programs.edit.load.EditProgramSetToCacheResult
+import com.gerosprime.gylog.models.programs.save.SaveProgramDatabaseResult
 import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheResult
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import com.gerosprime.gylog.ui.exercises.add.WorkoutExerciseEditActivity
@@ -22,6 +23,7 @@ import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.DialogTags.TAG_ADD_WORKOUT_DIALOG
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.RequestCodes.TEMPLATE_SET_EDIT
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.RequestCodes.WORKOUT_EDIT
+import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.Result.EXTRA_PROGRAM_INSERT_INDEX
 import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionClicked
 import com.gerosprime.gylog.ui.programs.add.workouts.ProgramWorkoutsAdapter
 import com.gerosprime.gylog.ui.programs.workouts.AddWorkoutDialogFragment
@@ -43,6 +45,10 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
     private lateinit var workoutAddButton : Button
 
     private lateinit var toolbar : Toolbar
+
+    object Result {
+        const val EXTRA_PROGRAM_INSERT_INDEX = "program_insert_index"
+    }
 
     private object DialogTags {
         var TAG_ADD_WORKOUT_DIALOG = "add_workout_dialog"
@@ -74,9 +80,19 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
         viewModel.programSetToCacheResultMLD.observe(this, Observer { newProgramLoaded(it) })
         viewModel.workoutAddToCacheResultMLD.observe(this,
             Observer { workoutAddedToCache(it) })
+        viewModel.saveProgramResultMLD.observe(this, Observer { programSaved(it) })
 
         if (savedInstanceState == null)
             viewModel.loadNewProgram()
+    }
+
+    private fun programSaved(result: SaveProgramDatabaseResult?) {
+
+        val intentData = Intent()
+        intentData.putExtra(EXTRA_PROGRAM_INSERT_INDEX, result!!.savedIndex)
+        setResult(Activity.RESULT_OK, intentData)
+        finish()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

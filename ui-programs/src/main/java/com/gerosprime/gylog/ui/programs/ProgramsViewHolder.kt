@@ -1,27 +1,30 @@
 package com.gerosprime.gylog.ui.programs
 
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.programs.ProgramEntity
 
-class ProgramsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ProgramsViewHolder(
+    itemView: View,
+    private var clickListener: OnItemClickListener<Int>?
+) : RecyclerView.ViewHolder(itemView) {
 
-    var programImage : ImageView
-    var titleText : TextView
+    var programImage : ImageView = itemView.findViewById(R.id.viewholder_program_tile_item_photo)
+    var titleText : TextView = itemView.findViewById(R.id.viewholder_program_tile_item_name)
 
     lateinit var program : ProgramEntity
+    private var programPosition : Int = -1
 
     init {
-        programImage = itemView.findViewById(R.id.viewholder_program_tile_item_photo)
-        titleText = itemView.findViewById(R.id.viewholder_program_tile_item_name)
+        itemView.setOnClickListener { clickListener!!.onItemClicked(programPosition) }
     }
 
-    fun set(program : ProgramEntity) {
+    fun set(program : ProgramEntity, position : Int) {
         this.program = program
-
+        this.programPosition = position
         titleText.text = program.name
         // programImage.ima
     }

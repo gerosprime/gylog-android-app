@@ -12,6 +12,8 @@ import com.gerosprime.gylog.models.exercises.templatesets.single.TemplateSetEdit
 import com.gerosprime.gylog.models.exercises.templatesets.single.commit.TemplateSetCommitUC
 import com.gerosprime.gylog.models.programs.edit.load.EditProgramCacheSetterUseCase
 import com.gerosprime.gylog.models.programs.ProgramsLoader
+import com.gerosprime.gylog.models.programs.edit.commit.CommitEdittedProgramCacheUC
+import com.gerosprime.gylog.models.programs.save.SaveProgramDatabaseUC
 import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheUseCase
 import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoader
 import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutSetExerciseCacheUC
@@ -52,11 +54,14 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(DefaultProgramsAddViewModel::class)
     fun provideDefaultProgramsAddViewModel(workoutAddTCUC: WorkoutAddToCacheUseCase,
-                                           editProgramCSUC: EditProgramCacheSetterUseCase
-    ) : ViewModel {
+                                           editProgramCSUC: EditProgramCacheSetterUseCase,
+                                           commitProgramCacheUseCase : CommitEdittedProgramCacheUC,
+                                           saveProgramDatabaseUC: SaveProgramDatabaseUC
+                                           ) : ViewModel {
         return DefaultProgramsAddViewModel(
-            MutableLiveData(), MutableLiveData(),
-            workoutAddTCUC, editProgramCSUC, AndroidSchedulers.mainThread(),
+            MutableLiveData(), MutableLiveData(), MutableLiveData(),
+            workoutAddTCUC, editProgramCSUC, commitProgramCacheUseCase, saveProgramDatabaseUC,
+            AndroidSchedulers.mainThread(),
             Schedulers.io())
     }
 
