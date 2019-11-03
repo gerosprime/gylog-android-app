@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="@dimen/dimen_16dp"
+        android:background="@color/colorAccent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            tools:text="@tools:sample/lorem"
+            android:id="@+id/fragment_workout_detail_dialog_title"
+            android:textAppearance="?android:textAppearanceLargeInverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            tools:text="@tools:sample/lorem"
+            android:id="@+id/fragment_workout_detail_dialog_subtitle"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:textAppearance="?android:textAppearanceMediumInverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:id="@+id/fragment_workout_detail_exercises"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:layout_marginBottom="@dimen/dimen_8dp"
+        android:layout_marginLeft="@dimen/dimen_16dp"
+        android:layout_marginRight="@dimen/dimen_16dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:id="@+id/fragment_workout_detail_dialog_duration"
+        tools:text="1 Hour, 23 Minutes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:id="@+id/fragment_workout_detail_dialog_cancel"
+            android:text="@string/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:id="@+id/fragment_workout_detail_dialog_start"
+            android:text="@string/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

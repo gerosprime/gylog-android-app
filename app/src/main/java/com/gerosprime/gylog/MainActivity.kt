@@ -1,5 +1,6 @@
 package com.gerosprime.gylog
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -66,15 +67,17 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             PROGRAM_EDIT -> {
 
-                val insertIndex =
-                    data!!.getIntExtra(ProgramsAddActivity.Result.EXTRA_PROGRAM_INSERT_INDEX, 0)
+                if (resultCode == Activity.RESULT_OK) {
+                    val insertIndex =
+                        data!!.getIntExtra(ProgramsAddActivity.Result.EXTRA_PROGRAM_INSERT_INDEX, 0)
 
-                val findFragmentById =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-                val fragment
-                        = findFragmentById!!.childFragmentManager.fragments[0]
-                        as ProgramsDashboardFragment
-                fragment.notifyItemInserted(insertIndex)
+                    val findFragmentById =
+                        supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                    val fragment
+                            = findFragmentById!!.childFragmentManager.fragments[0]
+                            as ProgramsDashboardFragment
+                    fragment.notifyItemInserted(insertIndex)
+                }
 
             }
         }

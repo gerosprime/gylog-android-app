@@ -18,11 +18,21 @@
     <string name="edit_exercises">Edit Exercises</string>
     <string name="program_info">Program Info</string>
 
+    <string name="exercises_format">%d Exercises</string>
+
     <string name="program_name_is_required">Program name is required.</string>
     <string name="workout_name_is_required">Workout name is required.</string>
+    <string name="edit_program">Edit Program</string>
+    <string name="edit_this_program_to_add_workouts">Edit this program to add workouts</string>
 
     <plurals name="sets_format">
         <item quantity="one">%d Set</item>
         <item quantity="other">%d Sets</item>
+    </plurals>
+
+    <plurals name="exercises_format">
+        <item quantity="zero">No exercises</item>
+        <item quantity="one">%d Exercise</item>
+        <item quantity="other">%d Exercises</item>
     </plurals>
 </resources>

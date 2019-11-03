@@ -12,17 +12,23 @@ import com.gerosprime.gylog.models.exercises.templatesets.single.TemplateSetEdit
 import com.gerosprime.gylog.models.exercises.templatesets.single.commit.TemplateSetCommitUC
 import com.gerosprime.gylog.models.programs.edit.load.EditProgramCacheSetterUseCase
 import com.gerosprime.gylog.models.programs.ProgramsLoader
+import com.gerosprime.gylog.models.programs.detail.ProgramModelCacheLoader
 import com.gerosprime.gylog.models.programs.edit.commit.CommitEdittedProgramCacheUC
 import com.gerosprime.gylog.models.programs.save.SaveProgramDatabaseUC
+import com.gerosprime.gylog.models.states.EditCacheClearUC
+import com.gerosprime.gylog.models.workouts.detail.WorkoutCacheLoader
 import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheUseCase
 import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoader
 import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutSetExerciseCacheUC
+import com.gerosprime.gylog.models.workouts.save.SaveWorkoutsDatabaseUC
 import com.gerosprime.gylog.ui.exercises.add.DefaultWorkoutExerciseEditViewModel
 import com.gerosprime.gylog.ui.exercises.dashboard.DefaultDashboardExercisesViewModel
 import com.gerosprime.gylog.ui.exercises.templatesets.DefaultEditTemplateSetsViewModel
 import com.gerosprime.gylog.ui.exercises.templatesets.detail.DefaultTemplateSetEditViewModel
 import com.gerosprime.gylog.ui.programs.DefaultProgramsDashboardViewModel
 import com.gerosprime.gylog.ui.programs.add.DefaultProgramsAddViewModel
+import com.gerosprime.gylog.ui.programs.detail.DefaultProgramDetailViewModel
+import com.gerosprime.gylog.ui.workouts.detail.DefaultWorkoutDetailViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -56,11 +62,15 @@ class ViewModelModule {
     fun provideDefaultProgramsAddViewModel(workoutAddTCUC: WorkoutAddToCacheUseCase,
                                            editProgramCSUC: EditProgramCacheSetterUseCase,
                                            commitProgramCacheUseCase : CommitEdittedProgramCacheUC,
-                                           saveProgramDatabaseUC: SaveProgramDatabaseUC
+                                           saveProgramDatabaseUC: SaveProgramDatabaseUC,
+                                           saveWorkoutsDatabaseUC: SaveWorkoutsDatabaseUC,
+
+                                           clearCacheUC: EditCacheClearUC
                                            ) : ViewModel {
         return DefaultProgramsAddViewModel(
             MutableLiveData(), MutableLiveData(), MutableLiveData(),
             workoutAddTCUC, editProgramCSUC, commitProgramCacheUseCase, saveProgramDatabaseUC,
+            saveWorkoutsDatabaseUC, clearCacheUC,
             AndroidSchedulers.mainThread(),
             Schedulers.io())
     }
@@ -104,6 +114,25 @@ class ViewModelModule {
             MutableLiveData(), MutableLiveData(),
             MutableLiveData(), templateSetloader, templateSetCommitter,
             AndroidSchedulers.mainThread(),Schedulers.io())
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultProgramDetailViewModel::class)
+    fun provideDefaultProgramDetailViewModel(programModelCacheLoader: ProgramModelCacheLoader
+                                            ): ViewModel {
+        return DefaultProgramDetailViewModel(
+            MutableLiveData(), MutableLiveData(),
+            programModelCacheLoader,
+            AndroidSchedulers.mainThread(), Schedulers.io())
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultWorkoutDetailViewModel::class)
+    fun provideDefaultWorkoutDetailViewModel(workoutDetaiLoader: WorkoutCacheLoader) : ViewModel {
+        return DefaultWorkoutDetailViewModel(MutableLiveData(), MutableLiveData(), workoutDetaiLoader,
+            AndroidSchedulers.mainThread(), Schedulers.io())
     }
 
 }

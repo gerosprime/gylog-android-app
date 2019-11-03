@@ -63,6 +63,7 @@ dependencies {
 
     implementation project(path: ':ui-programs')
     implementation project(path: ':ui-exercises')
+    implementation project(path: ':ui-workouts')
     implementation project(path: ':base')
     implementation project(path: ':models')
 }

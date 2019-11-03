@@ -21,6 +21,7 @@ import com.gerosprime.gylog.ui.exercises.add.WorkoutExerciseEditActivity
 import com.gerosprime.gylog.ui.exercises.templatesets.EditTemplateSetsActivity
 import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.DialogTags.TAG_ADD_WORKOUT_DIALOG
+import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.Extras.EXTRA_PROGRAM_RECORD_ID
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.RequestCodes.TEMPLATE_SET_EDIT
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.RequestCodes.WORKOUT_EDIT
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.Result.EXTRA_PROGRAM_INSERT_INDEX
@@ -48,6 +49,10 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
 
     object Result {
         const val EXTRA_PROGRAM_INSERT_INDEX = "program_insert_index"
+    }
+
+    object Extras {
+        const val EXTRA_PROGRAM_RECORD_ID = "extra_program_record_id"
     }
 
     private object DialogTags {
@@ -83,7 +88,17 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
         viewModel.saveProgramResultMLD.observe(this, Observer { programSaved(it) })
 
         if (savedInstanceState == null)
-            viewModel.loadNewProgram()
+            viewModel.loadProgramForEdit(getProgramRecordId())
+    }
+
+    override fun onBackPressed() {
+        viewModel.clearAll()
+        setResult(Activity.RESULT_CANCELED)
+        super.onBackPressed()
+    }
+
+    private fun getProgramRecordId(): Long {
+        return intent.getLongExtra(EXTRA_PROGRAM_RECORD_ID, -1)
     }
 
     private fun programSaved(result: SaveProgramDatabaseResult?) {
@@ -137,6 +152,11 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
             }
         }
         workoutsRecyclerView.adapter = adapter
+
+        val programEntity = editProgramSetToCacheResult.programEntity
+        nameEditText.editText!!.setText(programEntity.name)
+        descriptionEditText.editText!!.setText(programEntity.description)
+
     }
 
     private fun editWorkoutExercises(workoutIndex : Int) {
@@ -164,7 +184,7 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
         // TODO Fix null pointer crash
         var adapter = workoutsRecyclerView.adapter as ProgramWorkoutsAdapter?
         adapter!!.notifyItemInserted(result.itemPosition)
-        workoutsRecyclerView.scrollToPosition(result.itemPosition)
+        workoutsRecyclerView.smoothScrollToPosition(result.itemPosition)
     }
 
     override fun workoutNameDescriptionDefined(newWorkout: WorkoutEntity) {

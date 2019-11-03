@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginLeft="@dimen/dimen_8dp"
+    android:layout_marginRight="@dimen/dimen_8dp"
+    android:layout_marginTop="@dimen/dimen_16dp"
+    android:layout_marginBottom="@dimen/dimen_16dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+
+        android:layout_width="200dp"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="160dp">
+
+            <ImageView
+                android:id="@+id/viewholder_workout_detail_exercise_image"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:src="@color/colorAccent"
+                android:textAppearance="?android:textAppearanceLargeInverse"
+                tools:text="Day 1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/viewholder_workout_detail_exercise_name"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:minLines="2"
+            android:maxLines="2"
+            android:textAppearance="?android:textAppearanceMedium"
+            tools:text="Inclined Bench Press"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            tools:text="12 Sets"
+            android:id="@+id/viewholder_workout_detail_sets"
+            android:gravity="center"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:layout_marginBottom="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+

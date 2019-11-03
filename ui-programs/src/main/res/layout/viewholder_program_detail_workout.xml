@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dimen_8dp"
+    android:layout_marginRight="@dimen/dimen_8dp"
+    android:layout_marginTop="@dimen/dimen_16dp"
+    android:layout_marginBottom="@dimen/dimen_16dp" >
+
+    <LinearLayout
+        android:background="?android:selectableItemBackground"
+        android:orientation="vertical"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="160dp">
+
+            <TextView
+                android:id="@+id/viewholder_program_detail_workout_day"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:textAppearance="?android:textAppearanceLargeInverse"
+                tools:text="Day 1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/viewholder_program_detail_workout_name"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:textAppearance="?android:textAppearanceMedium"
+            tools:text="Arms and Legs Day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            tools:text="11 Exercises"
+            android:id="@+id/viewholder_program_detail_workout_exercises"
+            android:gravity="center"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:layout_marginBottom="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+
+

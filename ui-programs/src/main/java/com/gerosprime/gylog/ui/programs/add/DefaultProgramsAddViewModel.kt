@@ -7,9 +7,12 @@ import com.gerosprime.gylog.models.programs.edit.load.EditProgramCacheSetterUseC
 import com.gerosprime.gylog.models.programs.edit.load.EditProgramSetToCacheResult
 import com.gerosprime.gylog.models.programs.save.SaveProgramDatabaseResult
 import com.gerosprime.gylog.models.programs.save.SaveProgramDatabaseUC
+import com.gerosprime.gylog.models.states.EditCacheClearUC
+import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheResult
 import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheUseCase
-import com.gerosprime.gylog.models.workouts.WorkoutEntity
+import com.gerosprime.gylog.models.workouts.save.SaveWorkoutsDatabaseUC
+import io.reactivex.Completable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
@@ -22,7 +25,11 @@ class DefaultProgramsAddViewModel(
     private val workoutAddToCacheUseCase: WorkoutAddToCacheUseCase,
     private val editProgramCacheSetterUseCase: EditProgramCacheSetterUseCase,
     private val commitProgramCacheUseCase : CommitEdittedProgramCacheUC,
+
     private val saveProgramDatabaseUC: SaveProgramDatabaseUC,
+    private val saveWorkoutsDatabaseUC: SaveWorkoutsDatabaseUC,
+
+    private val clearCacheUC: EditCacheClearUC,
 
     private val uiScheduler: Scheduler? = null,
     private val backgroundScheduler: Scheduler? = null
@@ -31,9 +38,15 @@ class DefaultProgramsAddViewModel(
     private val compositeDisposable = CompositeDisposable()
 
     override fun saveProgramToDB(name: String, description: String) {
+
+
+
+
         var commitProgram =
             commitProgramCacheUseCase.commit(name, description)
-                .flatMap { t -> saveProgramDatabaseUC.save(t.programEntity) }
+                .flatMap { t ->
+                    Completable.fromSingle(saveWorkoutsDatabaseUC.save(t.programEntity.workouts!!))
+                    .andThen(saveProgramDatabaseUC.save(t.programEntity)) }
 
 
         if (uiScheduler != null)
@@ -63,10 +76,10 @@ class DefaultProgramsAddViewModel(
 
     }
 
-    override fun loadNewProgram() {
+    override fun loadProgramForEdit(programRecordId : Long) {
 
         var programSetToCache = editProgramCacheSetterUseCase
-            .editProgramSetToCache(null)
+            .editProgramSetToCache(programRecordId)
 
         if (uiScheduler != null)
             programSetToCache = programSetToCache.observeOn(uiScheduler)
@@ -80,6 +93,15 @@ class DefaultProgramsAddViewModel(
     }
 
     override fun clearAll() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var clearCache = clearCacheUC.clear()
+
+        if (uiScheduler != null)
+            clearCache = clearCache.observeOn(uiScheduler)
+
+        if (uiScheduler != null)
+            clearCache = clearCache.subscribeOn(backgroundScheduler)
+
+        compositeDisposable.add(clearCache.subscribe())
+
     }
 }

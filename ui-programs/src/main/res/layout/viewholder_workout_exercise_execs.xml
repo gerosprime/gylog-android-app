@@ -15,14 +15,16 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content">
         <ImageView
+            android:src="@color/colorAccent"
             android:id="@+id/viewholder_workout_exercise_execs_image"
-            android:layout_width="180dp"
+            android:layout_width="200dp"
             android:layout_height="120dp" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/viewholder_workout_exercise_execs_name"
         android:gravity="center"
+        android:minLines="2"
         android:maxLines="2"
         tools:text="Incline Bench Press"
         android:padding="4dp"

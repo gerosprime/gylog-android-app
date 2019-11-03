@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey
 import com.gerosprime.gylog.models.exercises.templates.ExerciseTemplateEntity
 
 @Entity
-data class WorkoutEntity(@PrimaryKey val recordId: Long? = null,
-                         val name:String? = null,
-                         val description:String? = null,
-                         val programId : Long? = null,
+data class WorkoutEntity(@PrimaryKey var recordId: Long? = null,
+                         var name:String? = null,
+                         var description:String? = null,
+                         var programId : Long? = null,
                          var day : Int? = null,
                          var exercises : ArrayList<ExerciseTemplateEntity>,
                          var totalTimeSeconds : Int? = null) {

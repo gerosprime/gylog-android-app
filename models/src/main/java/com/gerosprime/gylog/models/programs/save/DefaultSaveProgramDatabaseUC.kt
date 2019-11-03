@@ -16,12 +16,16 @@ class DefaultSaveProgramDatabaseUC
 
         if (recordId == null) {
             recordId = (modelsCache.programsMap.size + 1).toLong()
+            program.recordId = recordId
             modelsCache.programs.add(0, program)
         } else {
 
-            val oldProgram = modelsCache.programsMap[recordId]
-            val currentIndex = modelsCache.programs.indexOf(oldProgram)
-            modelsCache.programs[currentIndex] = oldProgram!!
+            for (i in 0..modelsCache.programs.size) {
+                if (modelsCache.programs[i].recordId == recordId) {
+                    modelsCache.programs[i] = program
+                    break
+                }
+            }
 
         }
         modelsCache.programsMap[recordId] = program

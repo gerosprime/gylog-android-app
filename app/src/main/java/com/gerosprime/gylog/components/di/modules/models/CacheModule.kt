@@ -1,5 +1,7 @@
 package com.gerosprime.gylog.components.di.modules.models
 
+import com.gerosprime.gylog.models.states.DefaultCacheClearUC
+import com.gerosprime.gylog.models.states.EditCacheClearUC
 import com.gerosprime.gylog.models.states.EditProgramEntityCache
 import com.gerosprime.gylog.models.states.ModelsCache
 import dagger.Module
@@ -21,5 +23,11 @@ class CacheModule {
         workouts = arrayListOf(), workoutsMap = mutableMapOf(), exercisesMap = mutableMapOf(),
         exercisesList = arrayListOf(), templateExercises = mutableMapOf(),
         performedExercises = mutableMapOf())
+
+    @Provides
+    @Singleton
+    fun provideEditCacheClearUC(editProgramEntityCache: EditProgramEntityCache)
+            : EditCacheClearUC
+            = DefaultCacheClearUC(editProgramEntityCache)
 
 }

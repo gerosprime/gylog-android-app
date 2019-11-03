@@ -10,7 +10,7 @@ class ProgramsAdapter(var items : List<ProgramEntity>) : RecyclerView.Adapter<Pr
 
     var layoutInflater : LayoutInflater? = null
 
-    var clickListener : OnItemClickListener<Int>? = null
+    var clickListener : OnItemClickListener<ProgramEntity>? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProgramsViewHolder {

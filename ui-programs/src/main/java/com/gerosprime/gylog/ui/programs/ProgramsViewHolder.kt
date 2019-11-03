@@ -9,7 +9,7 @@ import com.gerosprime.gylog.models.programs.ProgramEntity
 
 class ProgramsViewHolder(
     itemView: View,
-    private var clickListener: OnItemClickListener<Int>?
+    private var clickListener: OnItemClickListener<ProgramEntity>?
 ) : RecyclerView.ViewHolder(itemView) {
 
     var programImage : ImageView = itemView.findViewById(R.id.viewholder_program_tile_item_photo)
@@ -19,7 +19,7 @@ class ProgramsViewHolder(
     private var programPosition : Int = -1
 
     init {
-        itemView.setOnClickListener { clickListener!!.onItemClicked(programPosition) }
+        itemView.setOnClickListener { clickListener!!.onItemClicked(program) }
     }
 
     fun set(program : ProgramEntity, position : Int) {

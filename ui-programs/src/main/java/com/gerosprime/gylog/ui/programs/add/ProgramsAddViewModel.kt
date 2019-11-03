@@ -15,7 +15,7 @@ interface ProgramsAddViewModel {
 
     fun addWorkoutToCache(name : String?, description: String?)
 
-    fun loadNewProgram()
+    fun loadProgramForEdit(programRecordId : Long)
     fun clearAll()
 
 }

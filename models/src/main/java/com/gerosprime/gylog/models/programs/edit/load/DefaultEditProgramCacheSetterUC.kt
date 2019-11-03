@@ -16,7 +16,7 @@ class DefaultEditProgramCacheSetterUC @Inject constructor(
     override fun editProgramSetToCache(programId : Long?) : Single<EditProgramSetToCacheResult> {
         return Single.fromCallable {
 
-            if (programId == null) {
+            if (programId == null || programId < 0) {
                 editProgramEntityCache.editProgram =
                     ProgramEntity(workouts = arrayListOf())
             } else {
