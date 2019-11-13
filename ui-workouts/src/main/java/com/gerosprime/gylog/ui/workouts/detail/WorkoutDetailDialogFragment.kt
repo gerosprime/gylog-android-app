@@ -36,7 +36,7 @@ class WorkoutDetailDialogFragment : DialogFragment() {
     lateinit var durationTextView : TextView
     lateinit var exercisesRecyclerView: RecyclerView
 
-    lateinit var listener : OnStartClickListener
+    private var listener : OnStartClickListener? = null
 
     companion object Factory {
         fun createInstance(workoutRecordId: Long) : WorkoutDetailDialogFragment {
@@ -61,6 +61,11 @@ class WorkoutDetailDialogFragment : DialogFragment() {
         }
     }
 
+    override fun onDestroy() {
+        listener = null
+        super.onDestroy()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,7 +86,7 @@ class WorkoutDetailDialogFragment : DialogFragment() {
         cancelButton.setOnClickListener { dismiss() }
         startButton = inflated.findViewById(R.id.fragment_workout_detail_dialog_start)
         startButton.setOnClickListener {
-            listener.onStartClicked(getWorkoutRecordID())
+            listener!!.onStartClicked(getWorkoutRecordID())
             dismiss()
         }
 

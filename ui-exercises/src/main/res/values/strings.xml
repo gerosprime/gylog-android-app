@@ -6,6 +6,9 @@
     <string name="template_set_weight_format">%.2f %s</string>
     <string name="template_set_rest_format">%s rest</string>
     <string name="template_set_min_max_reps_format">%d - %d Reps</string>
+    <string name="template_set_reps_format">%d Reps</string>
+    <string name="template_set_no_reps_range_set">-- Reps</string>
+    <string name="template_set_no_required_weight_range_set">-- KG</string>
 
     <string name="template_set_total_sets_format">%d Set(s)</string>
     <string name="min_rep">Min Rep</string>

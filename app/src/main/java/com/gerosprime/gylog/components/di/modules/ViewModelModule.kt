@@ -2,6 +2,7 @@ package com.gerosprime.gylog.components.di.modules
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gerosprime.gylog.base.components.android.SingleLiveEvent
 import com.gerosprime.gylog.base.components.di.ViewModelKey
 import com.gerosprime.gylog.models.exercises.ExercisesLoader
 import com.gerosprime.gylog.models.exercises.templatesets.EditTemplateSetsCacheLoader
@@ -21,6 +22,15 @@ import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheUseCase
 import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoader
 import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutSetExerciseCacheUC
 import com.gerosprime.gylog.models.workouts.save.SaveWorkoutsDatabaseUC
+import com.gerosprime.gylog.models.workouts.runningsession.create.WorkoutSessionCreator
+import com.gerosprime.gylog.models.workouts.runningsession.discard.RunningWorkoutSessionDiscardUC
+import com.gerosprime.gylog.models.workouts.runningsession.finalizer.RunningWorkoutSessionFinalizer
+import com.gerosprime.gylog.models.workouts.runningsession.load.RunningWorkoutSessionLoader
+import com.gerosprime.gylog.models.workouts.runningsession.performedset.add.AddPerformedSetUC
+import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.EditPerformedSetUC
+import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.RemovePerformedSetUC
+import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.UnRemovePerformedSetUC
+import com.gerosprime.gylog.models.workouts.runningsession.save.WorkoutSessionSaver
 import com.gerosprime.gylog.ui.exercises.add.DefaultWorkoutExerciseEditViewModel
 import com.gerosprime.gylog.ui.exercises.dashboard.DefaultDashboardExercisesViewModel
 import com.gerosprime.gylog.ui.exercises.templatesets.DefaultEditTemplateSetsViewModel
@@ -29,6 +39,7 @@ import com.gerosprime.gylog.ui.programs.DefaultProgramsDashboardViewModel
 import com.gerosprime.gylog.ui.programs.add.DefaultProgramsAddViewModel
 import com.gerosprime.gylog.ui.programs.detail.DefaultProgramDetailViewModel
 import com.gerosprime.gylog.ui.workouts.detail.DefaultWorkoutDetailViewModel
+import com.gerosprime.gylog.ui.workouts.session.DefaultWorkoutSessionViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -132,6 +143,32 @@ class ViewModelModule {
     @ViewModelKey(DefaultWorkoutDetailViewModel::class)
     fun provideDefaultWorkoutDetailViewModel(workoutDetaiLoader: WorkoutCacheLoader) : ViewModel {
         return DefaultWorkoutDetailViewModel(MutableLiveData(), MutableLiveData(), workoutDetaiLoader,
+            AndroidSchedulers.mainThread(), Schedulers.io())
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultWorkoutSessionViewModel::class)
+    fun provideDefaultWorkoutSessionViewModel(createWorkoutSessionUC : WorkoutSessionCreator,
+                                              runningWorkoutSessionLoader: RunningWorkoutSessionLoader,
+
+                                              addPerformedSetUC: AddPerformedSetUC,
+                                              removePerformedSetUC: RemovePerformedSetUC,
+                                              unRemovePerformedSetUC: UnRemovePerformedSetUC,
+                                              editPerformedSetUC: EditPerformedSetUC,
+                                              sessionFinalizer: RunningWorkoutSessionFinalizer,
+                                              sessionSaver : WorkoutSessionSaver,
+                                              sessionDiscardUC : RunningWorkoutSessionDiscardUC)
+            : ViewModel {
+        return DefaultWorkoutSessionViewModel(MutableLiveData(), MutableLiveData(),
+            MutableLiveData(), MutableLiveData(), SingleLiveEvent(),
+            SingleLiveEvent(), SingleLiveEvent(),
+            SingleLiveEvent(), SingleLiveEvent(),
+            SingleLiveEvent(), SingleLiveEvent(), SingleLiveEvent(),
+            createWorkoutSessionUC, runningWorkoutSessionLoader,
+            sessionFinalizer, sessionSaver, sessionDiscardUC,
+            addPerformedSetUC, removePerformedSetUC, unRemovePerformedSetUC,
+            editPerformedSetUC,
             AndroidSchedulers.mainThread(), Schedulers.io())
     }
 

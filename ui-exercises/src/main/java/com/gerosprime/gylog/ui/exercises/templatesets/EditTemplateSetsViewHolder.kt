@@ -41,11 +41,33 @@ class EditTemplateSetsViewHolder(itemView : View,
 
         setIndexTextView.text = resources.getString(R.string.template_set_index_format,
             position + 1)
-        minMaxRepsTextView.text = resources.getString(R.string.template_set_min_max_reps_format,
-            entity.minReps, entity.reps)
 
-        weightTextView.text = resources.getString(R.string.template_set_weight_format,
-            entity.weight, "KG")
+
+        if (entity.minReps != null && entity.reps != null) {
+            minMaxRepsTextView.text = resources.getString(
+                R.string.template_set_min_max_reps_format,
+                entity.minReps, entity.reps
+            )
+        } else if (entity.minReps != null) {
+            minMaxRepsTextView.text = resources.getString(
+                R.string.template_set_reps_format,
+                entity.minReps)
+        } else if (entity.reps != null) {
+            minMaxRepsTextView.text = resources.getString(
+                R.string.template_set_reps_format,
+                entity.reps)
+        } else {
+            minMaxRepsTextView.text = resources.getText(R.string.template_set_no_reps_range_set)
+        }
+
+        if (entity.weight != null && entity.weight!! > 0f) {
+            weightTextView.text = resources.getString(
+                R.string.template_set_weight_format,
+                entity.weight, "KG"
+            )
+        } else {
+            weightTextView.text = resources.getText(R.string.template_set_no_required_weight_range_set)
+        }
 
         restTimeTextView.text = resources.getString(R.string.template_set_rest_format,
             TimeFormatUtil.secondsToString(entity.restTimeSeconds.toLong()))

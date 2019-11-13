@@ -12,9 +12,15 @@
     <string name="weight">Weight</string>
     <string name="kilogram">KG</string>
     <string name="edit_set">Edit Set</string>
+    <string name="edit">Edit</string>
     <string name="start">Start</string>
     <string name="workouts">Workouts</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
+    <string name="set_removed">Set Removed</string>
+    <string name="reps">Reps</string>
+    <string name="finish">Finish</string>
+    <string name="skip">Skip</string>
+    <string name="more">More</string>
 
 </resources>

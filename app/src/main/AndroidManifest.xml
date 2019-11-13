@@ -37,6 +37,9 @@
         <activity android:name=".ui.programs.detail.ProgramDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity android:name=".ui.workouts.session.WorkoutSessionActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

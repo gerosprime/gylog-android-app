@@ -27,7 +27,7 @@ class DefaultRemoveTemplateFromCacheUC(private val editCache : EditProgramEntity
             var totalSets = templateSets.size
 
             for (templateSet in templateSets) {
-                totalWeight += templateSet.weight
+                totalWeight += templateSet.weight!!
                 totalRest += templateSet.restTimeSeconds
             }
 

@@ -20,9 +20,11 @@ import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity.Extras.PROGRAM_RECORD_ID
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity.RequestCodes.PROGRAM_EDIT
+import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity.RequestCodes.WORKOUT_SESSION
 import com.gerosprime.gylog.ui.programs.detail.adapter.ProgramDetailAdapter
 import com.gerosprime.gylog.ui.programs.workouts.AddWorkoutDialogFragment
 import com.gerosprime.gylog.ui.workouts.detail.WorkoutDetailDialogFragment
+import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -37,6 +39,7 @@ class ProgramDetailActivity : AppCompatActivity(),
 
     object RequestCodes {
         const val PROGRAM_EDIT = 1
+        const val WORKOUT_SESSION = 2
     }
 
     @Inject
@@ -153,6 +156,9 @@ class ProgramDetailActivity : AppCompatActivity(),
     }
 
     override fun onStartClicked(workoutRecordId: Long) {
-
+        val intentSession = Intent(this, WorkoutSessionActivity::class.java)
+        intentSession.putExtra(WorkoutSessionActivity.Extras.WORKOUT_RECORD_ID, workoutRecordId)
+        intentSession.putExtra(WorkoutSessionActivity.States.RESUME_WORKOUT, false)
+        startActivityForResult(intentSession, WORKOUT_SESSION)
     }
 }

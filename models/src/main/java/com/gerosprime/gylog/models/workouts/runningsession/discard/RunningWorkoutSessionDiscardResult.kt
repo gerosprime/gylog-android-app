@@ -1,0 +1,3 @@
+package com.gerosprime.gylog.models.workouts.runningsession.discard
+
+class RunningWorkoutSessionDiscardResult

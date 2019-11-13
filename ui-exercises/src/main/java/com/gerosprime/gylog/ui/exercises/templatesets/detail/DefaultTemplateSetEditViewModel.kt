@@ -42,10 +42,10 @@ class DefaultTemplateSetEditViewModel(
         workoutIndex: Int,
         exerciseIndex: Int,
         templateIndex: Int,
-        minReps: Int,
-        reps: Int,
-        weight: Float,
-        counterWeight: Float,
+        minReps: Int?,
+        reps: Int?,
+        weight: Float?,
+        counterWeight: Float?,
         durationSeconds: Int,
         restTimeSeconds: Int
     ) {

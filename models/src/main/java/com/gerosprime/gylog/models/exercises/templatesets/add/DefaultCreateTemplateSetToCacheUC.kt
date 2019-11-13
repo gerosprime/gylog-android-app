@@ -28,7 +28,10 @@ class DefaultCreateTemplateSetToCacheUC
             var totalSets = templateSets.size
 
             for (templateSet in templateSets) {
-                totalWeight += templateSet.weight
+
+                if (templateSet.weight != null)
+                    totalWeight += templateSet.weight!!
+
                 totalRest += templateSet.restTimeSeconds
             }
 

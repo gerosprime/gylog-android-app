@@ -10,10 +10,10 @@ class DefaultTemplateSetCommitCacheUC(private val editState: EditProgramEntityCa
         workoutIndex: Int,
         exerciseIndex: Int,
         templateSetIndex: Int,
-        minReps: Int,
-        reps: Int,
-        weight: Float,
-        counterWeight: Float,
+        minReps: Int?,
+        reps: Int?,
+        weight: Float?,
+        counterWeight: Float?,
         durationSeconds: Int,
         restTimeSeconds: Int
     ): Single<TemplateSetCommitResult> = Single.fromCallable {

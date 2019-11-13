@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/dimen_4dp"
+    android:layout_marginBottom="@dimen/dimen_4dp"
+    android:layout_marginLeft="@dimen/dimen_2dp"
+    android:layout_marginRight="@dimen/dimen_2dp"
+    android:layout_width="140dp"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/viewholder_workout_session_sets_content"
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:visibility="visible"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_marginLeft="@dimen/dimen_4dp"
+                    android:layout_marginStart="@dimen/dimen_4dp"
+                    android:layout_marginRight="@dimen/dimen_4dp"
+                    android:layout_marginEnd="@dimen/dimen_4dp"
+                    android:id="@+id/viewholder_workout_session_sets_check"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_radio_button_unchecked_green_24dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                     />
+
+                <TextView
+                    android:layout_toEndOf="@+id/viewholder_workout_session_sets_check"
+                    android:paddingTop="@dimen/dimen_8dp"
+                    android:paddingBottom="@dimen/dimen_8dp"
+                    android:gravity="center_vertical|start"
+                    android:layout_centerVertical="true"
+                    tools:text="Set #1"
+                    android:id="@+id/viewholder_workout_session_sets_position"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/viewholder_workout_session_sets_check" />
+
+                <ImageButton
+                    android:layout_marginTop="@dimen/dimen_2dp"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/viewholder_workout_session_sets_more"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_more_vert_black_24dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:layout_marginBottom="@dimen/dimen_8dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <TextView
+                    tools:text="1454.32\n KG"
+                    android:gravity="center"
+                    android:id="@+id/viewholder_workout_session_sets_weight"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:paddingLeft="@dimen/dimen_8dp"
+                    android:paddingRight="@dimen/dimen_8dp"
+                    android:textSize="22sp"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    tools:text="12 Reps"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dimen_8dp"
+                    android:paddingRight="@dimen/dimen_8dp"
+                    android:id="@+id/viewholder_workout_session_sets_reps"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="@dimen/dimen_8dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    tools:text="4 KG"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:id="@+id/viewholder_workout_session_sets_weight_previous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    tools:text="4 Reps"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:id="@+id/viewholder_workout_session_sets_reps_previous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:id="@+id/viewholder_workout_session_deleted_container"
+            android:visibility="gone"
+            android:gravity="center"
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_delete_black_24dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp" />
+
+            <TextView
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@string/set_removed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+
+                android:text="@string/click_to_undo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+
+
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
+

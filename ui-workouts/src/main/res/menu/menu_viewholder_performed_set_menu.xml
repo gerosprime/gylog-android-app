@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/history"
+        android:id="@+id/menu_viewholder_performed_set_history" />
+    <item android:title="@string/remove"
+        android:id="@+id/menu_viewholder_performed_set_remove" />
+    <item android:title="@string/restore" android:visible="false"
+        android:id="@+id/menu_viewholder_performed_set_restore" />
+
+</menu>

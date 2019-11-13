@@ -6,11 +6,11 @@ interface TemplateSetCommitUC {
     fun commit(workoutIndex: Int,
                exerciseIndex: Int,
                templateSetIndex: Int,
-               minReps : Int = 0,
-               reps: Int = 0,
-               weight: Float = 0f,
-               counterWeight: Float = 0f,
-               durationSeconds: Int = 0,
-               restTimeSeconds : Int = 30
+               minReps : Int?,
+               reps: Int?,
+               weight: Float?,
+               counterWeight: Float?,
+               durationSeconds: Int,
+               restTimeSeconds : Int
                ) : Single<TemplateSetCommitResult>
 }

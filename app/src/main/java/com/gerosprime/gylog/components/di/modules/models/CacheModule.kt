@@ -1,9 +1,6 @@
 package com.gerosprime.gylog.components.di.modules.models
 
-import com.gerosprime.gylog.models.states.DefaultCacheClearUC
-import com.gerosprime.gylog.models.states.EditCacheClearUC
-import com.gerosprime.gylog.models.states.EditProgramEntityCache
-import com.gerosprime.gylog.models.states.ModelsCache
+import com.gerosprime.gylog.models.states.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -29,5 +26,9 @@ class CacheModule {
     fun provideEditCacheClearUC(editProgramEntityCache: EditProgramEntityCache)
             : EditCacheClearUC
             = DefaultCacheClearUC(editProgramEntityCache)
+
+    @Provides
+    @Singleton
+    fun provideWorkoutSessionCache() = RunningWorkoutSessionCache(null, null)
 
 }

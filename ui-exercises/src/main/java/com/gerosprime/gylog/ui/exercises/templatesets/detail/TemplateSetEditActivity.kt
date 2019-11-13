@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,7 +18,6 @@ import com.gerosprime.gylog.ui.exercises.R
 import com.gerosprime.gylog.ui.exercises.templatesets.detail.TemplateSetEditActivity.Extras.EXERCISE_INDEX
 import com.gerosprime.gylog.ui.exercises.templatesets.detail.TemplateSetEditActivity.Extras.TEMPLATE_INDEX
 import com.gerosprime.gylog.ui.exercises.templatesets.detail.TemplateSetEditActivity.Extras.WORKOUT_INDEX
-import com.gerosprime.gylog.ui.exercises.templatesets.detail.TemplateSetEditActivity.Tags.REST_DIALOG
 import com.google.android.material.textfield.TextInputLayout
 import dagger.android.AndroidInjection
 import javax.inject.Inject
@@ -104,24 +102,27 @@ class TemplateSetEditActivity : AppCompatActivity() {
             return
         }
 
-        if (weightTextInputLayout.editText!!.text.isBlank()) {
-            weightTextInputLayout.error = getString(R.string.weight_is_required)
-            return
-        }
+//        if (weightTextInputLayout.editText!!.text.isBlank()) {
+//            weightTextInputLayout.error = getString(R.string.weight_is_required)
+//            return
+//        }
 
-        if (!failureCheckBox.isChecked && minRepTextInputLayout.editText!!.text.isBlank()) {
+         if (!failureCheckBox.isChecked && minRepTextInputLayout.editText!!.text.isBlank()) {
             minRepTextInputLayout.editText!!.error = getString(R.string.min_rep_is_required)
             return
-        }
+         }
 
         if (!failureCheckBox.isChecked && maxRepTextInputLayout.editText!!.text.isBlank()) {
             maxRepTextInputLayout.editText!!.error = getString(R.string.max_rep_is_required)
             return
         }
 
-        val weight = weightTextInputLayout.editText!!.text.toString().toFloat()
-        val minRep = Integer.valueOf(minRepTextInputLayout.editText!!.text.toString())
-        val maxRep = Integer.valueOf(maxRepTextInputLayout.editText!!.text.toString())
+        val weight = if (!failureCheckBox.isChecked)
+            weightTextInputLayout.editText!!.text.toString().toFloatOrNull() else null
+        val minRep = if (!failureCheckBox.isChecked)
+            minRepTextInputLayout.editText!!.text.toString().toIntOrNull() else null
+        val maxRep = if (!failureCheckBox.isChecked)
+            maxRepTextInputLayout.editText!!.text.toString().toIntOrNull() else null
         val restTime = TimeFormatUtil
             .stringTimeToSeconds(restTimeTextInputLayout.editText!!.text.toString())
 
@@ -155,9 +156,30 @@ class TemplateSetEditActivity : AppCompatActivity() {
     private fun populateTemplateSet(result: TemplateSetEditLoadResult?) {
 
         val entity = result!!.entity
-        weightTextInputLayout.editText!!.setText(String.format("%.2f", entity.weight))
-        minRepTextInputLayout.editText!!.setText(entity.minReps.toString())
-        maxRepTextInputLayout.editText!!.setText(entity.reps.toString())
+
+        if (entity.weight != null) {
+            weightTextInputLayout.editText!!.setText(
+                String.format(
+                    "%.2f",
+                    entity.weight
+                )
+            )
+        } else {
+            weightTextInputLayout.editText!!.setText("")
+        }
+
+        if (entity.minReps != null) {
+            minRepTextInputLayout.editText!!.setText(entity.minReps.toString())
+        } else {
+            minRepTextInputLayout.editText!!.setText("")
+        }
+
+        if (entity.reps != null) {
+            maxRepTextInputLayout.editText!!.setText(entity.reps.toString())
+        } else {
+            maxRepTextInputLayout.editText!!.setText("")
+        }
+
         restTimeTextInputLayout.editText!!
             .setText(TimeFormatUtil.secondsToString(entity.restTimeSeconds.toLong()))
     }
