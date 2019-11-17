@@ -35,6 +35,7 @@ android {
 }
 
 def dagger_version = '2.19'
+def room_version = '2.2.1'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -51,6 +52,8 @@ dependencies {
 
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    kapt "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

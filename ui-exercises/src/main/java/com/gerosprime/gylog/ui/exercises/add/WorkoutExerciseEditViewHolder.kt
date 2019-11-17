@@ -43,7 +43,7 @@ class WorkoutExerciseEditViewHolder(
         }
 
         checkBox.setOnCheckedChangeListener {
-            compoundButton, b ->
+                _, b ->
             run {
                 updateItemViewCheck(b)
                 onCheck(b)

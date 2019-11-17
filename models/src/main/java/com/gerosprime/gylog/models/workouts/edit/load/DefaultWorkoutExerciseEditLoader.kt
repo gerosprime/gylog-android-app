@@ -1,31 +1,22 @@
 package com.gerosprime.gylog.models.workouts.edit.load
 
+import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
 import com.gerosprime.gylog.models.exercises.templates.ExerciseTemplateEntity
-import com.gerosprime.gylog.models.exercises.ExercisesLoader
 import com.gerosprime.gylog.models.states.EditProgramEntityCache
 import com.gerosprime.gylog.models.states.ModelsCache
-import io.reactivex.Completable
 import io.reactivex.Single
 
 
 class DefaultWorkoutExerciseEditLoader(private val editProgramEntityCache: EditProgramEntityCache,
                                        private val modelsCache: ModelsCache,
-                                       private val exercisesLoader: ExercisesLoader)
+                                       private val cacheBuilder: ModelCacheBuilder
+)
     : WorkoutExerciseEditLoader {
 
     override fun loadWorkoutExercises(workoutIndex : Int): Single<WorkoutExerciseEditLoadResult> {
 
-        var initCache = Completable.complete()
-
-        // Fill an empty exercises cache if empty/null
-        if (modelsCache.exercisesList.isNullOrEmpty() &&
-                modelsCache.exercisesMap.isNullOrEmpty()) {
-            initCache = Completable.fromSingle(exercisesLoader.loadExercises())
-
-        }
-
-        return initCache.andThen(Single.fromCallable {
+        return cacheBuilder.build().andThen(Single.fromCallable {
 
             val exercisesList = modelsCache.exercisesList
             val exercisesMap = modelsCache.exercisesMap
@@ -37,7 +28,7 @@ class DefaultWorkoutExerciseEditLoader(private val editProgramEntityCache: EditP
 
             for (exercise in workoutExercises) {
                 exercisesCache.add(exercise)
-                exercisesMapCache[exercise.exerciseId as Long] = exercise
+                exercisesMapCache[exercise.exerciseId] = exercise
             }
 
             // Set to cache
@@ -48,7 +39,7 @@ class DefaultWorkoutExerciseEditLoader(private val editProgramEntityCache: EditP
 
             for (template in exercisesCache) {
 
-                val id = template.exerciseId as Long
+                val id = template.exerciseId
                 copyWorkoutExercisesMap[id] = exercisesMap[id]!!
             }
 

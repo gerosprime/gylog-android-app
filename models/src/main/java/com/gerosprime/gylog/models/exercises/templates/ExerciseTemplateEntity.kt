@@ -1,20 +1,28 @@
 package com.gerosprime.gylog.models.exercises.templates
 
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.gerosprime.gylog.models.exercises.templatesets.TemplateSetEntity
+import com.gerosprime.gylog.models.workouts.WorkoutEntity
 
-data class ExerciseTemplateEntity(@PrimaryKey val recordId : Long? = null,
-                                  val workoutId : Long? = null,
+@Entity(foreignKeys = [
+    ForeignKey(entity = WorkoutEntity::class,
+            parentColumns = ["recordId"], childColumns = ["workoutId"],
+        onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)])
+data class ExerciseTemplateEntity(@PrimaryKey var recordId : Long? = null,
+                                  @ColumnInfo(index = true) var workoutId : Long? = null,
                                   val name : String,
-                                  val exerciseId : Long,
-                                  var setTemplates : ArrayList<TemplateSetEntity>) {
+                                  val exerciseId : Long) {
+
+    @Ignore var setTemplates : ArrayList<TemplateSetEntity> = arrayListOf()
+
     fun deepCopy() : ExerciseTemplateEntity {
 
         val templateExerciseCopy =
             ExerciseTemplateEntity(
                 recordId, workoutId,
-                name, exerciseId, arrayListOf()
+                name, exerciseId
             )
+        templateExerciseCopy.setTemplates = setTemplates
         for (template in setTemplates) {
             templateExerciseCopy.setTemplates.add(template.deepCopy())
         }

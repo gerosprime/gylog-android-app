@@ -1,9 +1,11 @@
 package com.gerosprime.gylog.components.di.modules.models
 
 import com.gerosprime.gylog.models.programs.edit.load.DefaultEditProgramCacheSetterUC
-import com.gerosprime.gylog.models.programs.DefaultProgramsLoader
+import com.gerosprime.gylog.models.programs.DefaultProgramsCacheCacheLoader
+import com.gerosprime.gylog.models.programs.DefaultProgramsDatabaseLoader
 import com.gerosprime.gylog.models.programs.edit.load.EditProgramCacheSetterUseCase
-import com.gerosprime.gylog.models.programs.ProgramsLoader
+import com.gerosprime.gylog.models.programs.ProgramsCacheLoader
+import com.gerosprime.gylog.models.programs.ProgramsDatabaseLoader
 import com.gerosprime.gylog.models.programs.detail.DefaultProgramModelCacheLoader
 import com.gerosprime.gylog.models.programs.detail.ProgramModelCacheLoader
 import com.gerosprime.gylog.models.programs.edit.commit.CommitEdittedProgramCacheUC
@@ -19,7 +21,7 @@ interface ProgramsModelModule {
 
     @Binds
     @Singleton
-    fun provideDefaultProgramsLoader(instance: DefaultProgramsLoader) : ProgramsLoader
+    fun provideDefaultProgramsLoader(instance: DefaultProgramsCacheCacheLoader) : ProgramsCacheLoader
 
     @Binds
     @Singleton
@@ -38,5 +40,9 @@ interface ProgramsModelModule {
     @Binds
     @Singleton
     fun provideDefaultProgramCacheLoader(instance: DefaultProgramModelCacheLoader) : ProgramModelCacheLoader
+
+    @Binds
+    @Singleton
+    fun provideDefaultProgramsDBLoader(instance : DefaultProgramsDatabaseLoader) : ProgramsDatabaseLoader
 
 }

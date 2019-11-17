@@ -1,12 +1,12 @@
 package com.gerosprime.gylog.ui.programs.di.viewmodel
 
-import com.gerosprime.gylog.models.programs.LoadedProgramResult
+import com.gerosprime.gylog.models.programs.LoadedProgramCacheResult
 import com.gerosprime.gylog.models.programs.ProgramEntity
-import com.gerosprime.gylog.models.programs.ProgramsLoader
+import com.gerosprime.gylog.models.programs.ProgramsCacheLoader
 import io.reactivex.Single
 
-class FakeProgramsLoader : ProgramsLoader {
-    override fun loadUserPrograms(): Single<LoadedProgramResult> {
+class FakeProgramsCacheLoader : ProgramsCacheLoader {
+    override fun loadUserPrograms(): Single<LoadedProgramCacheResult> {
 
         var userList = listOf(ProgramEntity(0,
             "BLS Phase 1", "", arrayListOf()),
@@ -25,6 +25,6 @@ class FakeProgramsLoader : ProgramsLoader {
             ProgramEntity(0,
                 "BLS Phase 3", "", arrayListOf()))
 
-        return Single.just(LoadedProgramResult(userList, userList))
+        return Single.just(LoadedProgramCacheResult(userList, userList))
     }
 }

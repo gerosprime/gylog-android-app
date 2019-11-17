@@ -202,7 +202,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
             return
 
         val adapter = exercisesRecyclerView.adapter
-        adapter!!.notifyItemChanged(result!!.exercisePerformedIndex, result)
+        adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
     }
 
     private fun exerciseSetRemoved(result: RemoveWorkoutSessionSetResult?) {
@@ -211,7 +211,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
             return
 
         val adapter = exercisesRecyclerView.adapter
-        adapter!!.notifyItemChanged(result!!.exercisePerformedIndex, result)
+        adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
     }
 
     private fun exerciseSetCompleted(result: EditPerformedSetResult?) {
@@ -220,7 +220,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
             return
 
         val adapter = exercisesRecyclerView.adapter
-        adapter!!.notifyItemChanged(result!!.exercisePerformedIndex, result)
+        adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
 
         rest(result.performedSet.restTimeSeconds)
 
@@ -265,7 +265,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
             return
 
         val adapter = exercisesRecyclerView.adapter
-        adapter!!.notifyItemChanged(result!!.exercisePerformedIndex, result)
+        adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
     }
 
     private fun showEditSetDialog(item: PerformedSetClick) {

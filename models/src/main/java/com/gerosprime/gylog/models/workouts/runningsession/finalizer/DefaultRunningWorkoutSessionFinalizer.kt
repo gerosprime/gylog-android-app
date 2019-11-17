@@ -13,7 +13,7 @@ class DefaultRunningWorkoutSessionFinalizer
         val session = sessionCache.workoutSessionEntity
         val performedExercises = sessionCache.prePerformedExercises
 
-        session!!.exercisesPerformed = performedExercises
+        session!!.exercisesPerformed = performedExercises!!
 
         val calStart = Calendar.getInstance()
         calStart.timeInMillis = session.startDate!!.time

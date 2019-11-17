@@ -71,7 +71,7 @@ class AddWorkoutDialogFragment : DialogFragment() {
 
     private fun defineWorkout(name : String, description : String) {
         listener!!.workoutNameDescriptionDefined(WorkoutEntity(name = name,
-            description = description, exercises = arrayListOf()))
+            description = description))
     }
 
     interface Listener {

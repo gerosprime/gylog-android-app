@@ -28,13 +28,14 @@ class DefaultWorkoutSetExerciseCacheUC(private val cache: EditProgramEntityCache
                         cache.editExercisesTemplateMap[selectedExercise.recordId]
                                 as ExerciseTemplateEntity)
                 } else {
-                    newExercises.add(
-                        ExerciseTemplateEntity(
-                            name = selectedExercise.name,
-                            exerciseId = selectedExercise.recordId,
-                            setTemplates = arrayListOf()
-                        )
+
+                    val exerciseTemplate = ExerciseTemplateEntity(
+                        name = selectedExercise.name,
+                        exerciseId = selectedExercise.recordId
                     )
+                    exerciseTemplate.setTemplates = arrayListOf()
+
+                    newExercises.add(exerciseTemplate)
                 }
 
 

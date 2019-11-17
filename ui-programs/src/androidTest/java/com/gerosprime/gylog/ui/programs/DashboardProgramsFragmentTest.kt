@@ -3,7 +3,7 @@ package com.gerosprime.gylog.ui.programs
 import android.os.SystemClock
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.gerosprime.gylog.models.programs.ProgramsLoader
+import com.gerosprime.gylog.models.programs.ProgramsCacheLoader
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,7 +16,7 @@ class DashboardProgramsFragmentTest {
 //    var rule : DaggerMockRule<TestUiComponent> = DaggerMockRule(TestUiComponent::class.java)
 
     @Inject
-    lateinit var programLoader: ProgramsLoader
+    lateinit var programCacheLoader: ProgramsCacheLoader
 
     @Before
     fun setUp() {

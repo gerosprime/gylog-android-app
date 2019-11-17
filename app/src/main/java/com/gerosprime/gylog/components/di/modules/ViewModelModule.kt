@@ -12,7 +12,7 @@ import com.gerosprime.gylog.models.exercises.templatesets.remove.RemoveTemplateS
 import com.gerosprime.gylog.models.exercises.templatesets.single.TemplateSetEditCacheLoader
 import com.gerosprime.gylog.models.exercises.templatesets.single.commit.TemplateSetCommitUC
 import com.gerosprime.gylog.models.programs.edit.load.EditProgramCacheSetterUseCase
-import com.gerosprime.gylog.models.programs.ProgramsLoader
+import com.gerosprime.gylog.models.programs.ProgramsCacheLoader
 import com.gerosprime.gylog.models.programs.detail.ProgramModelCacheLoader
 import com.gerosprime.gylog.models.programs.edit.commit.CommitEdittedProgramCacheUC
 import com.gerosprime.gylog.models.programs.save.SaveProgramDatabaseUC
@@ -52,9 +52,9 @@ class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(DefaultProgramsDashboardViewModel::class)
-    fun provideDefaultProgramsDashboardViewModel(programsLoader: ProgramsLoader) : ViewModel {
+    fun provideDefaultProgramsDashboardViewModel(programsCacheLoader: ProgramsCacheLoader) : ViewModel {
         return DefaultProgramsDashboardViewModel(MutableLiveData(), MutableLiveData(),
-            MutableLiveData(), MutableLiveData(), programsLoader, Schedulers.io(),
+            MutableLiveData(), MutableLiveData(), programsCacheLoader, Schedulers.io(),
             AndroidSchedulers.mainThread())
     }
 

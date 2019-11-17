@@ -3,9 +3,9 @@ package com.gerosprime.gylog.ui.programs
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
-import com.gerosprime.gylog.models.programs.LoadedProgramResult
+import com.gerosprime.gylog.models.programs.LoadedProgramCacheResult
 import com.gerosprime.gylog.models.programs.ProgramEntity
-import com.gerosprime.gylog.models.programs.ProgramsLoader
+import com.gerosprime.gylog.models.programs.ProgramsCacheLoader
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.`is`
@@ -24,7 +24,7 @@ class DefaultProgramsDashboardViewModelTest {
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
 
-    lateinit var programLoader : FakeProgramLoader
+    lateinit var programLoader : FakeProgramCacheLoader
 
     lateinit var viewModel: ProgramsDashboardViewModel
 
@@ -41,7 +41,7 @@ class DefaultProgramsDashboardViewModelTest {
         builtInProgramsLiveData = MutableLiveData()
         errorLiveData = MutableLiveData()
 
-        programLoader = FakeProgramLoader()
+        programLoader = FakeProgramCacheLoader()
         viewModel = DefaultProgramsDashboardViewModel(fetchState,
             userProgramsLiveData, builtInProgramsLiveData, errorLiveData, programLoader)
 
@@ -92,16 +92,16 @@ class DefaultProgramsDashboardViewModelTest {
 
 }
 
-class FakeProgramLoader : ProgramsLoader {
+class FakeProgramCacheLoader : ProgramsCacheLoader {
 
     var error : Boolean = false
     var called : Boolean = false
 
-    override fun loadUserPrograms(): Single<LoadedProgramResult> {
+    override fun loadUserPrograms(): Single<LoadedProgramCacheResult> {
         called = true
         return if (error) {
             Single.error(RuntimeException())
-        } else Single.just(LoadedProgramResult(ArrayList(), ArrayList()))
+        } else Single.just(LoadedProgramCacheResult(ArrayList(), ArrayList()))
     }
 
 

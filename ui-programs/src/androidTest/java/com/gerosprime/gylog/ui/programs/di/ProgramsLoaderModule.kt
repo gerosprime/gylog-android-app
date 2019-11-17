@@ -1,11 +1,9 @@
 package com.gerosprime.gylog.ui.programs.di
 
-import com.gerosprime.gylog.models.programs.ProgramsLoader
-import com.gerosprime.gylog.ui.programs.di.viewmodel.FakeProgramsLoader
+import com.gerosprime.gylog.models.programs.ProgramsCacheLoader
+import com.gerosprime.gylog.ui.programs.di.viewmodel.FakeProgramsCacheLoader
 import dagger.Module
 import dagger.Provides
-import dagger.multibindings.IntoMap
-import org.mockito.Mockito
 import javax.inject.Singleton
 
 @Module
@@ -13,8 +11,8 @@ class ProgramsLoaderModule {
 
     @Provides
     @Singleton
-    fun provideMockProgramsLoader() : ProgramsLoader {
-        return FakeProgramsLoader()
+    fun provideMockProgramsLoader() : ProgramsCacheLoader {
+        return FakeProgramsCacheLoader()
     }
 
 }

@@ -25,7 +25,8 @@ class GylogApplication : Application(), HasActivityInjector,
 
     override fun onCreate() {
         super.onCreate()
-        DaggerGylogComponent.create().inject(this)
+        DaggerGylogComponent.builder()
+            .context(this).build().inject(this)
     }
 
     override fun activityInjector(): AndroidInjector<Activity> = dispatchingInjectorAct

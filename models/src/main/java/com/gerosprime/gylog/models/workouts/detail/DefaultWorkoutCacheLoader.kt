@@ -1,14 +1,17 @@
 package com.gerosprime.gylog.models.workouts.detail
 
+import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.exercises.templates.ExerciseTemplateEntity
 import com.gerosprime.gylog.models.states.ModelsCache
 import io.reactivex.Single
 
-class DefaultWorkoutCacheLoader(private val modelsCache: ModelsCache)
+class DefaultWorkoutCacheLoader(private val modelsCache: ModelsCache,
+                                private val cacheBuilder: ModelCacheBuilder
+)
     : WorkoutCacheLoader {
 
     override fun load(workoutRecordId: Long): Single<LoadWorkoutFromCacheResult>
-            = Single.fromCallable {
+            = cacheBuilder.build().andThen(Single.fromCallable {
 
 
         val workout = modelsCache.workoutsMap[workoutRecordId]!!
@@ -20,12 +23,12 @@ class DefaultWorkoutCacheLoader(private val modelsCache: ModelsCache)
 
         LoadWorkoutFromCacheResult(workout, workoutRecordId, duration)
 
-    }
+    })
 
     private fun computeExerciseDuration(template: ExerciseTemplateEntity) : Int {
         var duration = 0
-        for (template in template.setTemplates) {
-            duration += template.restTimeSeconds
+        for (templateSet in template.setTemplates) {
+            duration += templateSet.restTimeSeconds
         }
 
         return duration

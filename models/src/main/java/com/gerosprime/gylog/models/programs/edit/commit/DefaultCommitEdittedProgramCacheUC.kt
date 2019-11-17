@@ -18,7 +18,7 @@ class DefaultCommitEdittedProgramCacheUC
         program.name = name
         program.description = description
 
-        program.workouts = editProgramEntityCache.editWorkouts
+         program.workouts = editProgramEntityCache.editWorkouts
 
         editProgramEntityCache.editWorkouts = arrayListOf()
 

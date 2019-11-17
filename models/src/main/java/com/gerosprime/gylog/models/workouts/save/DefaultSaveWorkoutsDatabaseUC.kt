@@ -1,29 +1,41 @@
 package com.gerosprime.gylog.models.workouts.save
 
+import com.gerosprime.gylog.models.database.GylogEntityDatabase
+import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.states.ModelsCache
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import io.reactivex.Single
 
-class DefaultSaveWorkoutsDatabaseUC(private val modelsCache: ModelsCache) : SaveWorkoutsDatabaseUC {
+class DefaultSaveWorkoutsDatabaseUC(private val modelsCache: ModelsCache,
+                                    private val cacheBuilder: ModelCacheBuilder,
+                                    private val database: GylogEntityDatabase
+) : SaveWorkoutsDatabaseUC {
 
-    override fun save(workouts: ArrayList<WorkoutEntity>):
-            Single<SaveWorkoutsDatabaseResult> = Single.fromCallable {
+    override fun save(programId: Long, workouts: ArrayList<WorkoutEntity>):
+            Single<SaveWorkoutsDatabaseResult> {
 
-        for (workout in workouts) {
-            var workoutRecordId = workout.recordId
-            if (workoutRecordId == null) {
-                workoutRecordId = (modelsCache.workouts.size + 1).toLong()
-                workout.recordId = workoutRecordId
-            }
+        val workoutDao = database.workoutEntityDao()
 
-            if (modelsCache.workoutsMap.containsKey(workoutRecordId)) {
-                modelsCache.workouts.add(workout)
-            }
-
-            modelsCache.workoutsMap[workoutRecordId] = workout
-        }
-
-        SaveWorkoutsDatabaseResult(workouts = workouts)
-
+        return cacheBuilder.build().andThen(workoutDao.saveWorkouts(workouts)
+            .flatMapSingle { workoutIds -> updateCache(workoutIds, workouts) })
     }
+
+    private fun updateCache(ids : List<Long>, workouts: ArrayList<WorkoutEntity>)
+            : Single<SaveWorkoutsDatabaseResult> {
+        return Single.fromCallable {
+
+
+            for (index in 0..ids.size) {
+                val workout = workouts[index]
+                workout.recordId = ids[index]
+                modelsCache.workoutsMap[workout.recordId as Long] = workout
+            }
+
+            modelsCache.workouts.addAll(workouts)
+
+            SaveWorkoutsDatabaseResult(workouts = workouts)
+
+        }
+    }
+
 }

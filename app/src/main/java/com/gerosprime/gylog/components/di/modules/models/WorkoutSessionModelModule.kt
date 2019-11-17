@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.components.di.modules.models
 
+import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.states.ModelsCache
 import com.gerosprime.gylog.models.states.RunningWorkoutSessionCache
 import com.gerosprime.gylog.models.workouts.runningsession.create.DefaultWorkoutSessionCreator
@@ -30,8 +31,11 @@ class WorkoutSessionModelModule {
     @Provides
     @Singleton
     fun provideDefaultCreateWorkoutSessionUC(modelsCache: ModelsCache,
-                                             runningSessionCache: RunningWorkoutSessionCache)
-            : WorkoutSessionCreator = DefaultWorkoutSessionCreator(modelsCache, runningSessionCache)
+                                             runningSessionCache: RunningWorkoutSessionCache,
+                                             cacheBuilder: ModelCacheBuilder
+    )
+            : WorkoutSessionCreator = DefaultWorkoutSessionCreator(modelsCache,
+        runningSessionCache, cacheBuilder)
 
     @Singleton
     @Provides
@@ -67,8 +71,8 @@ class WorkoutSessionModelModule {
 
     @Singleton
     @Provides
-    fun provideDefaultWorkoutSessionSaver(modelsCache: ModelsCache)
-            : WorkoutSessionSaver = DefaultWorkoutSessionSaver(modelsCache)
+    fun provideDefaultWorkoutSessionSaver(modelsCache: ModelsCache, cacheBuilder: ModelCacheBuilder)
+            : WorkoutSessionSaver = DefaultWorkoutSessionSaver(modelsCache, cacheBuilder)
 
     @Singleton
     @Provides

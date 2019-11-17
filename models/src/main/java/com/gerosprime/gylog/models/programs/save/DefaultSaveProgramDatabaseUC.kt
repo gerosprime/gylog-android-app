@@ -1,5 +1,7 @@
 package com.gerosprime.gylog.models.programs.save
 
+import com.gerosprime.gylog.models.database.GylogEntityDatabase
+import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.programs.ProgramEntity
 import com.gerosprime.gylog.models.states.ModelsCache
 import io.reactivex.Single
@@ -7,29 +9,34 @@ import javax.inject.Inject
 
 
 class DefaultSaveProgramDatabaseUC
-    @Inject constructor(private val modelsCache: ModelsCache) : SaveProgramDatabaseUC {
+    @Inject constructor(private val modelsCache: ModelsCache,
+                        private val cacheBuilder: ModelCacheBuilder,
+                        private val gylogEntityDatabase: GylogEntityDatabase) : SaveProgramDatabaseUC {
 
     override fun save(program: ProgramEntity):
-            Single<SaveProgramDatabaseResult> = Single.fromCallable {
 
-        var recordId = program.recordId
 
-        if (recordId == null) {
-            recordId = (modelsCache.programsMap.size + 1).toLong()
-            program.recordId = recordId
-            modelsCache.programs.add(0, program)
-        } else {
+            Single<SaveProgramDatabaseResult> {
 
-            for (i in 0..modelsCache.programs.size) {
-                if (modelsCache.programs[i].recordId == recordId) {
-                    modelsCache.programs[i] = program
-                    break
-                }
+        val programDao = gylogEntityDatabase.programEntityDao()
+
+        return cacheBuilder.build().andThen(Single.fromCallable {
+
+            programDao.saveWholeProgram(program)
+
+
+            modelsCache.programsMap[program.recordId as Long] = program
+            modelsCache.programs.add(program)
+
+            for (workout in program.workouts) {
+                modelsCache.workoutsMap[workout.recordId as Long] = workout
+                modelsCache.workouts.add(workout)
             }
 
-        }
-        modelsCache.programsMap[recordId] = program
-        SaveProgramDatabaseResult(program, 0)
+            SaveProgramDatabaseResult(program, 0)
+
+        })
 
     }
+
 }

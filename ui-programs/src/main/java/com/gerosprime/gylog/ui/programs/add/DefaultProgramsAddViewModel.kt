@@ -12,7 +12,6 @@ import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheResult
 import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheUseCase
 import com.gerosprime.gylog.models.workouts.save.SaveWorkoutsDatabaseUC
-import io.reactivex.Completable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
@@ -39,14 +38,11 @@ class DefaultProgramsAddViewModel(
 
     override fun saveProgramToDB(name: String, description: String) {
 
-
-
-
         var commitProgram =
             commitProgramCacheUseCase.commit(name, description)
-                .flatMap { t ->
-                    Completable.fromSingle(saveWorkoutsDatabaseUC.save(t.programEntity.workouts!!))
-                    .andThen(saveProgramDatabaseUC.save(t.programEntity)) }
+                .flatMap { commitResult ->
+                    saveProgramDatabaseUC.save(commitResult.programEntity)
+                }
 
 
         if (uiScheduler != null)
@@ -63,7 +59,7 @@ class DefaultProgramsAddViewModel(
 
     override fun addWorkoutToCache(name: String?, description: String?) {
         var addToCacheUseCase = workoutAddToCacheUseCase
-            .add(WorkoutEntity(name = name, description = description, exercises = arrayListOf()))
+            .add(WorkoutEntity(name = name, description = description))
 
         if (uiScheduler != null)
             addToCacheUseCase = addToCacheUseCase.observeOn(uiScheduler)
@@ -88,7 +84,7 @@ class DefaultProgramsAddViewModel(
             programSetToCache = programSetToCache.subscribeOn(backgroundScheduler)
 
         compositeDisposable.add(programSetToCache
-            .subscribe(Consumer { programSetToCacheResultMLD.value = it }))
+            .subscribe({ programSetToCacheResultMLD.value = it }, { it.printStackTrace() }))
 
     }
 

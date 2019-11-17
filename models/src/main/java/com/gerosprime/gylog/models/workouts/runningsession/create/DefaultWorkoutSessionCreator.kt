@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.models.workouts.runningsession.create
 
+import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.exercises.performed.ExercisePerformedEntity
 import com.gerosprime.gylog.models.exercises.performedsets.PerformedSetEntity
 import com.gerosprime.gylog.models.states.ModelsCache
@@ -7,14 +8,15 @@ import com.gerosprime.gylog.models.states.RunningWorkoutSessionCache
 import com.gerosprime.gylog.models.workouts.runningsession.WorkoutSessionEntity
 import io.reactivex.Single
 import java.util.*
-import kotlin.collections.ArrayList
 
 class DefaultWorkoutSessionCreator(private val modelsCache: ModelsCache,
-                                   private val runningSessionCache: RunningWorkoutSessionCache)
+                                   private val runningSessionCache: RunningWorkoutSessionCache,
+                                   private val cacheBuilder: ModelCacheBuilder
+)
     : WorkoutSessionCreator {
 
     override fun create(workoutEntityId: Long):
-            Single<WorkoutSessionCreationResult> = Single.fromCallable {
+            Single<WorkoutSessionCreationResult> = cacheBuilder.build().andThen(Single.fromCallable {
 
 
         val prePerformedExercises : ArrayList<ExercisePerformedEntity> = arrayListOf()
@@ -48,24 +50,27 @@ class DefaultWorkoutSessionCreator(private val modelsCache: ModelsCache,
 
             }
 
-            prePerformedExercises.add(ExercisePerformedEntity(
+            val performedExercise = ExercisePerformedEntity(
                 exerciseId = exercise.exerciseId,
                 previousExercisePerformedId = 0,
-                performedSets = performedSets, name = exercise.name))
+                name = exercise.name)
+            performedExercise.performedSets = performedSets
+            prePerformedExercises.add(performedExercise)
         }
 
         val workoutSession
                 = WorkoutSessionEntity(
             workoutId = workoutEntityId,
-            exercisesPerformed = prePerformedExercises,
             durationSeconds = duration,
             startDate = Date()
         )
+        workoutSession.exercisesPerformed = prePerformedExercises
 
         runningSessionCache.prePerformedExercises = prePerformedExercises
         runningSessionCache.workoutSessionEntity = workoutSession
 
         WorkoutSessionCreationResult(workoutEntityId, workoutSession,
             prePerformedExercises)
-    }
+    })
+
 }
