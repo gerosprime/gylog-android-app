@@ -1,4 +1,4 @@
-package com.gerosprime.gylog.ui.exercises.add
+package com.gerosprime.gylog.ui.workouts.exercises
 
 import android.app.Activity
 import android.content.Intent
@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
-import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoadResult
 import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutExerciseSetCacheResult
-import com.gerosprime.gylog.ui.exercises.R
+import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoadResult
+import com.gerosprime.gylog.ui.workouts.R
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -44,7 +44,7 @@ class WorkoutExerciseEditActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this, factory)
             .get(DefaultWorkoutExerciseEditViewModel::class.java)
 
-        setContentView(R.layout.activity_exercise_add)
+        setContentView(R.layout.activity_workout_exercise_add)
         toolbar = findViewById(R.id.toolbar)
         toolbar.setNavigationOnClickListener {
             setResult(Activity.RESULT_CANCELED)
@@ -73,7 +73,7 @@ class WorkoutExerciseEditActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_exercises_add_activity, menu)
+        menuInflater.inflate(R.menu.menu_workout_exercises_activity, menu)
         return true
     }
 
@@ -97,7 +97,10 @@ class WorkoutExerciseEditActivity : AppCompatActivity() {
     }
 
     private fun populateExercises(result : WorkoutExerciseEditLoadResult) {
-        val adapter = WorkoutExerciseEditAdapter(result.workoutExercisesMap, result.exercises)
+        val adapter = WorkoutExerciseEditAdapter(
+            result.workoutExercisesMap,
+            result.exercises
+        )
         adapter.imageClickListener = object : OnItemClickListener<ExerciseEntity> {
             override fun onItemClicked(item: ExerciseEntity) {
                 exerciseImageClicked(item)

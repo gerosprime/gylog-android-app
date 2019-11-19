@@ -17,7 +17,7 @@ import com.gerosprime.gylog.models.programs.edit.load.EditProgramSetToCacheResul
 import com.gerosprime.gylog.models.programs.save.SaveProgramDatabaseResult
 import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheResult
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
-import com.gerosprime.gylog.ui.exercises.add.WorkoutExerciseEditActivity
+import com.gerosprime.gylog.ui.workouts.exercises.WorkoutExerciseEditActivity
 import com.gerosprime.gylog.ui.exercises.templatesets.EditTemplateSetsActivity
 import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.DialogTags.TAG_ADD_WORKOUT_DIALOG
@@ -163,7 +163,8 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
 
         val editExerciseIntent = Intent(this,
             WorkoutExerciseEditActivity::class.java)
-        editExerciseIntent.putExtra(WorkoutExerciseEditActivity.EXTRAS.EXTRA_WORKOUT_INDEX,
+        editExerciseIntent.putExtra(
+            WorkoutExerciseEditActivity.EXTRAS.EXTRA_WORKOUT_INDEX,
             workoutIndex)
 
         startActivityForResult(editExerciseIntent, WORKOUT_EDIT)

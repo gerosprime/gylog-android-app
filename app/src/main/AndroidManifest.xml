@@ -25,7 +25,7 @@
             android:label="@string/create_program"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ui.exercises.add.WorkoutExerciseEditActivity"
+        <activity android:name=".ui.workouts.exercises.WorkoutExerciseEditActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.exercises.templatesets.EditTemplateSetsActivity"
@@ -39,6 +39,9 @@
 
         <activity android:name=".ui.workouts.session.WorkoutSessionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".ui.exercises.add.ExerciseAddActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>
 

@@ -29,11 +29,7 @@ class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
 
                 }
 
-                val exercises = database.exerciseEntityDao().loadExercises()
-                for (exercise in exercises) {
-                    modelsCache.exercisesMap[exercise.recordId] = exercise
-                    modelsCache.exercisesList.add(exercise)
-                }
+
 
                 val exerciseTemplates = database.exerciseTemplateEntityDao().loadExercises()
                 for (exercise in exerciseTemplates) {
@@ -41,7 +37,8 @@ class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
                     modelsCache.templateExercises.add(exercise)
 
                     val workout = modelsCache.workoutsMap[exercise.workoutId]
-                    workout?.exercises?.add(exercise)
+                    if (!exercise.markDeletedOnRecord)
+                        workout?.exercises?.add(exercise)
 
                 }
 
@@ -49,11 +46,21 @@ class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
                 for (loadTemplateSet in loadTemplateSets) {
                     val exerciseEntity =
                         modelsCache.templateExercisesMap[loadTemplateSet.exerciseTemplateId]
-                    exerciseEntity?.setTemplates?.add(loadTemplateSet)
+
+                    if (!loadTemplateSet.markDeleteOnRecord)
+                        exerciseEntity?.setTemplates?.add(loadTemplateSet)
                 }
 
                 // Merging to programs
 
+            }
+
+            if (modelsCache.exercisesMap.isEmpty()) {
+                val exercises = database.exerciseEntityDao().loadExercises()
+                for (exercise in exercises) {
+                    modelsCache.exercisesMap[exercise.recordId!!] = exercise
+                    modelsCache.exercisesList.add(exercise)
+                }
             }
 
         }

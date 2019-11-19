@@ -17,21 +17,19 @@ class DefaultWorkoutSetExerciseCacheUC(private val cache: EditProgramEntityCache
 
             val workoutEntity = cache.editWorkouts[workoutIndex]
 
-
-
             val newExercises : ArrayList<ExerciseTemplateEntity> = arrayListOf()
             for (selectedExercise in selectedExercises) {
                 // workoutId will be set upon saving workout entity in database
 
                 if (cache.editExercisesTemplateMap.containsKey(selectedExercise.recordId)) {
-                    newExercises.add(
-                        cache.editExercisesTemplateMap[selectedExercise.recordId]
-                                as ExerciseTemplateEntity)
+                    val existingExercise = cache.editExercisesTemplateMap[selectedExercise.recordId]!!
+                    newExercises.add(existingExercise)
+                    cache.editExercisesTemplateMap.remove(selectedExercise.recordId)
                 } else {
 
                     val exerciseTemplate = ExerciseTemplateEntity(
                         name = selectedExercise.name,
-                        exerciseId = selectedExercise.recordId
+                        exerciseId = selectedExercise.recordId!!
                     )
                     exerciseTemplate.setTemplates = arrayListOf()
 
@@ -42,6 +40,9 @@ class DefaultWorkoutSetExerciseCacheUC(private val cache: EditProgramEntityCache
             }
 
             workoutEntity.exercises = newExercises
+            workoutEntity.deleteExercises = arrayListOf()
+            workoutEntity.deleteExercises.addAll(cache.editExercisesTemplateMap.values)
+
             WorkoutExerciseSetCacheResult(
                 workoutIndex
             )

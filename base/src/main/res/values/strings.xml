@@ -23,4 +23,22 @@
     <string name="skip">Skip</string>
     <string name="more">More</string>
 
+
+    <string name="abs">Abs</string>
+    <string name="chest">Chest</string>
+    <string name="chest_upper">Chest (Upper)</string>
+    <string name="chest_lower">Chest (Lower)</string>
+    <string name="back_upper">Back (Upper)</string>
+    <string name="hamstrings">Hamstrings</string>
+    <string name="forearms">Forearms</string>
+    <string name="shoulder_side">Shoulder (Side)</string>
+    <string name="shoulder_front">Shoulder (Front)</string>
+    <string name="shoulder_back">Shoulder (Back)</string>
+    <string name="traps">Traps</string>
+    <string name="quads">Quads</string>
+    <string name="calves">Calves</string>
+    <string name="directions">Directions</string>
+    <string name="description">Description</string>
+    <string name="name">Name</string>
+
 </resources>

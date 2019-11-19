@@ -12,4 +12,5 @@ class EditProgramEntityCache (var editProgram : ProgramEntity?, // Loaded when a
                               var editExercisesTemplate : ArrayList<ExerciseTemplateEntity>,
                               var editExercisesTemplateMap : MutableMap<Long, ExerciseTemplateEntity>,
                               // A Copy of arraylist holding references to workouts from program is created
-                              var editTemplateSets : ArrayList<TemplateSetEntity>)
+                              var editTemplateSets : ArrayList<TemplateSetEntity>,
+                              var deleteTemplateSets : ArrayList<TemplateSetEntity>)

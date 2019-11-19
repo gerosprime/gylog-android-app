@@ -4,4 +4,5 @@ import com.gerosprime.gylog.models.exercises.templatesets.TemplateSetEntity
 
 class CommitTemplateSetsToWorkoutResult (val workoutIndex: Int,
                                          val exerciseIndex: Int,
-                                         val templates: List<TemplateSetEntity>)
+                                         val templates: List<TemplateSetEntity>,
+                                         val deleteTemplates : List<TemplateSetEntity>)

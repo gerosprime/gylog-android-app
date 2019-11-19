@@ -35,6 +35,8 @@ class DefaultEditTemplateSetsCacheLoader(private val editCache: EditProgramEntit
 
             editCache.editTemplateSets = copyTemplates
 
+            editCache.deleteTemplateSets = arrayListOf()
+
             LoadTemplateSetsToCacheResult(workoutIndex, workoutExercisesIndex, templateExercise,
                 copyTemplates, totalWeight, totalSets, totalRestDuration)
         }

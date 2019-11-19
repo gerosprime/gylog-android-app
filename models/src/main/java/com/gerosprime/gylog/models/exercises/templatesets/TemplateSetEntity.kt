@@ -21,12 +21,13 @@ data class TemplateSetEntity(
     override var counterWeight: Float? = 0f,
     override var durationSeconds: Int = 0,
     override var restTimeSeconds : Int = 0,
-    override var upToFailure :Boolean = false
+    override var upToFailure :Boolean = false,
+    var markDeleteOnRecord : Boolean = false
 ) : SetEntity {
     fun deepCopy(): TemplateSetEntity {
         return TemplateSetEntity(
             recordId,exerciseTemplateId,  minReps, reps,
-            weight, counterWeight, durationSeconds, restTimeSeconds, upToFailure
-        )
+            weight, counterWeight, durationSeconds, restTimeSeconds, upToFailure,
+            markDeleteOnRecord)
     }
 }

@@ -4,24 +4,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gerosprime.gylog.base.components.android.SingleLiveEvent
 import com.gerosprime.gylog.base.components.di.ViewModelKey
-import com.gerosprime.gylog.models.exercises.ExercisesLoader
+import com.gerosprime.gylog.models.exercises.ExerciseDatabaseSaver
+import com.gerosprime.gylog.models.exercises.ExercisesCacheLoader
 import com.gerosprime.gylog.models.exercises.templatesets.EditTemplateSetsCacheLoader
 import com.gerosprime.gylog.models.exercises.templatesets.add.CreateTemplateSetToCacheUC
 import com.gerosprime.gylog.models.exercises.templatesets.commit.CommitTemplatesToWorkoutUC
 import com.gerosprime.gylog.models.exercises.templatesets.remove.RemoveTemplateSetFromCacheUC
 import com.gerosprime.gylog.models.exercises.templatesets.single.TemplateSetEditCacheLoader
 import com.gerosprime.gylog.models.exercises.templatesets.single.commit.TemplateSetCommitUC
-import com.gerosprime.gylog.models.programs.edit.load.EditProgramCacheSetterUseCase
 import com.gerosprime.gylog.models.programs.ProgramsCacheLoader
 import com.gerosprime.gylog.models.programs.detail.ProgramModelCacheLoader
 import com.gerosprime.gylog.models.programs.edit.commit.CommitEdittedProgramCacheUC
+import com.gerosprime.gylog.models.programs.edit.load.EditProgramCacheSetterUseCase
 import com.gerosprime.gylog.models.programs.save.SaveProgramDatabaseUC
 import com.gerosprime.gylog.models.states.EditCacheClearUC
 import com.gerosprime.gylog.models.workouts.detail.WorkoutCacheLoader
 import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheUseCase
-import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoader
 import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutSetExerciseCacheUC
-import com.gerosprime.gylog.models.workouts.save.SaveWorkoutsDatabaseUC
+import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoader
 import com.gerosprime.gylog.models.workouts.runningsession.create.WorkoutSessionCreator
 import com.gerosprime.gylog.models.workouts.runningsession.discard.RunningWorkoutSessionDiscardUC
 import com.gerosprime.gylog.models.workouts.runningsession.finalizer.RunningWorkoutSessionFinalizer
@@ -31,7 +31,9 @@ import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.Edi
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.RemovePerformedSetUC
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.UnRemovePerformedSetUC
 import com.gerosprime.gylog.models.workouts.runningsession.save.WorkoutSessionSaver
-import com.gerosprime.gylog.ui.exercises.add.DefaultWorkoutExerciseEditViewModel
+import com.gerosprime.gylog.models.workouts.save.SaveWorkoutsDatabaseUC
+import com.gerosprime.gylog.ui.exercises.add.DefaultExerciseAddViewModel
+import com.gerosprime.gylog.ui.exercises.add.ExerciseAddViewModel
 import com.gerosprime.gylog.ui.exercises.dashboard.DefaultDashboardExercisesViewModel
 import com.gerosprime.gylog.ui.exercises.templatesets.DefaultEditTemplateSetsViewModel
 import com.gerosprime.gylog.ui.exercises.templatesets.detail.DefaultTemplateSetEditViewModel
@@ -39,6 +41,7 @@ import com.gerosprime.gylog.ui.programs.DefaultProgramsDashboardViewModel
 import com.gerosprime.gylog.ui.programs.add.DefaultProgramsAddViewModel
 import com.gerosprime.gylog.ui.programs.detail.DefaultProgramDetailViewModel
 import com.gerosprime.gylog.ui.workouts.detail.DefaultWorkoutDetailViewModel
+import com.gerosprime.gylog.ui.workouts.exercises.DefaultWorkoutExerciseEditViewModel
 import com.gerosprime.gylog.ui.workouts.session.DefaultWorkoutSessionViewModel
 import dagger.Module
 import dagger.Provides
@@ -61,9 +64,9 @@ class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(DefaultDashboardExercisesViewModel::class)
-    fun provideDefaultDashboardExercisesViewModel(exercisesLoader: ExercisesLoader) : ViewModel {
+    fun provideDefaultDashboardExercisesViewModel(exercisesCacheLoader: ExercisesCacheLoader) : ViewModel {
         return DefaultDashboardExercisesViewModel(MutableLiveData(), MutableLiveData(),
-            MutableLiveData(), exercisesLoader, Schedulers.io(),
+            MutableLiveData(), exercisesCacheLoader, Schedulers.io(),
             AndroidSchedulers.mainThread())
     }
 
@@ -95,7 +98,8 @@ class ViewModelModule {
         return DefaultWorkoutExerciseEditViewModel(
             MutableLiveData(), MutableLiveData(),
             MutableLiveData(), exerciseEditLoader, workoutSetExerciseCacheUC,
-            AndroidSchedulers.mainThread(), Schedulers.io())
+            AndroidSchedulers.mainThread(), Schedulers.io()
+        )
     }
 
     @Provides
@@ -170,6 +174,18 @@ class ViewModelModule {
             addPerformedSetUC, removePerformedSetUC, unRemovePerformedSetUC,
             editPerformedSetUC,
             AndroidSchedulers.mainThread(), Schedulers.io())
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultExerciseAddViewModel::class)
+    fun provideDefaultExerciseAddViewModel(exerciseDatabaseSaver: ExerciseDatabaseSaver,
+                                           exercisesCacheLoader: ExercisesCacheLoader)
+            : ViewModel {
+        return DefaultExerciseAddViewModel(
+            MutableLiveData(), MutableLiveData(), MutableLiveData(),
+            AndroidSchedulers.mainThread(), Schedulers.io(),
+            exerciseDatabaseSaver, exercisesCacheLoader)
     }
 
 }

@@ -1,4 +1,4 @@
-package com.gerosprime.gylog.ui.exercises.add
+package com.gerosprime.gylog.ui.workouts.exercises
 
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState

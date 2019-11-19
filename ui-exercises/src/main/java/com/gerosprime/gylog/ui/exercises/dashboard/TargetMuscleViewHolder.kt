@@ -5,11 +5,12 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.models.muscle.MuscleEnum
+import com.google.android.material.chip.Chip
 
 internal class TargetMuscleViewHolder(itemView: View)
     : RecyclerView.ViewHolder(itemView) {
 
-    private val muscleNameTextView = itemView as TextView
+    private val muscleNameTextView = itemView as Chip
 
     private lateinit var muscle : MuscleEnum
 

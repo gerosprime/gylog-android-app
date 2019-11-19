@@ -1,9 +1,10 @@
 package com.gerosprime.gylog.models.muscle
 
 import androidx.annotation.IdRes
+import androidx.room.Ignore
 import com.gerosprime.gylog.models.R
 
-enum class MuscleEnum(@IdRes val stringResId: Int) {
+enum class MuscleEnum(@Ignore @IdRes val stringResId: Int) {
     TRICEPS(R.string.triceps),
     BICEPS(R.string.biceps),
     CHEST(R.string.chest),

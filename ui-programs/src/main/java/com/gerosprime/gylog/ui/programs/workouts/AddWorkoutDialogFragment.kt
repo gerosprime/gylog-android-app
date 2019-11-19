@@ -70,7 +70,8 @@ class AddWorkoutDialogFragment : DialogFragment() {
     }
 
     private fun defineWorkout(name : String, description : String) {
-        listener!!.workoutNameDescriptionDefined(WorkoutEntity(name = name,
+        listener!!.workoutNameDescriptionDefined(WorkoutEntity(
+            name = name,
             description = description))
     }
 

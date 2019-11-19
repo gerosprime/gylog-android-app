@@ -65,4 +65,13 @@ class DashboardExercisesFragment :Fragment() {
             exercisesRecyclerView, progressContentView, errorContentView)
     }
 
+    fun notifyItemUpdated(index: Int) {
+        exercisesRecyclerView.adapter?.notifyItemChanged(index)
+    }
+
+    fun notifyItemInserted(index: Int) {
+        exercisesRecyclerView.adapter?.notifyItemInserted(index)
+        exercisesRecyclerView.scrollToPosition(index)
+    }
+
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
-import com.gerosprime.gylog.models.exercises.ExercisesLoader
+import com.gerosprime.gylog.models.exercises.ExercisesCacheLoader
 import com.gerosprime.gylog.models.exercises.LoadedExercisesResult
 import io.reactivex.Scheduler
 import io.reactivex.Single
@@ -15,7 +15,7 @@ class DefaultDashboardExercisesViewModel(
     override val exercisesLiveData: MutableLiveData<List<ExerciseEntity>>,
     override val errorLiveData: MutableLiveData<Throwable>,
 
-    private val exercisesLoader: ExercisesLoader,
+    private val exercisesCacheLoader: ExercisesCacheLoader,
     private val backgroundScheduler : Scheduler? = null,
     private val uiScheduler: Scheduler? = null
 ) : BaseViewModel(), DashboardExercisesViewModel {
@@ -23,7 +23,7 @@ class DefaultDashboardExercisesViewModel(
     private var compositeDisposable : CompositeDisposable = CompositeDisposable()
 
     override fun loadExercises() {
-        var loader : Single<LoadedExercisesResult> = exercisesLoader.loadExercises()
+        var loader : Single<LoadedExercisesResult> = exercisesCacheLoader.loadExercises()
         if (uiScheduler != null)
             loader = loader.observeOn(uiScheduler)
 

@@ -14,7 +14,7 @@ data class ProgramEntity (@PrimaryKey var recordId: Long? = null,
 
     fun deepCopy() : ProgramEntity {
         val copyProgram = ProgramEntity(recordId, name, description)
-        val copyWorkouts = copyProgram.workouts
+        val copyWorkouts : ArrayList<WorkoutEntity> = arrayListOf()
         copyProgram.workouts = copyWorkouts
 
         for (workout in workouts) {

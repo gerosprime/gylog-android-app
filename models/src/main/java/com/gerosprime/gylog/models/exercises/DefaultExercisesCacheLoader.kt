@@ -1,14 +1,17 @@
 package com.gerosprime.gylog.models.exercises
 
-import com.gerosprime.gylog.models.muscle.MuscleEnum
+import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.states.ModelsCache
-import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
 
-class DefaultExercisesLoader(private val modelsCache: ModelsCache) : ExercisesLoader {
+class DefaultExercisesCacheLoader(private val modelsCache: ModelsCache,
+                                  private val cacheBuilder: ModelCacheBuilder)
+    : ExercisesCacheLoader {
 
 
     private fun exercisesDatabase() : Single<List<ExerciseEntity>> {
+
         return Single.just(arrayListOf(
 //            ExerciseEntity(1, "Inclined Bench Press (Barbell)", "Bla bla bla",
 //                arrayListOf(MuscleEnum.CHEST, MuscleEnum.CHEST_LOWER, MuscleEnum.CHEST_UPPER)),
@@ -30,21 +33,28 @@ class DefaultExercisesLoader(private val modelsCache: ModelsCache) : ExercisesLo
     }
 
     override fun loadExercises(): Single<LoadedExercisesResult> {
-        return exercisesDatabase()
-            .flatMapCompletable { exercises -> fillCache(modelsCache, exercises) }
-            .toSingleDefault(LoadedExercisesResult(modelsCache.exercisesList))
+
+        return cacheBuilder.build().andThen(Single.fromCallable {
+            LoadedExercisesResult(modelsCache.exercisesList)
+        })
+
     }
 
-    private fun fillCache(modelsCache: ModelsCache,
-                           exercises : List<ExerciseEntity>) : Completable {
-        return Completable.fromAction {
+    override fun loadExercise(recordId: Long?): Maybe<LoadedSingleExerciseResult> {
+        return Maybe.fromCallable {
 
-            modelsCache.exercisesList.clear()
-            modelsCache.exercisesMap.clear()
-
-            for (exercise in exercises) {
-                modelsCache.exercisesList.add(exercise)
-                modelsCache.exercisesMap[exercise.recordId] = exercise
+            if (modelsCache.exercisesMap.containsKey(recordId)) {
+                val exercise = modelsCache.exercisesMap[recordId] as ExerciseEntity
+                LoadedSingleExerciseResult(
+                    recordId, exercise.name,
+                    exercise.description, exercise.instruction,
+                    exercise.targetMuscles
+                )
+            } else {
+                LoadedSingleExerciseResult(
+                    null, "",
+                    "", "", arrayListOf()
+                )
             }
 
         }

@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
-import com.gerosprime.gylog.models.exercises.ExercisesLoader
+import com.gerosprime.gylog.models.exercises.ExercisesCacheLoader
 import com.gerosprime.gylog.models.exercises.LoadedExercisesResult
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers
@@ -21,7 +21,7 @@ class DefaultDashboardExercisesViewModelTest {
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
 
-    lateinit var programLoader : FakeExerciseLoader
+    lateinit var programLoader : FakeExerciseCacheLoader
 
     private lateinit var viewModel: DashboardExercisesViewModel
 
@@ -36,7 +36,7 @@ class DefaultDashboardExercisesViewModelTest {
         exercisesLiveData = MutableLiveData()
         errorLiveData = MutableLiveData()
 
-        programLoader = FakeExerciseLoader()
+        programLoader = FakeExerciseCacheLoader()
         viewModel = DefaultDashboardExercisesViewModel(fetchState,
             exercisesLiveData, errorLiveData, programLoader)
 
@@ -86,7 +86,7 @@ class DefaultDashboardExercisesViewModelTest {
 
 }
 
-class FakeExerciseLoader : ExercisesLoader {
+class FakeExerciseCacheLoader : ExercisesCacheLoader {
 
     var error = false
     var called = false

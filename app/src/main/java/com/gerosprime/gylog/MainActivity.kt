@@ -3,20 +3,21 @@ package com.gerosprime.gylog
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.gerosprime.gylog.MainActivity.RequestCodes.EXERCISE_EDIT
 import com.gerosprime.gylog.MainActivity.RequestCodes.PROGRAM_EDIT
+import com.gerosprime.gylog.models.exercises.ExerciseDatabaseSaveResult
+import com.gerosprime.gylog.ui.exercises.add.ExerciseAddActivity
+import com.gerosprime.gylog.ui.exercises.dashboard.DashboardExercisesFragment
 import com.gerosprime.gylog.ui.programs.ProgramsDashboardFragment
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     object RequestCodes {
         const val PROGRAM_EDIT = 32
+        const val EXERCISE_EDIT = 33
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +82,42 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+
+            EXERCISE_EDIT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val index = data!!.getIntExtra(ExerciseAddActivity.Result.INDEX, 0)
+
+
+                    val flag = data.getIntExtra(ExerciseAddActivity.Result.FLAG, -1)
+                    when (flag) {
+                        ExerciseDatabaseSaveResult.Flag.NEW -> {
+
+                            val findFragmentById =
+                                supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                            val fragment
+                                    = findFragmentById!!.childFragmentManager.fragments[0]
+                                    as DashboardExercisesFragment
+
+                            fragment.notifyItemInserted(index)
+
+                        }
+
+                        ExerciseDatabaseSaveResult.Flag.UPDATED -> {
+
+                            val findFragmentById =
+                                supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                            val fragment
+                                    = findFragmentById!!.childFragmentManager.fragments[0]
+                                    as DashboardExercisesFragment
+
+                            fragment.notifyItemUpdated(index)
+
+                        }
+
+                    }
+
+                }
+            }
         }
 
     }
@@ -101,6 +139,8 @@ class MainActivity : AppCompatActivity() {
         floatingActionButton.show()
 
         floatingActionButton.setOnClickListener {
+            startActivityForResult(Intent(this, ExerciseAddActivity::class.java),
+                EXERCISE_EDIT)
         }
 
     }

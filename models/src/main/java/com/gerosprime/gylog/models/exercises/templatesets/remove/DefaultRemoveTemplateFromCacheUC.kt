@@ -1,6 +1,5 @@
 package com.gerosprime.gylog.models.exercises.templatesets.remove
 
-import com.gerosprime.gylog.models.exercises.templatesets.TemplateSetEntity
 import com.gerosprime.gylog.models.states.EditProgramEntityCache
 import io.reactivex.Single
 
@@ -19,6 +18,8 @@ class DefaultRemoveTemplateFromCacheUC(private val editCache : EditProgramEntity
 
             val removedTemplateSet =
             editCache.editTemplateSets.removeAt(templateSetIndex)
+            editCache.deleteTemplateSets.add(removedTemplateSet)
+
 
             val templateSets = editCache.editTemplateSets
 

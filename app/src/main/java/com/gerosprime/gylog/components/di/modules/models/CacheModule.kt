@@ -14,7 +14,7 @@ class CacheModule {
     @Provides
     @Singleton
     fun provideAddProgramCache() = EditProgramEntityCache(null,
-        arrayListOf(), arrayListOf(), mutableMapOf(), arrayListOf())
+        arrayListOf(), arrayListOf(), mutableMapOf(), arrayListOf(), arrayListOf())
 
     @Provides
     @Singleton

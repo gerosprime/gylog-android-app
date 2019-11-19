@@ -23,6 +23,8 @@
     <string name="invalid_rest_time_format">Invalid rest time format</string>
     <string name="up_to_failure">Up to failure</string>
     <string name="no_sets_added_yet">No sets added yet</string>
+    <string name="add_exercise">Add Exercise</string>
 
+    <string name="exercise_add_name_is_required">Exercise name is required.</string>
 
 </resources>

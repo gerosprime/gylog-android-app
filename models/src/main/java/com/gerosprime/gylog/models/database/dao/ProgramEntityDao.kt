@@ -22,6 +22,9 @@ abstract class ProgramEntityDao {
     @Insert
     abstract fun saveTemplatesSet(templateSets : List<TemplateSetEntity>) : List<Long>
 
+    @Delete
+    abstract fun deleteTemplatesSet(templateSets : List<TemplateSetEntity>)
+
     @Transaction
     open fun saveWholeProgram(program: ProgramEntity) {
         val programId = saveProgram(program)
@@ -40,6 +43,13 @@ abstract class ProgramEntityDao {
             for (exercise in workout.exercises) {
                 exercise.workoutId = workout.recordId
             }
+
+            // Mark deletion for exercises
+            for (deleteExercise in workout.deleteExercises) {
+                deleteExercise.markDeletedOnRecord = true
+            }
+            saveExerciseTemplates(workout.deleteExercises)
+
             val exerciseIds = saveExerciseTemplates(workout.exercises)
             for (e in 0 until workout.exercises.size) {
 
@@ -48,8 +58,15 @@ abstract class ProgramEntityDao {
                 for (templateSet in exercise.setTemplates) {
                     templateSet.exerciseTemplateId = exercise.recordId
                 }
+                // deleteTemplatesSet(exercise.deleteSetTemplates)
+
+                for (deleteSetTemplate in exercise.deleteSetTemplates) {
+                    deleteSetTemplate.markDeleteOnRecord = true
+                }
+                saveTemplatesSet(exercise.deleteSetTemplates)
+
                 val templateSetIds = saveTemplatesSet(exercise.setTemplates)
-                for (ts in 0..exercise.setTemplates.size) {
+                for (ts in 0 until exercise.setTemplates.size) {
                     exercise.setTemplates[ts].recordId = templateSetIds[ts]
                 }
             }

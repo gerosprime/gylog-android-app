@@ -1,4 +1,4 @@
-package com.gerosprime.gylog.ui.exercises.add
+package com.gerosprime.gylog.ui.workouts.exercises
 
 import android.view.View
 import android.widget.CheckBox
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.components.android.CheckableRelativeLayout
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
-import com.gerosprime.gylog.ui.exercises.R
+import com.gerosprime.gylog.ui.workouts.R
 
 
 class WorkoutExerciseEditViewHolder(
@@ -70,7 +70,7 @@ class WorkoutExerciseEditViewHolder(
 
     private fun onCheck (check : Boolean) {
         if (check)
-            selectedItems[entity.recordId] = entity
+            selectedItems[entity.recordId!!] = entity
         else
             selectedItems.remove(entity.recordId)
     }

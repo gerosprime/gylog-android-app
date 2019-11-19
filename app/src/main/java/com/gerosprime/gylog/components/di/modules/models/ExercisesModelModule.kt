@@ -1,7 +1,10 @@
 package com.gerosprime.gylog.components.di.modules.models
 
-import com.gerosprime.gylog.models.exercises.DefaultExercisesLoader
-import com.gerosprime.gylog.models.exercises.ExercisesLoader
+import com.gerosprime.gylog.models.database.GylogEntityDatabase
+import com.gerosprime.gylog.models.exercises.DefaultExerciseDatabaseSaver
+import com.gerosprime.gylog.models.exercises.DefaultExercisesCacheLoader
+import com.gerosprime.gylog.models.exercises.ExerciseDatabaseSaver
+import com.gerosprime.gylog.models.exercises.ExercisesCacheLoader
 import com.gerosprime.gylog.models.exercises.templatesets.DefaultEditTemplateSetsCacheLoader
 import com.gerosprime.gylog.models.exercises.templatesets.EditTemplateSetsCacheLoader
 import com.gerosprime.gylog.models.exercises.templatesets.add.CreateTemplateSetToCacheUC
@@ -15,6 +18,7 @@ import com.gerosprime.gylog.models.exercises.templatesets.single.TemplateSetEdit
 import com.gerosprime.gylog.models.exercises.templatesets.single.commit.DefaultTemplateSetCommitCacheUC
 import com.gerosprime.gylog.models.exercises.templatesets.single.commit.TemplateSetCommitUC
 import com.gerosprime.gylog.models.states.EditProgramEntityCache
+import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.states.ModelsCache
 import dagger.Module
 import dagger.Provides
@@ -25,8 +29,9 @@ class ExercisesModelModule {
 
     @Provides
     @Singleton
-    fun provideDefaultExercisesLoader(modelsCache: ModelsCache) : ExercisesLoader {
-        return DefaultExercisesLoader(modelsCache)
+    fun provideDefaultExercisesLoader(modelsCache: ModelsCache,
+                                      cacheBuilder: ModelCacheBuilder) : ExercisesCacheLoader {
+        return DefaultExercisesCacheLoader(modelsCache, cacheBuilder)
     }
 
     @Provides
@@ -68,7 +73,14 @@ class ExercisesModelModule {
         return DefaultTemplateSetCommitCacheUC(editCache)
     }
 
-
+    @Provides
+    @Singleton
+    fun provideDefaultExerciseDatabaseSaver(database : GylogEntityDatabase,
+                                            modelsCache: ModelsCache,
+                                            cacheBuilder: ModelCacheBuilder
+    ) : ExerciseDatabaseSaver {
+        return DefaultExerciseDatabaseSaver(database, modelsCache, cacheBuilder)
+    }
 
 
 

@@ -1,11 +1,11 @@
-package com.gerosprime.gylog.ui.exercises.add
+package com.gerosprime.gylog.ui.workouts.exercises
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
-import com.gerosprime.gylog.ui.exercises.R
+import com.gerosprime.gylog.ui.workouts.R
 
 
 class WorkoutExerciseEditAdapter(private val workoutExercises : MutableMap<Long, ExerciseEntity>,
@@ -39,10 +39,15 @@ class WorkoutExerciseEditAdapter(private val workoutExercises : MutableMap<Long,
         if (layoutInflater == null)
             layoutInflater = LayoutInflater.from(parent.context)
 
-        val inflate = layoutInflater!!.inflate(R.layout.viewholder_exercise_add,
+        val inflate = layoutInflater!!.inflate(
+            R.layout.viewholder_workout_exercise_add,
                                     parent, false)
 
-        return WorkoutExerciseEditViewHolder(inflate, workoutExercises, internalImageClickListener)
+        return WorkoutExerciseEditViewHolder(
+            inflate,
+            workoutExercises,
+            internalImageClickListener
+        )
 
     }
 
