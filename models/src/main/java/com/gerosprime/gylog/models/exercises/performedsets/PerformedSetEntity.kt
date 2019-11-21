@@ -14,14 +14,16 @@ data class PerformedSetEntity(
     override var durationSeconds: Int,
     override var restTimeSeconds: Int,
     override var upToFailure: Boolean,
-    var templateSetId : Long?,
-    var initialReps : Int?,
-    var initialWeight : Float?,
-    var previousPerformedSetId : Long? = null,
-    var previousReps : Int? = null,
-    var previousWeight : Float? = null,
-    var flagRemoved : Boolean = false,
-    var datePerformed : Date?
+    var templateSetId: Long?,
+    var initialReps: Int?,
+    var initialWeight: Float?,
+    var previousPerformedSetId: Long? = null,
+    var previousReps: Int? = null,
+    var previousWeight: Float? = null,
+    var flagRemoved: Boolean = false,
+    var datePerformed: Date?,
+    var exercisePerformedId: Long? = null,
+    override var exerciseId: Long?
 ) : SetEntity {
 
     val isFreeSet get() = templateSetId == null

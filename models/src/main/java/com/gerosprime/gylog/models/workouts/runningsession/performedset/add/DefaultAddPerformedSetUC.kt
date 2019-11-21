@@ -10,7 +10,8 @@ class DefaultAddPerformedSetUC(private val cache: RunningWorkoutSessionCache)
 
     override fun add(exercisePerformedIndex: Int): Single<AddPerformedSetResult> =
         Single.fromCallable {
-            val performed = PerformedSetEntity(recordId = null,
+            val performed = PerformedSetEntity(
+                recordId = null,
                 reps = null,
                 weight = null,
                 counterWeight = null,
@@ -23,7 +24,9 @@ class DefaultAddPerformedSetUC(private val cache: RunningWorkoutSessionCache)
                 previousPerformedSetId = null,
                 previousReps = null,
                 previousWeight = null,
-                datePerformed = null)
+                datePerformed = null,
+                exerciseId = null
+            )
 
             // val size = cache.prePerformedExercises.size
             cache.prePerformedExercises!![exercisePerformedIndex]

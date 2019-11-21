@@ -29,8 +29,6 @@ class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
 
                 }
 
-
-
                 val exerciseTemplates = database.exerciseTemplateEntityDao().loadExercises()
                 for (exercise in exerciseTemplates) {
                     modelsCache.templateExercisesMap[exercise.recordId as Long] = exercise

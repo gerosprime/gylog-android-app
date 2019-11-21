@@ -7,9 +7,10 @@ import androidx.room.PrimaryKey
 import com.gerosprime.gylog.models.exercises.performedsets.PerformedSetEntity
 
 @Entity
-data class ExercisePerformedEntity(@PrimaryKey val recordId : Long? = null,
+data class ExercisePerformedEntity(@PrimaryKey var recordId : Long? = null,
                                    @ColumnInfo(index = true) val exerciseId : Long,
                                    val previousExercisePerformedId : Long,
-                                   val name : String) {
+                                   val name : String,
+                                   var workoutSessionId : Long? = null) {
     @Ignore var performedSets : ArrayList<PerformedSetEntity> = arrayListOf()
 }

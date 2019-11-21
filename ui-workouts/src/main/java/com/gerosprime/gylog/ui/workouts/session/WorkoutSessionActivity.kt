@@ -23,6 +23,7 @@ import com.gerosprime.gylog.models.workouts.runningsession.performedset.add.AddP
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.EditPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.RemoveWorkoutSessionSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.UnflagRemovePerformedSetResult
+import com.gerosprime.gylog.models.workouts.runningsession.save.WorkoutSessionSaveResult
 import com.gerosprime.gylog.ui.workouts.R
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity.Extras.WORKOUT_RECORD_ID
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity.States.RESUME_WORKOUT
@@ -113,6 +114,11 @@ class WorkoutSessionActivity : AppCompatActivity(),
         finish()
     }
 
+    private val observerSave = Observer<WorkoutSessionSaveResult> {
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -176,6 +182,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
         viewModel.discardSessionMLD.observe(this, observerDiscard)
 
         viewModel.finalizedSessionMLD.observe(this, observerFinalize)
+        viewModel.savedSessionMLD.observe(this, observerSave)
 
     }
 

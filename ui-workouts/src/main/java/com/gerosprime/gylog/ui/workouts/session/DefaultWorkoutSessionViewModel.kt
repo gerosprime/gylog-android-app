@@ -171,6 +171,7 @@ class DefaultWorkoutSessionViewModel(
 
     override fun finishWorkoutSession() {
         var finalizer = sessionFinalizer.finalizeSession()
+            .flatMap { sessionSaver.save(it.session) }
 
         if (uiScheduler != null)
             finalizer = finalizer.observeOn(uiScheduler)
@@ -179,7 +180,8 @@ class DefaultWorkoutSessionViewModel(
             finalizer = finalizer.subscribeOn(backgroundScheduler)
 
         compositeDisposable.add(finalizer.subscribe(Consumer {
-            finalizedSessionMLD.value = it
+            // finalizedSessionMLD.value = it
+            savedSessionMLD.value = it
         }))
 
     }

@@ -22,7 +22,9 @@ data class TemplateSetEntity(
     override var durationSeconds: Int = 0,
     override var restTimeSeconds : Int = 0,
     override var upToFailure :Boolean = false,
-    var markDeleteOnRecord : Boolean = false
+    var markDeleteOnRecord : Boolean = false,
+    override var exerciseId: Long? = null
+
 ) : SetEntity {
     fun deepCopy(): TemplateSetEntity {
         return TemplateSetEntity(

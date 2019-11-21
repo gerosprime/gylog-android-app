@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.components.di.modules.models
 
+import com.gerosprime.gylog.models.database.GylogEntityDatabase
 import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.states.ModelsCache
 import com.gerosprime.gylog.models.states.RunningWorkoutSessionCache
@@ -71,8 +72,10 @@ class WorkoutSessionModelModule {
 
     @Singleton
     @Provides
-    fun provideDefaultWorkoutSessionSaver(modelsCache: ModelsCache, cacheBuilder: ModelCacheBuilder)
-            : WorkoutSessionSaver = DefaultWorkoutSessionSaver(modelsCache, cacheBuilder)
+    fun provideDefaultWorkoutSessionSaver(modelsCache: ModelsCache, cacheBuilder: ModelCacheBuilder,
+                                          database : GylogEntityDatabase)
+            : WorkoutSessionSaver = DefaultWorkoutSessionSaver(modelsCache, cacheBuilder,
+        database)
 
     @Singleton
     @Provides

@@ -46,7 +46,11 @@ class DefaultWorkoutSessionCreator(private val modelsCache: ModelsCache,
                     previousPerformedSetId = null,
                     previousReps = null,
                     previousWeight = null,
-                    datePerformed = null))
+                    datePerformed = null,
+                    exercisePerformedId = null,
+                    exerciseId = null
+
+                ))
 
             }
 

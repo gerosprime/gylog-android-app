@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -32,7 +31,7 @@
             android:layout_height="wrap_content" >
 
             <RelativeLayout
-
+                android:id="@+id/activity_workout_session_timer_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -49,6 +48,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/activity_workout_session_timer_label_container"
                     android:layout_toRightOf="@+id/activity_workout_session_rest_timer_rest"
                     android:layout_toLeftOf="@+id/activity_workout_session_add_minus_container"
                     android:layout_toStartOf="@+id/activity_workout_session_add_minus_container"

@@ -22,6 +22,7 @@ class DefaultRunningWorkoutSessionFinalizer
 
         val durationSeconds = (calEnd.timeInMillis - calStart.timeInMillis) / 1000
 
+        session.endDate = calEnd.time
         session.durationSeconds = durationSeconds
 
         FinalizedRunningSessionResult(session)
