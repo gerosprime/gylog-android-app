@@ -61,6 +61,22 @@ class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
                 }
             }
 
+            if (modelsCache.performedExercises.isEmpty()) {
+                val performedExercises = database.exercisePerformedDao().loadExercises()
+
+                for (performedExercise in performedExercises) {
+                    modelsCache.performedExercises[performedExercise.recordId!!] = performedExercise
+                }
+            }
+
+            if (modelsCache.performedSets.isEmpty()) {
+                val performedSets = database.performedSetEntityDao().loadPerformedSets()
+
+                for (performedSet in performedSets) {
+                    modelsCache.performedSets[performedSet.recordId!!] = performedSet
+                }
+            }
+
         }
 
     }

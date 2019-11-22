@@ -15,6 +15,9 @@ class DefaultWorkoutSessionSaver(private val modelsCache: ModelsCache,
 
             database.workoutSessionEntityDao().saveWholeSession(session)
 
+            modelsCache.workoutsMap[session.workoutId]!!.lastWorkoutSessionId = session.recordId
+            database.workoutEntityDao().saveWorkouts(listOf(modelsCache.workoutsMap[session.workoutId]!!))
+
             WorkoutSessionSaveResult(session)
         })
 

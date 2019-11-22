@@ -16,7 +16,8 @@ data class WorkoutEntity(
     @ColumnInfo(index = true)
     var programId: Long? = null,
     var day: Int? = null,
-    var totalTimeSeconds: Int? = null
+    var totalTimeSeconds: Int? = null,
+    var lastWorkoutSessionId: Long? = null
 
 ) {
 
@@ -31,7 +32,9 @@ data class WorkoutEntity(
             description,
             programId,
             day,
-            totalTimeSeconds)
+            totalTimeSeconds,
+            lastWorkoutSessionId
+        )
 
         for (exercise in exercises) {
             workoutCopy.exercises.add(exercise.deepCopy())
