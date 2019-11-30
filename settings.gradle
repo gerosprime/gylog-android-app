@@ -1,2 +1,2 @@
-include ':app', ':models', ':ui-programs', ':base', ':ui-exercises', ':ui-workouts'
+include ':app', ':models', ':ui-programs', ':base', ':ui-exercises', ':ui-workouts', ':ui-weight'
 rootProject.name='Gylog'

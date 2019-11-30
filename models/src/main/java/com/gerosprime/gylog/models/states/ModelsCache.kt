@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.models.states
 
+import com.gerosprime.gylog.models.body.weight.BodyWeightEntity
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
 import com.gerosprime.gylog.models.exercises.performed.ExercisePerformedEntity
 import com.gerosprime.gylog.models.exercises.performedsets.PerformedSetEntity
@@ -19,4 +20,6 @@ class ModelsCache (val programsMap : MutableMap<Long, ProgramEntity>,
                    val templateSets: ArrayList<TemplateSetEntity>,
                    val templateSetsMap: MutableMap<Long, TemplateSetEntity>,
                    val performedExercises : MutableMap<Long, ExercisePerformedEntity>,
-                   val performedSets : MutableMap<Long, PerformedSetEntity>)
+                   val performedSets : MutableMap<Long, PerformedSetEntity>,
+                   val bodyWeightMap : MutableMap<Long, BodyWeightEntity>,
+                   val bodyWeightPlotted : MutableMap<String, Float>)

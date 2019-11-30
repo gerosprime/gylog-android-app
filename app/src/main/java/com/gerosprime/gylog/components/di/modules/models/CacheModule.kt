@@ -1,8 +1,6 @@
 package com.gerosprime.gylog.components.di.modules.models
 
-import com.gerosprime.gylog.models.states.DefaultModelCacheBuilder
 import com.gerosprime.gylog.models.database.GylogEntityDatabase
-import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.states.*
 import dagger.Module
 import dagger.Provides
@@ -24,7 +22,10 @@ class CacheModule {
         exercisesList = arrayListOf(),
         templateExercisesMap = mutableMapOf(), templateExercises = arrayListOf(),
         templateSets = arrayListOf(), templateSetsMap = mutableMapOf(),
-        performedExercises = mutableMapOf(), performedSets = mutableMapOf())
+        performedExercises = mutableMapOf(), performedSets = mutableMapOf(),
+        bodyWeightMap = mutableMapOf(),
+        bodyWeightPlotted = mutableListOf()
+    )
 
     @Provides
     @Singleton
@@ -41,6 +42,5 @@ class CacheModule {
     fun provideModelCacheBuilder(modelCache : ModelsCache,
                                  database : GylogEntityDatabase) : ModelCacheBuilder
             = DefaultModelCacheBuilder(modelCache, database)
-
 
 }
