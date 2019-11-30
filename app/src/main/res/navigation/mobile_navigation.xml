@@ -3,18 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_programs">
 
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.gerosprime.gylog.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_home"-->
+<!--        android:name="com.gerosprime.gylog.ui.home.HomeFragment"-->
+<!--        android:label="@string/title_home"-->
+<!--        -->
+<!--        tools:layout="@layout/fragment_home" />-->
 
     <fragment
         android:id="@+id/navigation_programs"
         android:name="com.gerosprime.gylog.ui.programs.ProgramsDashboardFragment"
         android:label="@string/title_programs"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_you"
+        android:name="com.gerosprime.gylog.ui.you.YouFragment"
+        android:label="@string/title_you"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
