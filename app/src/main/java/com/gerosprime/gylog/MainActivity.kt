@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_programs, R.id.navigation_exercises
+                R.id.navigation_programs, R.id.navigation_you, R.id.navigation_exercises
             )
         )
 
@@ -124,11 +124,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigationItemSelected(destination: NavDestination) : Boolean {
         when (destination.id) {
+            R.id.navigation_you -> youNavigationSelected()
             R.id.navigation_programs -> programsNavigationSelected()
             R.id.navigation_home -> homeNavigationSelected()
             R.id.navigation_exercises -> exerciseNavigationSelected()
         }
         return true
+    }
+
+    private fun youNavigationSelected() {
+        if (floatingActionButton.isOrWillBeShown)
+            floatingActionButton.hide()
+
+        floatingActionButton.setOnClickListener {
+
+        }
     }
 
     private fun exerciseNavigationSelected() {
