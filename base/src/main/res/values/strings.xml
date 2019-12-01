@@ -40,5 +40,8 @@
     <string name="directions">Directions</string>
     <string name="description">Description</string>
     <string name="name">Name</string>
+    <string name="log">Log</string>
+    <string name="notes">notes</string>
+    <string name="date">Date</string>
 
 </resources>

@@ -21,5 +21,4 @@ class ModelsCache (val programsMap : MutableMap<Long, ProgramEntity>,
                    val templateSetsMap: MutableMap<Long, TemplateSetEntity>,
                    val performedExercises : MutableMap<Long, ExercisePerformedEntity>,
                    val performedSets : MutableMap<Long, PerformedSetEntity>,
-                   val bodyWeightMap : MutableMap<Long, BodyWeightEntity>,
-                   val bodyWeightPlotted : MutableMap<String, Float>)
+                   val bodyWeightMap : MutableMap<Long, BodyWeightEntity>)

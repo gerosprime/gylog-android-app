@@ -4,6 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gerosprime.gylog.base.components.android.SingleLiveEvent
 import com.gerosprime.gylog.base.components.di.ViewModelKey
+import com.gerosprime.gylog.models.body.weight.BodyWeightCacheLoader
+import com.gerosprime.gylog.models.body.weight.BodyWeightDatabaseSaver
+import com.gerosprime.gylog.models.body.weight.DefaultBodyWeightCacheLoader
 import com.gerosprime.gylog.models.exercises.ExerciseDatabaseSaver
 import com.gerosprime.gylog.models.exercises.ExercisesCacheLoader
 import com.gerosprime.gylog.models.exercises.templatesets.EditTemplateSetsCacheLoader
@@ -43,6 +46,7 @@ import com.gerosprime.gylog.ui.programs.detail.DefaultProgramDetailViewModel
 import com.gerosprime.gylog.ui.workouts.detail.DefaultWorkoutDetailViewModel
 import com.gerosprime.gylog.ui.workouts.exercises.DefaultWorkoutExerciseEditViewModel
 import com.gerosprime.gylog.ui.workouts.session.DefaultWorkoutSessionViewModel
+import com.gerosprime.ui.weight.DefaultBodyWeightGraphViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -186,6 +190,17 @@ class ViewModelModule {
             MutableLiveData(), MutableLiveData(), MutableLiveData(),
             AndroidSchedulers.mainThread(), Schedulers.io(),
             exerciseDatabaseSaver, exercisesCacheLoader)
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultBodyWeightGraphViewModel::class)
+    fun provideDefaultBodyWeightGraphViewModel(bodyWeightLoader : BodyWeightCacheLoader,
+                                               bodyWeightSaver : BodyWeightDatabaseSaver)
+            : ViewModel {
+        return DefaultBodyWeightGraphViewModel(MutableLiveData(), SingleLiveEvent(),
+            bodyWeightLoader, bodyWeightSaver,
+            AndroidSchedulers.mainThread(), Schedulers.io())
     }
 
 }

@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity
-class BodyWeightEntity (@PrimaryKey var recordId : Long,
+class BodyWeightEntity (@PrimaryKey var recordId : Long?,
                         var weight : Float, var dateLogged : Date,
-                        var note : String)
+                        var note : String = "") {
+
+}

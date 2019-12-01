@@ -1,4 +1,13 @@
 <resources>
+
+    <string name="log_weight">Log Body Weight</string>
     <string name="app_name">Weight</string>
     <string name="body_weight">Body Weight</string>
+
+    <string name="body_weight_is_required">Body Weight is required.</string>
+    <string name="notes_hint">Notes</string>
+
+    <string name="body_weight_date_title">Body Weight Log Date</string>
+    <string name="date_is_required">Date is required.</string>
+    <string name="date_is_invalid">Date is invalid.</string>
 </resources>

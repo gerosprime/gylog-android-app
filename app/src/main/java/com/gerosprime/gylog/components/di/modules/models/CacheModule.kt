@@ -23,9 +23,7 @@ class CacheModule {
         templateExercisesMap = mutableMapOf(), templateExercises = arrayListOf(),
         templateSets = arrayListOf(), templateSetsMap = mutableMapOf(),
         performedExercises = mutableMapOf(), performedSets = mutableMapOf(),
-        bodyWeightMap = mutableMapOf(),
-        bodyWeightPlotted = mutableListOf()
-    )
+        bodyWeightMap = mutableMapOf())
 
     @Provides
     @Singleton

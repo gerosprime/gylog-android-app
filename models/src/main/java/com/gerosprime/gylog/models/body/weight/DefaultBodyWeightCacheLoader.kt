@@ -1,25 +1,29 @@
 package com.gerosprime.gylog.models.body.weight
 
+import com.gerosprime.gylog.models.database.GylogEntityDatabase
+import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.states.ModelsCache
 import io.reactivex.Single
-import java.text.DateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DefaultBodyWeightCacheLoader(private val modelsCache: ModelsCache,
-                                   private val graphDateFormat : DateFormat)
+                                   private val cacheBuilder: ModelCacheBuilder)
     : BodyWeightCacheLoader {
     override fun load(bodyWeightId: Long): Single<BodyWeightCacheLoadResult> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return cacheBuilder.build().andThen(Single.fromCallable {
+            BodyWeightCacheLoadResult(modelsCache.bodyWeightMap[bodyWeightId]!!)
+        })
     }
 
     override fun loadAll(): Single<AllBodyWeightsCacheLoadResult>
-            = Single.fromCallable {
+            = cacheBuilder.build().andThen(Single.fromCallable {
 
-        val bodyWeightGraph : LinkedHashMap<String, Float> = linkedMapOf()
-        for (mutableEntry in modelsCache.bodyWeightMap) {
-            val value = mutableEntry.value
-            bodyWeightGraph[graphDateFormat.format(value.dateLogged)] = value.weight
+        val bodyWeightList : ArrayList<BodyWeightEntity> = arrayListOf()
+        for (value in modelsCache.bodyWeightMap.values) {
+            bodyWeightList.add(value)
         }
 
-        AllBodyWeightsCacheLoadResult(modelsCache.bodyWeightMap, bodyWeightGraph)
-    }
+        AllBodyWeightsCacheLoadResult(modelsCache.bodyWeightMap, bodyWeightList)
+    })
 }

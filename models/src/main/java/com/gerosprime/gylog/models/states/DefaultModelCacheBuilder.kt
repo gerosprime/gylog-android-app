@@ -77,6 +77,14 @@ class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
                 }
             }
 
+            if (modelsCache.bodyWeightMap.isEmpty()) {
+                val bodyWeights = database.bodyWeightEntityDao().loadBodyWeights()
+
+                for (bodyWeight in bodyWeights) {
+                    modelsCache.bodyWeightMap[bodyWeight.recordId!!] = bodyWeight
+                }
+            }
+
         }
 
     }
