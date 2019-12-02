@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="log_fat">Log Body Fat</string>
+
+    <string name="body_fat">Body Fat</string>
+
+    <string name="body_fat_is_required">Body Fat percentage is required.</string>
+    <string name="notes_hint">Notes</string>
+
+    <string name="body_fat_date_title">Body Fat Log Date</string>
+    <string name="date_is_required">Date is required.</string>
+    <string name="date_is_invalid">Date is invalid.</string>
+</resources>

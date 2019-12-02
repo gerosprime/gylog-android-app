@@ -15,9 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.programs.edit.load.EditProgramSetToCacheResult
 import com.gerosprime.gylog.models.programs.save.SaveProgramDatabaseResult
-import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheResult
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
-import com.gerosprime.gylog.ui.workouts.exercises.WorkoutExerciseEditActivity
+import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheResult
 import com.gerosprime.gylog.ui.exercises.templatesets.EditTemplateSetsActivity
 import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.DialogTags.TAG_ADD_WORKOUT_DIALOG
@@ -28,6 +27,7 @@ import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.Result.EXTRA_PRO
 import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionClicked
 import com.gerosprime.gylog.ui.programs.add.workouts.ProgramWorkoutsAdapter
 import com.gerosprime.gylog.ui.programs.workouts.AddWorkoutDialogFragment
+import com.gerosprime.gylog.ui.workouts.exercises.WorkoutExerciseEditActivity
 import com.google.android.material.textfield.TextInputLayout
 import dagger.android.AndroidInjection
 import javax.inject.Inject

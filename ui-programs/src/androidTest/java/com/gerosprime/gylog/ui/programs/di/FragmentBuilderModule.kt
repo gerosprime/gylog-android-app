@@ -13,5 +13,4 @@ abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector
     abstract fun contributeWorkoutDetailFragment() : WorkoutDetailDialogFragment
-
 }

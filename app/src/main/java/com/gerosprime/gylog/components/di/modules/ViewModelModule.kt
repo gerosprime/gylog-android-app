@@ -4,9 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gerosprime.gylog.base.components.android.SingleLiveEvent
 import com.gerosprime.gylog.base.components.di.ViewModelKey
+import com.gerosprime.gylog.models.body.fat.BodyFatCacheLoader
+import com.gerosprime.gylog.models.body.fat.BodyFatDatabaseSaver
 import com.gerosprime.gylog.models.body.weight.BodyWeightCacheLoader
 import com.gerosprime.gylog.models.body.weight.BodyWeightDatabaseSaver
-import com.gerosprime.gylog.models.body.weight.DefaultBodyWeightCacheLoader
 import com.gerosprime.gylog.models.exercises.ExerciseDatabaseSaver
 import com.gerosprime.gylog.models.exercises.ExercisesCacheLoader
 import com.gerosprime.gylog.models.exercises.templatesets.EditTemplateSetsCacheLoader
@@ -36,7 +37,6 @@ import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.U
 import com.gerosprime.gylog.models.workouts.runningsession.save.WorkoutSessionSaver
 import com.gerosprime.gylog.models.workouts.save.SaveWorkoutsDatabaseUC
 import com.gerosprime.gylog.ui.exercises.add.DefaultExerciseAddViewModel
-import com.gerosprime.gylog.ui.exercises.add.ExerciseAddViewModel
 import com.gerosprime.gylog.ui.exercises.dashboard.DefaultDashboardExercisesViewModel
 import com.gerosprime.gylog.ui.exercises.templatesets.DefaultEditTemplateSetsViewModel
 import com.gerosprime.gylog.ui.exercises.templatesets.detail.DefaultTemplateSetEditViewModel
@@ -46,6 +46,7 @@ import com.gerosprime.gylog.ui.programs.detail.DefaultProgramDetailViewModel
 import com.gerosprime.gylog.ui.workouts.detail.DefaultWorkoutDetailViewModel
 import com.gerosprime.gylog.ui.workouts.exercises.DefaultWorkoutExerciseEditViewModel
 import com.gerosprime.gylog.ui.workouts.session.DefaultWorkoutSessionViewModel
+import com.gerosprime.ui.fat.DefaultBodyFatGraphViewModel
 import com.gerosprime.ui.weight.DefaultBodyWeightGraphViewModel
 import dagger.Module
 import dagger.Provides
@@ -196,10 +197,23 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(DefaultBodyWeightGraphViewModel::class)
     fun provideDefaultBodyWeightGraphViewModel(bodyWeightLoader : BodyWeightCacheLoader,
-                                               bodyWeightSaver : BodyWeightDatabaseSaver)
+                                               bodyWeightSaver : BodyWeightDatabaseSaver
+    )
             : ViewModel {
         return DefaultBodyWeightGraphViewModel(MutableLiveData(), SingleLiveEvent(),
             bodyWeightLoader, bodyWeightSaver,
+            AndroidSchedulers.mainThread(), Schedulers.io())
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultBodyFatGraphViewModel::class)
+    fun provideDefaultBodyFatGraphViewModel(bodyFatLoader : BodyFatCacheLoader,
+                                               bodyFatSaver : BodyFatDatabaseSaver
+    )
+            : ViewModel {
+        return DefaultBodyFatGraphViewModel(MutableLiveData(), SingleLiveEvent(),
+            bodyFatLoader, bodyFatSaver,
             AndroidSchedulers.mainThread(), Schedulers.io())
     }
 

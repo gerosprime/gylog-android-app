@@ -85,6 +85,15 @@ class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
                 }
             }
 
+
+            if (modelsCache.bodyFatMap.isEmpty()) {
+                val bodyFats = database.bodyFatEntityDao().loadBodyFats()
+
+                for (bodyFat in bodyFats) {
+                    modelsCache.bodyFatMap[bodyFat.recordId!!] = bodyFat
+                }
+            }
+
         }
 
     }

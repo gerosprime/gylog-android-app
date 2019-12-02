@@ -5,5 +5,5 @@ import dagger.Module
 @Module(includes = [CacheModule::class, ProgramsModelModule::class,
                     WorkoutModelModule::class, WorkoutSessionModelModule::class,
                         DatabaseModule::class,
-                    ExercisesModelModule::class, BodyWeightModule::class])
+                    ExercisesModelModule::class, BodyWeightModule::class, BodyFatModule::class])
 class ModelsModule

@@ -3,6 +3,7 @@ package com.gerosprime.gylog.components.di.modules.models
 import com.gerosprime.gylog.models.body.weight.BodyWeightCacheLoader
 import com.gerosprime.gylog.models.body.weight.BodyWeightDatabaseSaver
 import com.gerosprime.gylog.models.body.weight.DefaultBodyWeightCacheLoader
+
 import com.gerosprime.gylog.models.body.weight.DefaultBodyWeightDatabaseSaver
 import com.gerosprime.gylog.models.database.GylogEntityDatabase
 import com.gerosprime.gylog.models.states.ModelCacheBuilder

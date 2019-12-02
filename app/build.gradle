@@ -68,6 +68,7 @@ dependencies {
     implementation project(path: ':ui-exercises')
     implementation project(path: ':ui-workouts')
     implementation project(path: ':ui-weight')
+    implementation project(path: ':ui-fat')
     implementation project(path: ':base')
     implementation project(path: ':models')
 }

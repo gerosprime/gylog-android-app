@@ -3,6 +3,7 @@ package com.gerosprime.gylog.components.di.modules
 import com.gerosprime.gylog.ui.exercises.dashboard.DashboardExercisesFragment
 import com.gerosprime.gylog.ui.programs.ProgramsDashboardFragment
 import com.gerosprime.gylog.ui.workouts.detail.WorkoutDetailDialogFragment
+import com.gerosprime.ui.fat.BodyFatGraphFragment
 import com.gerosprime.ui.weight.BodyWeightGraphFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -22,5 +23,8 @@ abstract class FragmentBuilders {
 
     @ContributesAndroidInjector
     abstract fun contributeBodyWeightFragment() : BodyWeightGraphFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeBodyFatGraphFragment() : BodyFatGraphFragment
 
 }
