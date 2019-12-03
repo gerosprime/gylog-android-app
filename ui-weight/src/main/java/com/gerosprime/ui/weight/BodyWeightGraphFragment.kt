@@ -119,6 +119,8 @@ class BodyWeightGraphFragment : Fragment(),
         val lineDataSet = LineDataSet(points, "")
         lineDataSet.valueTextSize = 12f
         lineDataSet.valueFormatter = WeightValueFormatter()
+        lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        lineDataSet.lineWidth = 2.5f
 
         for (bodyWeightEntity in result.bodyWeightArray) {
             lineDataSet.addEntry(

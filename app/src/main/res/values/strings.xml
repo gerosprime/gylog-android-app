@@ -6,4 +6,5 @@
     <string name="title_exercises">Exercises</string>
     <string name="create_program">Create Program</string>
     <string name="title_you">You</string>
+    <string name="body_measurement_summary">Body Measurement Summary</string>
 </resources>

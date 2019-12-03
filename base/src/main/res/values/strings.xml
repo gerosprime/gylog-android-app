@@ -10,6 +10,7 @@
     <string name="rest">Rest</string>
     <string name="delete">Delete</string>
     <string name="weight">Weight</string>
+    <string name="fat">Fat</string>
     <string name="kilogram">KG</string>
     <string name="edit_set">Edit Set</string>
     <string name="edit">Edit</string>
@@ -43,5 +44,6 @@
     <string name="log">Log</string>
     <string name="notes">notes</string>
     <string name="date">Date</string>
+    <string name="summary">Summary</string>
 
 </resources>

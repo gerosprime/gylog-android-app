@@ -2,7 +2,7 @@
     <string name="app_name">ui-programs</string>
 
     <string name="your_own_programs">Your own Programs</string>
-    <string name="existing_programs">Existing Programs</string>
+    <string name="strength_programs">Strength Programs</string>
 
     <string name="program_name">Name</string>
     <string name="program_description">Description</string>

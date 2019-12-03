@@ -68,6 +68,7 @@ class BodyFatGraphFragment : Fragment(),
         lineChart.xAxis.setDrawGridLines(false)
         lineChart.xAxis.textSize = 12f
         lineChart.axisLeft.textSize = 12f
+
         // lineChart.axisLeft.valueFormatter = WeightValueFormatter()
 
         lineChart.axisRight.setDrawLabels(false)
@@ -119,6 +120,8 @@ class BodyFatGraphFragment : Fragment(),
         val lineDataSet = LineDataSet(points, "")
         lineDataSet.valueTextSize = 12f
         lineDataSet.valueFormatter = FatValueFormatter()
+        lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        lineDataSet.lineWidth = 2.5f
 
         for (bodyFatEntity in result.bodyFatArray) {
             lineDataSet.addEntry(
