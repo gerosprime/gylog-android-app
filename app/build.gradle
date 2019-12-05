@@ -63,12 +63,12 @@ dependencies {
     androidTestImplementation 'androidx.fragment:fragment-testing:1.1.0'
 
 
-
     implementation project(path: ':ui-programs')
     implementation project(path: ':ui-exercises')
     implementation project(path: ':ui-workouts')
     implementation project(path: ':ui-weight')
     implementation project(path: ':ui-fat')
+    implementation project(path: ':ui-settings')
     implementation project(path: ':base')
     implementation project(path: ':models')
 }

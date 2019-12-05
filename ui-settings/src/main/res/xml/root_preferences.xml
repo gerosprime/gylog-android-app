@@ -1,0 +1,70 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="Measurement">
+
+        <ListPreference
+            app:defaultValue="metric_kg"
+            app:entries="@array/measurement_unit_weight_entries"
+            app:entryValues="@array/measurement_unit_weight_values"
+            app:key="measurement_unit_weight"
+            app:title="Weight Unit"
+            app:summary="Unit used for weight measurement."
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="metric_cm"
+            app:entries="@array/measurement_unit_size_entries"
+            app:entryValues="@array/measurement_unit_size_values"
+            app:key="measurement_unit_size"
+            app:title="Size Unit"
+            app:summary="Unit used for size measurement."
+            app:useSimpleSummaryProvider="true" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Data">
+
+        <Preference android:key="data_sync_data"
+            app:title="Sync Data"
+            app:summary="Databases will be synced with the data in your drive." />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="User">
+
+        <Preference
+            app:key="user_account_google"
+            app:title="Google Account"
+            app:summary="Link Google account to export/import your data to/from drive."
+            app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            app:dependency="user_account_google"
+            app:key="user_remove_account"
+            app:title="Remove account"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/app_name">
+
+        <Preference
+            app:key="application_rate"
+            app:title="Rate Gylog!" />
+
+        <Preference
+            app:key="application_open_source"
+            app:title="Third-party software"
+            app:summary="Libraries used to develop this app!" />
+
+        <Preference
+            app:key="application_developer"
+            app:summary="About the developer of this app"
+            app:title="Application Developer" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

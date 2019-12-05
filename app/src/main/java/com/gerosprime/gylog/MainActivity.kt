@@ -3,6 +3,8 @@ package com.gerosprime.gylog
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavDestination
@@ -17,6 +19,7 @@ import com.gerosprime.gylog.ui.exercises.add.ExerciseAddActivity
 import com.gerosprime.gylog.ui.exercises.dashboard.DashboardExercisesFragment
 import com.gerosprime.gylog.ui.programs.ProgramsDashboardFragment
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
+import com.gerosprime.gylog.ui.settings.SettingsActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -62,6 +65,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
         // navView.setOnNavigationItemSelectedListener { navigationItemSelected(it) }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_activity_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.main_activity_menu_settings ->
+                startActivity(Intent(this, SettingsActivity::class.java))
+        }
+        return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

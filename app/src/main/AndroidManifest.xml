@@ -11,38 +11,40 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
+            android:theme="@style/AppTheme"
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
+        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity android:name=".ui.programs.add.ProgramsAddActivity"
+        <activity
+            android:name=".ui.programs.add.ProgramsAddActivity"
             android:label="@string/create_program"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity android:name=".ui.workouts.exercises.WorkoutExerciseEditActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity android:name=".ui.exercises.templatesets.EditTemplateSetsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".ui.exercises.templatesets.detail.TemplateSetEditActivity"
+        <activity
+            android:name=".ui.workouts.exercises.WorkoutExerciseEditActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".ui.programs.detail.ProgramDetailActivity"
+        <activity
+            android:name=".ui.exercises.templatesets.EditTemplateSetsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".ui.workouts.session.WorkoutSessionActivity"
+        <activity
+            android:name=".ui.exercises.templatesets.detail.TemplateSetEditActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".ui.exercises.add.ExerciseAddActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+        <activity
+            android:name=".ui.programs.detail.ProgramDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.workouts.session.WorkoutSessionActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.exercises.add.ExerciseAddActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
