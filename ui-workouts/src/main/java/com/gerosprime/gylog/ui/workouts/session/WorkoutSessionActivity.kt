@@ -62,7 +62,11 @@ class WorkoutSessionActivity : AppCompatActivity(),
     // Adapter listener implementations
     private val setItemClick = object : OnItemClickListener<PerformedSetClick> {
         override fun onItemClicked(item: PerformedSetClick) {
-            showEditSetDialog(item)
+            if (!item.performedSet.flagRemoved) {
+                showEditSetDialog(item)
+            } else {
+                viewModel.unRemoveTemplateSet(item.exerciseIndex, item.setIndex)
+            }
         }
     }
 

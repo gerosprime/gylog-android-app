@@ -11,6 +11,7 @@ import com.gerosprime.gylog.models.exercises.performed.ExercisePerformedEntity
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.add.AddPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.EditPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.RemoveWorkoutSessionSetResult
+import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.UnflagRemovePerformedSetResult
 import com.gerosprime.gylog.ui.workouts.R
 import com.gerosprime.gylog.ui.workouts.session.adapters.sets.PerformedSetAdapter
 import com.google.android.material.button.MaterialButton
@@ -119,13 +120,18 @@ internal class PerformedExerciseViewHolder
             is RemoveWorkoutSessionSetResult -> {
                 val adapter = setsRecyclerView.adapter
                 val payload = payloads[0] as RemoveWorkoutSessionSetResult
-                adapter!!.notifyItemRemoved(payload.setIndex)
-                adapter.notifyItemRangeChanged(payload.setIndex, adapter.itemCount)
+
+                if (payload.flagRemoved) {
+                    adapter?.notifyItemChanged(payload.setIndex)
+                } else {
+                    adapter?.notifyItemRemoved(payload.setIndex)
+                    adapter?.notifyItemRangeChanged(payload.setIndex, adapter.itemCount)
+                }
             }
 
-            is UnRemovePerformSetClick -> {
+            is UnflagRemovePerformedSetResult -> {
                 val adapter = setsRecyclerView.adapter
-                val payload = payloads[0] as UnRemovePerformSetClick
+                val payload = payloads[0] as UnflagRemovePerformedSetResult
                 adapter!!.notifyItemChanged(payload.setIndex)
             }
         }

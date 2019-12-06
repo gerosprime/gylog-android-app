@@ -19,6 +19,8 @@ internal class PerformedSetViewHolder(
 ) : SessionSetViewHolder(itemView) {
 
     private val content : View = itemView.findViewById(R.id.viewholder_workout_session_sets_content)
+    private val deletedContent : View = itemView.findViewById(R.id.viewholder_workout_session_deleted_container)
+    private val unDeletedContent : View = itemView.findViewById(R.id.viewholder_workout_session_sets_undeleted_content)
 
     private val imageCheck : ImageView = itemView.findViewById(R.id.viewholder_workout_session_sets_check)
 
@@ -84,6 +86,18 @@ internal class PerformedSetViewHolder(
 
         positionTextView.text = resources
             .getString(R.string.workout_session_set_number_format, position + 1)
+
+        when (performedSet.flagRemoved) {
+            true -> {
+                deletedContent.visibility = View.VISIBLE
+                unDeletedContent.visibility = View.INVISIBLE
+            }
+            else -> {
+                deletedContent.visibility = View.INVISIBLE
+                unDeletedContent.visibility = View.VISIBLE
+            }
+        }
+
 
         when {
             (performedSet.weight != null || performedSet.reps != null) ->
