@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<about>
+    <me.jfenn.attribouter.wedges.AppWedge>
+
+    </me.jfenn.attribouter.wedges.AppWedge>
+
+<!--    <me.jfenn.attribouter.wedges.TextWedge text="@string/html" />-->
+    <!-- <text> elements can be added anywhere directly within the <about> tag -->
+    <!-- they support html formatting (<p> <b> <i>) & links (<a href="">) -->
+
+<!--    <me.jfenn.attribouter.wedges.link.PlayStoreLinkWedge  />-->
+
+
+    <me.jfenn.attribouter.wedges.ContributorsWedge
+        showDefaults="false">
+        <me.jfenn.attribouter.wedges.ContributorWedge
+            email="glennpascual011@gmail.com"
+            login="gerosprime"
+            position="1"
+            task="Owner">
+
+        </me.jfenn.attribouter.wedges.ContributorWedge>
+
+    </me.jfenn.attribouter.wedges.ContributorsWedge>
+
+    <me.jfenn.attribouter.wedges.LicensesWedge
+        overflow="1"
+        showDefaults="false">
+
+        <me.jfenn.attribouter.wedges.LicenseWedge
+            description="Something Does Stuff With Things"
+            licenseName="This Is A License"
+            title="Library Something Or Other"
+            website="https://jfenn.me/" />
+        <!-- this data is not fetched from github, and works exactly the same as the contributors -->
+        <!-- some license identifiers can be found here https://developer.github.com/v3/licenses/ -->
+    </me.jfenn.attribouter.wedges.LicensesWedge>
+
+    <me.jfenn.attribouter.wedges.LicensesWedge
+        overflow="0"
+        title="Library Licenses" />
+
+</about>

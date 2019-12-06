@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Gylog Settings</string>
+    <string name="html"><![CDATA[I like things that do stuff. <a href="https://jfenn.me/">This</a> is a link.]]></string>
 </resources>
