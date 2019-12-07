@@ -40,10 +40,11 @@ class WorkoutSessionModelModule {
 
     @Singleton
     @Provides
-    fun provideDefaultRunningWorkoutSessionLoader(modelsCache: ModelsCache,
+    fun provideDefaultRunningWorkoutSessionLoader(cacheBuilder: ModelCacheBuilder,
+                                                  modelsCache: ModelsCache,
                                                   sessionCache: RunningWorkoutSessionCache)
             : RunningWorkoutSessionLoader
-            = DefaultRunningWorkoutSessionLoader(modelsCache, sessionCache)
+            = DefaultRunningWorkoutSessionLoader(cacheBuilder, modelsCache, sessionCache)
 
     @Singleton
     @Provides

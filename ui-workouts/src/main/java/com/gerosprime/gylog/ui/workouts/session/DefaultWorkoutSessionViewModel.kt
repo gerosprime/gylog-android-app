@@ -16,6 +16,7 @@ import com.gerosprime.gylog.models.workouts.runningsession.load.RunningWorkoutSe
 import com.gerosprime.gylog.models.workouts.runningsession.load.WorkoutSessionCacheLoadResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.add.AddPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.add.AddPerformedSetUC
+import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.ClearPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.EditPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.EditPerformedSetUC
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.RemovePerformedSetUC
@@ -28,6 +29,7 @@ import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
+import java.util.*
 
 
 class DefaultWorkoutSessionViewModel(
@@ -39,6 +41,7 @@ class DefaultWorkoutSessionViewModel(
     override val removeSetMutableLiveData: MutableLiveData<RemoveWorkoutSessionSetResult>,
     override val unFlagRemoveSetMutableLiveData: MutableLiveData<UnflagRemovePerformedSetResult>,
     override val completeSetMutableLiveData: MutableLiveData<EditPerformedSetResult>,
+    override val clearSetMutableLiveData: MutableLiveData<ClearPerformedSetResult>,
     override val sessionTimerMLD: MutableLiveData<String>,
     override val restTimerMLD: MutableLiveData<String>,
     override val finalizedSessionMLD: MutableLiveData<FinalizedRunningSessionResult>,
@@ -136,9 +139,11 @@ class DefaultWorkoutSessionViewModel(
         exercisePerformedIndex: Int,
         setIndex: Int,
         reps: Int?,
-        weight: Float?) {
+        weight: Float?,
+        datePerformed : Date?) {
 
-        var edit = editPerformedSetUC.edit(exercisePerformedIndex, setIndex, reps, weight)
+        var edit = editPerformedSetUC.edit(exercisePerformedIndex, setIndex, reps, weight,
+            datePerformed)
 
         if (uiScheduler != null)
             edit = edit.observeOn(uiScheduler)
@@ -149,6 +154,22 @@ class DefaultWorkoutSessionViewModel(
         compositeDisposable.add(edit.subscribe(
             Consumer {
                 completeSetMutableLiveData.value = it
+            }))
+    }
+
+    override fun clearSet(exercisePerformedIndex: Int, setIndex: Int) {
+
+        var edit = editPerformedSetUC.clear(exercisePerformedIndex, setIndex)
+
+        if (uiScheduler != null)
+            edit = edit.observeOn(uiScheduler)
+
+        if (backgroundScheduler != null)
+            edit = edit.subscribeOn(backgroundScheduler)
+
+        compositeDisposable.add(edit.subscribe(
+            Consumer {
+                clearSetMutableLiveData.value = it
             }))
     }
 

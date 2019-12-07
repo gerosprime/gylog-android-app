@@ -7,10 +7,12 @@ import com.gerosprime.gylog.models.workouts.runningsession.discard.RunningWorkou
 import com.gerosprime.gylog.models.workouts.runningsession.finalizer.FinalizedRunningSessionResult
 import com.gerosprime.gylog.models.workouts.runningsession.load.WorkoutSessionCacheLoadResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.add.AddPerformedSetResult
+import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.ClearPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.EditPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.RemoveWorkoutSessionSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.UnflagRemovePerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.save.WorkoutSessionSaveResult
+import java.util.*
 
 interface WorkoutSessionViewModel {
 
@@ -22,6 +24,7 @@ interface WorkoutSessionViewModel {
     val removeSetMutableLiveData : MutableLiveData<RemoveWorkoutSessionSetResult>
     val unFlagRemoveSetMutableLiveData : MutableLiveData<UnflagRemovePerformedSetResult>
     val completeSetMutableLiveData : MutableLiveData<EditPerformedSetResult>
+    val clearSetMutableLiveData : MutableLiveData<ClearPerformedSetResult>
 
     val finalizedSessionMLD : MutableLiveData<FinalizedRunningSessionResult>
     val savedSessionMLD : MutableLiveData<WorkoutSessionSaveResult>
@@ -35,7 +38,10 @@ interface WorkoutSessionViewModel {
     fun removeSet(exercisePerformedIndex : Int, setIndex: Int)
     fun unRemoveTemplateSet(exercisePerformedIndex : Int, setIndex: Int)
     fun editSet(exercisePerformedIndex : Int,
-                setIndex: Int, reps : Int?, weight: Float?)
+                setIndex: Int, reps : Int?, weight: Float?,
+                datePerformed : Date?)
+
+    fun clearSet(exercisePerformedIndex : Int, setIndex: Int)
 
     fun resumeWorkoutSession(workoutRecordId: Long)
 

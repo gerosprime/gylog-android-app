@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="@dimen/dimen_16dp"
+        android:background="@color/colorAccent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            tools:text="@tools:sample/lorem"
+            android:id="@+id/fragment_session_info_dialog_title"
+            android:textAppearance="?android:textAppearanceLargeInverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="@string/information_about_the_current_workout_session"
+            android:id="@+id/fragment_session_info_dialog_subtitle"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:textAppearance="?android:textAppearanceMediumInverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:layout_marginBottom="@dimen/dimen_8dp"
+        android:layout_marginLeft="@dimen/dimen_16dp"
+        android:layout_marginRight="@dimen/dimen_16dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/dimen_2dp"
+                android:layout_marginBottom="@dimen/dimen_2dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@string/session_name_colon"
+                android:layout_marginRight="@dimen/dimen_4dp"
+                android:layout_marginEnd="@dimen/dimen_4dp"
+                android:id="@+id/fragment_session_info_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:gravity="end|center_vertical"
+                android:layout_toRightOf="@id/fragment_session_info_name"
+                android:layout_toEndOf="@id/fragment_session_info_name"
+                android:layout_marginTop="@dimen/dimen_2dp"
+                android:layout_marginBottom="@dimen/dimen_2dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Arms and Leg Day"
+                android:id="@+id/fragment_session_info_name_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginBottom="@dimen/dimen_4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/dimen_2dp"
+                android:layout_marginBottom="@dimen/dimen_2dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@string/duration_colon"
+                android:layout_marginRight="@dimen/dimen_4dp"
+                android:layout_marginEnd="@dimen/dimen_4dp"
+                android:id="@+id/fragment_session_info_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:gravity="end|center_vertical"
+                android:layout_toRightOf="@id/fragment_session_info_duration"
+                android:layout_toEndOf="@id/fragment_session_info_duration"
+                android:layout_marginTop="@dimen/dimen_2dp"
+                android:layout_marginBottom="@dimen/dimen_2dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="01:32:32"
+                android:id="@+id/fragment_session_info_duration_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginBottom="@dimen/dimen_4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/dimen_2dp"
+                android:layout_marginBottom="@dimen/dimen_2dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@string/sets_performed_colon"
+                android:layout_marginRight="@dimen/dimen_4dp"
+                android:layout_marginEnd="@dimen/dimen_4dp"
+                android:id="@+id/fragment_session_info_sets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:gravity="end|center_vertical"
+                android:layout_toRightOf="@id/fragment_session_info_sets"
+                android:layout_toEndOf="@id/fragment_session_info_sets"
+                android:layout_marginTop="@dimen/dimen_2dp"
+                android:layout_marginBottom="@dimen/dimen_2dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="01:32:32"
+                android:id="@+id/fragment_session_info_sets_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginBottom="@dimen/dimen_4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/dimen_2dp"
+                android:layout_marginBottom="@dimen/dimen_2dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@string/total_weight_colon"
+                android:layout_marginRight="@dimen/dimen_4dp"
+                android:layout_marginEnd="@dimen/dimen_4dp"
+                android:id="@+id/fragment_session_info_total_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:gravity="end|center_vertical"
+                android:layout_toRightOf="@id/fragment_session_info_total_weight"
+                android:layout_toEndOf="@id/fragment_session_info_total_weight"
+                android:layout_marginTop="@dimen/dimen_2dp"
+                android:layout_marginBottom="@dimen/dimen_2dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="3500 KG"
+                android:id="@+id/fragment_session_info_total_weight_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:visibility="gone"
+            android:id="@+id/fragment_session_info_dialog_cancel"
+            android:text="@string/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_marginRight="@dimen/dimen_8dp"
+            android:visibility="gone"
+            android:id="@+id/fragment_session_info_dialog_confirm"
+            android:text="@string/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/fragment_session_info_dialog_dismiss"
+            android:layout_marginLeft="@dimen/dimen_16dp"
+            android:layout_marginRight="@dimen/dimen_16dp"
+            android:layout_marginBottom="@dimen/dimen_8dp"
+            android:text="@string/dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

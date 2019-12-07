@@ -2,6 +2,7 @@ package com.gerosprime.gylog.models.workouts.runningsession.performedset.edit
 
 import com.gerosprime.gylog.models.states.RunningWorkoutSessionCache
 import io.reactivex.Single
+import java.util.*
 
 class DefaultEditPerformedSetUC(private val sessionCache: RunningWorkoutSessionCache)
     : EditPerformedSetUC {
@@ -10,16 +11,31 @@ class DefaultEditPerformedSetUC(private val sessionCache: RunningWorkoutSessionC
         exercisePerformedIndex: Int,
         setIndex: Int,
         reps: Int?,
-        weight: Float?
+        weight: Float?,
+        performedDate : Date?
     ): Single<EditPerformedSetResult> = Single.fromCallable {
 
         val performedSet = sessionCache.prePerformedExercises!![exercisePerformedIndex]
             .performedSets[setIndex]
         performedSet.reps = reps
         performedSet.weight = weight
+        performedSet.datePerformed = performedDate
 
         EditPerformedSetResult(exercisePerformedIndex, setIndex, performedSet,
             reps, weight)
+
+    }
+
+    override fun clear(
+        exercisePerformedIndex: Int,
+        setIndex: Int
+    ): Single<ClearPerformedSetResult> = Single.fromCallable {
+        val performedSet = sessionCache.prePerformedExercises!![exercisePerformedIndex]
+            .performedSets[setIndex]
+        performedSet.reps = null
+        performedSet.weight = null
+        performedSet.datePerformed = null
+        ClearPerformedSetResult(exercisePerformedIndex, setIndex, performedSet)
 
     }
 }

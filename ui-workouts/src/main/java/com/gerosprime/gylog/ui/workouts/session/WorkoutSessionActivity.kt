@@ -20,20 +20,24 @@ import com.gerosprime.gylog.models.workouts.runningsession.discard.RunningWorkou
 import com.gerosprime.gylog.models.workouts.runningsession.finalizer.FinalizedRunningSessionResult
 import com.gerosprime.gylog.models.workouts.runningsession.load.WorkoutSessionCacheLoadResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.add.AddPerformedSetResult
+import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.ClearPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.EditPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.RemoveWorkoutSessionSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.UnflagRemovePerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.save.WorkoutSessionSaveResult
 import com.gerosprime.gylog.ui.workouts.R
+import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity.DialogTag.SESSION_INFO
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity.Extras.WORKOUT_RECORD_ID
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity.States.RESUME_WORKOUT
 import com.gerosprime.gylog.ui.workouts.session.adapters.exercises.*
+import com.gerosprime.gylog.ui.workouts.session.info.SessionInfoDialogFragment
 import dagger.android.AndroidInjection
+import java.util.*
 import javax.inject.Inject
 
 
 class WorkoutSessionActivity : AppCompatActivity(),
-    PerformedSetEditDialogFragment.SetEditListener {
+    PerformedSetEditDialogFragment.SetEditListener, SessionInfoDialogFragment.ConfirmClickListener {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -50,6 +54,9 @@ class WorkoutSessionActivity : AppCompatActivity(),
     private lateinit var addTimerButton : ImageButton
     private lateinit var minusTimerButton : ImageButton
 
+    object DialogTag {
+        const val SESSION_INFO = "dialog_session_info"
+    }
 
     object States {
         const val RESUME_WORKOUT = "state_resume_workout"
@@ -94,6 +101,10 @@ class WorkoutSessionActivity : AppCompatActivity(),
 
     private val observerEdit = Observer<EditPerformedSetResult> {
         exerciseSetCompleted(it)
+    }
+
+    private val observerClear = Observer<ClearPerformedSetResult> {
+        exerciseSetClear(it)
     }
 
     private val observerUnRemove = Observer<UnflagRemovePerformedSetResult> {
@@ -178,6 +189,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
             .observe(this, observerRemove)
 
         viewModel.completeSetMutableLiveData.observe(this, observerEdit)
+        viewModel.clearSetMutableLiveData.observe(this, observerClear)
 
         viewModel.restTimerMLD.observe(this, observerRest)
 
@@ -197,14 +209,25 @@ class WorkoutSessionActivity : AppCompatActivity(),
                 viewModel.discardWorkoutSession()
             }
             R.id.activity_workout_session_finish -> {
-                viewModel.finishWorkoutSession()
+
+                showWorkoutSessionFinalizeDialog()
+                // viewModel.finishWorkoutSession()
+            }
+            R.id.activity_workout_session_info -> {
+                showSessionInfoDialog()
             }
         }
         return true
     }
 
+    private fun showSessionInfoDialog() {
+        SessionInfoDialogFragment.createInstance(false)
+            .show(supportFragmentManager, SESSION_INFO)
+    }
+
     private fun showWorkoutSessionFinalizeDialog() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        SessionInfoDialogFragment.createInstance(true)
+            .show(supportFragmentManager, SESSION_INFO)
     }
 
     private fun exerciseSetUnRemoved(result: UnflagRemovePerformedSetResult?) {
@@ -223,6 +246,15 @@ class WorkoutSessionActivity : AppCompatActivity(),
 
         val adapter = exercisesRecyclerView.adapter
         adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
+    }
+
+    private fun exerciseSetClear(result: ClearPerformedSetResult?) {
+        if (result == null)
+            return
+
+        val adapter = exercisesRecyclerView.adapter
+        adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
+
     }
 
     private fun exerciseSetCompleted(result: EditPerformedSetResult?) {
@@ -286,8 +318,9 @@ class WorkoutSessionActivity : AppCompatActivity(),
         dialog.show(supportFragmentManager, "")
     }
 
-    override fun onSetEdit(exerciseIndex: Int, setIndex: Int, weight: Float?, reps: Int?) {
-        viewModel.editSet(exerciseIndex, setIndex, reps, weight)
+    override fun onSetEdit(exerciseIndex: Int, setIndex: Int, weight: Float?,
+                           reps: Int?, datePerformed : Date?) {
+        viewModel.editSet(exerciseIndex, setIndex, reps, weight, datePerformed)
     }
 
     private fun populateLoadedSession(result: WorkoutSessionCacheLoadResult) {
@@ -327,4 +360,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
         viewModel.discardWorkoutSession()
     }
 
+    override fun onConfirmed(source: SessionInfoDialogFragment) {
+        viewModel.finishWorkoutSession()
+    }
 }

@@ -46,6 +46,7 @@ import com.gerosprime.gylog.ui.programs.detail.DefaultProgramDetailViewModel
 import com.gerosprime.gylog.ui.workouts.detail.DefaultWorkoutDetailViewModel
 import com.gerosprime.gylog.ui.workouts.exercises.DefaultWorkoutExerciseEditViewModel
 import com.gerosprime.gylog.ui.workouts.session.DefaultWorkoutSessionViewModel
+import com.gerosprime.gylog.ui.workouts.session.info.DefaultSessionInfoViewModel
 import com.gerosprime.ui.fat.DefaultBodyFatGraphViewModel
 import com.gerosprime.ui.weight.DefaultBodyWeightGraphViewModel
 import dagger.Module
@@ -171,7 +172,7 @@ class ViewModelModule {
             : ViewModel {
         return DefaultWorkoutSessionViewModel(MutableLiveData(), MutableLiveData(),
             MutableLiveData(), MutableLiveData(), SingleLiveEvent(),
-            SingleLiveEvent(), SingleLiveEvent(),
+            SingleLiveEvent(), SingleLiveEvent(), SingleLiveEvent(),
             SingleLiveEvent(), SingleLiveEvent(),
             SingleLiveEvent(), SingleLiveEvent(), SingleLiveEvent(),
             createWorkoutSessionUC, runningWorkoutSessionLoader,
@@ -215,6 +216,18 @@ class ViewModelModule {
         return DefaultBodyFatGraphViewModel(MutableLiveData(), SingleLiveEvent(),
             bodyFatLoader, bodyFatSaver,
             AndroidSchedulers.mainThread(), Schedulers.io())
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultSessionInfoViewModel::class)
+    fun provideDefaultSessionInfoViewModel(
+        runningWorkoutSessionLoader: RunningWorkoutSessionLoader
+    )
+            : ViewModel {
+        return DefaultSessionInfoViewModel(MutableLiveData(), SingleLiveEvent(),
+            runningWorkoutSessionLoader, AndroidSchedulers.mainThread(),
+            Schedulers.io(), Schedulers.computation())
     }
 
 }

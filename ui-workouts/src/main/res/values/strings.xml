@@ -31,5 +31,12 @@
     <string name="history">History</string>
 
     <string name="time_rest_format">%s Rest</string>
+    <string name="session_name_colon">Session name:</string>
+    <string name="duration_colon">Duration:</string>
+    <string name="sets_performed_colon">Sets Performed:</string>
+    <string name="total_weight_colon">Total Weight:</string>
+    <string name="information_about_the_current_workout_session">Information about the current workout session</string>
+    <string name="please_confirm_to_finish_workout">Please confirm to finish workout</string>
+    <string name="session_info">Session Info</string>
 
 </resources>

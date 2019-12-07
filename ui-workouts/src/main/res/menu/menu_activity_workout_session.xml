@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/activity_workout_session_finish"
-        android:title="@string/finish"
-        app:showAsAction="always" />
+        android:title="@string/finish" />
+
+    <item android:id="@+id/activity_workout_session_info"
+        android:title="@string/session_info" />
 
 </menu>

@@ -20,6 +20,7 @@ import com.gerosprime.gylog.ui.workouts.session.PerformedSetEditDialogFragment.E
 import com.gerosprime.gylog.ui.workouts.session.PerformedSetEditDialogFragment.Extras.REPS
 import com.gerosprime.gylog.ui.workouts.session.PerformedSetEditDialogFragment.Extras.WEIGHT
 import com.google.android.material.textfield.TextInputLayout
+import java.util.*
 
 
 class PerformedSetEditDialogFragment : DialogFragment() {
@@ -81,7 +82,8 @@ class PerformedSetEditDialogFragment : DialogFragment() {
     interface SetEditListener {
         fun onSetEdit(exerciseIndex : Int,
                       setIndex : Int,
-                      weight : Float?, reps : Int?)
+                      weight : Float?, reps : Int?,
+                      datePerformed : Date?)
     }
 
     private lateinit var titleTextView: TextView
@@ -94,6 +96,7 @@ class PerformedSetEditDialogFragment : DialogFragment() {
     private lateinit var listener : SetEditListener
 
     private lateinit var setButton : Button
+    private lateinit var clearButton : Button
     private lateinit var cancelButton : Button
 
 
@@ -120,6 +123,9 @@ class PerformedSetEditDialogFragment : DialogFragment() {
             .findViewById(R.id.fragment_performed_set_dialog_exercisename)
         subTitleTextView = inflated.findViewById(R.id.fragment_performed_set_dialog_subtitle)
 
+        clearButton = inflated.findViewById(R.id.fragment_performed_set_edit_dialog_clear)
+        clearButton.setOnClickListener { clear() }
+
         setButton = inflated.findViewById(R.id.fragment_performed_set_edit_dialog_set)
         setButton.setOnClickListener {
             edit()
@@ -129,6 +135,13 @@ class PerformedSetEditDialogFragment : DialogFragment() {
         cancelButton.setOnClickListener { dismiss() }
 
         return inflated
+    }
+
+    private fun clear() {
+        listener.onSetEdit(getExerciseIndex(), getSetIndex(),
+            null, null, null)
+
+        dismiss()
     }
 
     private fun edit() {
@@ -142,7 +155,7 @@ class PerformedSetEditDialogFragment : DialogFragment() {
             reps = repsTextInputLayout.editText!!.text.toString().toInt()
 
         listener.onSetEdit(getExerciseIndex(), getSetIndex(),
-            weight, reps)
+            weight, reps, Date())
 
         dismiss()
     }

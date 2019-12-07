@@ -5,4 +5,5 @@ import io.reactivex.Single
 
 interface RunningWorkoutSessionLoader {
     fun load() : Single<WorkoutSessionCacheLoadResult>
+    fun loadInfo() : Single<WorkoutSessionInfoLoadResult>
 }

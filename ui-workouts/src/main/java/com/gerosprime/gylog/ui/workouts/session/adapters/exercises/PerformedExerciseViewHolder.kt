@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.performed.ExercisePerformedEntity
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.add.AddPerformedSetResult
+import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.ClearPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.edit.EditPerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.RemoveWorkoutSessionSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.UnflagRemovePerformedSetResult
@@ -112,11 +113,18 @@ internal class PerformedExerciseViewHolder
                     adapter.itemCount)
                 setsRecyclerView.smoothScrollToPosition(adapter.itemCount - 1)
             }
+
+            is ClearPerformedSetResult -> {
+                val adapter = setsRecyclerView.adapter
+                val payload = payloads[0] as ClearPerformedSetResult
+                adapter!!.notifyItemChanged(payload.setIndex)
+            }
             is EditPerformedSetResult -> {
                 val adapter = setsRecyclerView.adapter
                 val payload = payloads[0] as EditPerformedSetResult
                 adapter!!.notifyItemChanged(payload.setIndex)
             }
+
             is RemoveWorkoutSessionSetResult -> {
                 val adapter = setsRecyclerView.adapter
                 val payload = payloads[0] as RemoveWorkoutSessionSetResult
