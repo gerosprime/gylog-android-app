@@ -94,6 +94,9 @@ class SessionInfoDialogFragment : DialogFragment() {
             dismiss()
         }
         confirmButton = inflated.findViewById(R.id.fragment_session_info_dialog_confirm)
+        confirmButton.setOnClickListener {
+            listener.onConfirmed(this)
+        }
         dismissButton = inflated.findViewById(R.id.fragment_session_info_dialog_dismiss)
         dismissButton.setOnClickListener {
             viewmodel.stopSessionDurationStopwatch()
