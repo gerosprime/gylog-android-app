@@ -30,8 +30,11 @@ class DefaultExerciseAddViewModel
         muscles: ArrayList<MuscleEnum>
     ) {
 
-        var saver = exerciseSaver.save(
-            ExerciseEntity(recordId, name, description, direction))
+
+        val exercise = ExerciseEntity(recordId, name, description, direction)
+        exercise.targetMuscles = muscles
+
+        var saver = exerciseSaver.save(exercise)
         if (uiScheduler != null) {
             saver = saver.observeOn(uiScheduler)
         }

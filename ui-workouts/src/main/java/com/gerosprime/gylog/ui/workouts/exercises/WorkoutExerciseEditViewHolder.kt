@@ -4,10 +4,12 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.components.android.CheckableRelativeLayout
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
+import com.gerosprime.gylog.ui.exercises.dashboard.TargetMusclesAdapter
 import com.gerosprime.gylog.ui.workouts.R
 
 
@@ -26,10 +28,16 @@ class WorkoutExerciseEditViewHolder(
     private var imageExercise : ImageView
             = itemView.findViewById(R.id.viewholder_exercise_add_photo)
 
+    private var recyclerViewMuscles : RecyclerView
+            = itemView.findViewById(R.id.viewholder_workout_exercises_muscles)
+
     private var checkBox : CheckBox
             = itemView.findViewById(R.id.viewholder_exercise_add_checkbox)
 
     init {
+
+        recyclerViewMuscles.layoutManager = LinearLayoutManager(itemView.context,
+            LinearLayoutManager.HORIZONTAL, false)
 
         imageExercise.setOnClickListener {
             imageClickListener.onItemClicked(entity)
@@ -83,6 +91,8 @@ class WorkoutExerciseEditViewHolder(
 
         var selected =
             selectedItems.containsKey(entity.recordId)
+
+        recyclerViewMuscles.adapter = TargetMusclesAdapter(entity.targetMuscles)
 
         updateCheckBox(selected)
         updateItemViewCheck(selected)

@@ -32,6 +32,7 @@ def dagger_version = '2.19'
 dependencies {
     implementation project(path: ':models')
     implementation project(path: ':base')
+    implementation project(path: ':ui-exercises')
 
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

@@ -9,5 +9,5 @@ import com.gerosprime.gylog.models.muscle.MuscleEnum
 data class ExerciseEntity(@PrimaryKey var recordId : Long?,
                           val name : String, val description : String,
                           val instruction : String) {
-    @Ignore var targetMuscles : ArrayList<MuscleEnum> = arrayListOf()
+    var targetMuscles : ArrayList<MuscleEnum> = arrayListOf()
 }

@@ -23,7 +23,7 @@
             app:icon="@drawable/ic_filter_list_white_24dp"
             android:text="@string/filter"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp" />

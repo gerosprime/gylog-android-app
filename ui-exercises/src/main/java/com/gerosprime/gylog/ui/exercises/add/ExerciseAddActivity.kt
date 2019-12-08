@@ -292,10 +292,10 @@ class ExerciseAddActivity : AppCompatActivity() {
         val description = descriptionTextInputLayout.editText?.text.toString()
         val instruction = directionTextInputLayout.editText?.text.toString()
 
-        val muscles : ArrayList<MuscleEnum> =  arrayListOf()
+        // val muscles : ArrayList<MuscleEnum> =  arrayListOf()
 
         viewModel.saveExercise(getExerciseId(), name, description,
-            instruction, muscles)
+            instruction, selectedMuscles)
     }
 
     private fun getExerciseId() : Long? {

@@ -19,7 +19,7 @@ import com.gerosprime.gylog.models.workouts.runningsession.WorkoutSessionEntity
     ExerciseEntity::class, ExercisePerformedEntity::class, ExerciseTemplateEntity::class,
     PerformedSetEntity::class, TemplateSetEntity::class,
     WorkoutSessionEntity::class, BodyWeightEntity::class, BodyFatEntity::class], version = 1)
-@TypeConverters(value = [DateConverter::class])
+@TypeConverters(value = [DateConverter::class, MuscleEnumConverter::class])
 abstract class GylogEntityDatabase : RoomDatabase() {
     abstract fun exerciseEntityDao() : ExerciseEntityDao
     abstract fun exercisePerformedDao() : ExercisePerformedEntityDao

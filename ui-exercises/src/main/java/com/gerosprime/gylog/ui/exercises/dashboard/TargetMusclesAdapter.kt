@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.models.muscle.MuscleEnum
 import com.gerosprime.gylog.ui.exercises.R
 
-internal class TargetMusclesAdapter(var muscles : List<MuscleEnum>)
+class TargetMusclesAdapter(var muscles : List<MuscleEnum>)
     : RecyclerView.Adapter<TargetMuscleViewHolder>() {
 
     var layoutInflater : LayoutInflater? = null

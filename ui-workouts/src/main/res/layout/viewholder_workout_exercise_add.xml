@@ -14,7 +14,18 @@
         android:layout_centerVertical="true"
         android:id="@+id/viewholder_exercise_add_photo"
         android:layout_width="100dp"
-        android:layout_height="140dp" />
+        android:layout_height="140dp"
+        android:layout_alignParentLeft="true" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/viewholder_workout_exercises_muscles"
+        android:layout_toEndOf="@+id/viewholder_exercise_add_photo"
+        android:layout_toRightOf="@+id/viewholder_exercise_add_photo"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:layout_height="42dp"
+         />
 
     <LinearLayout
         android:padding="8dp"
@@ -23,7 +34,9 @@
         android:layout_toStartOf="@+id/viewholder_exercise_add_checkbox"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/viewholder_exercise_add_photo"
+        android:layout_toLeftOf="@+id/viewholder_exercise_add_checkbox">
 
         <TextView
             tools:text="Inclined Bench-Press (Dumbbell)"
@@ -40,6 +53,7 @@
         android:layout_centerVertical="true"
         android:id="@+id/viewholder_exercise_add_checkbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" />
 
 </com.gerosprime.gylog.base.components.android.CheckableRelativeLayout>
