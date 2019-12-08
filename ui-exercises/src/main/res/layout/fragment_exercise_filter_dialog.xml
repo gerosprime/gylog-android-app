@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/fragment_exercise_filter_dialog_header"
+        android:padding="@dimen/dimen_16dp"
+        android:background="@color/colorAccent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/filter_exercises"
+            android:id="@+id/fragment_workout_detail_dialog_title"
+            android:textAppearance="?android:textAppearanceLargeInverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/fragment_workout_detail_dialog_subtitle"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:textAppearance="?android:textAppearanceMediumInverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/fragment_exercise_filter_dialog_header"
+        android:id="@+id/fragment_exercise_filter_dialog_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_margin="@dimen/dimen_8dp"
+            android:id="@+id/fragment_exercise_filter_muscles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_abs"
+                android:text="@string/abs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_triceps"
+                android:text="@string/triceps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_biceps"
+                android:text="@string/biceps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_chest"
+                android:text="@string/chest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_chest_upper"
+                android:text="@string/chest_upper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_chest_lower"
+                android:text="@string/chest_lower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_back_upper"
+                android:text="@string/back_upper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_back_lower"
+                android:text="@string/back_lower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_hamstring"
+                android:text="@string/hamstrings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_forearms"
+                android:text="@string/forearms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_shoulder_side"
+                android:text="@string/shoulder_side"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_shoulder_front"
+                android:text="@string/shoulder_front"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_shoulder_back"
+                android:text="@string/shoulder_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_traps"
+                android:text="@string/traps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_quads"
+                android:text="@string/quads"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/fragment_exercise_filter_muscle_calves"
+                android:text="@string/calves"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_below="@+id/fragment_exercise_filter_dialog_content"
+        android:id="@+id/fragment_exercise_filter_dialog_footer"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:visibility="visible"
+            android:id="@+id/fragment_exercise_filter_cancel"
+            android:text="@string/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/fragment_exercise_filter_dismiss"
+            android:layout_marginLeft="@dimen/dimen_16dp"
+            android:layout_marginRight="@dimen/dimen_16dp"
+            android:layout_marginBottom="@dimen/dimen_8dp"
+            android:text="@string/dismiss"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_marginRight="@dimen/dimen_8dp"
+            android:visibility="visible"
+            android:id="@+id/fragment_exercise_filter_confirm"
+            android:text="@string/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</RelativeLayout>

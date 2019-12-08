@@ -22,6 +22,7 @@
             android:layout_gravity="center_horizontal"
             app:icon="@drawable/ic_filter_list_white_24dp"
             android:text="@string/filter"
+            android:id="@+id/activity_workout_exercise_filter"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

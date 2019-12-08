@@ -26,5 +26,6 @@
     <string name="add_exercise">Add Exercise</string>
 
     <string name="exercise_add_name_is_required">Exercise name is required.</string>
+    <string name="filter_exercises">Filter Exercises</string>
 
 </resources>
