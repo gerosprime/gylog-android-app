@@ -17,23 +17,21 @@ class DefaultExerciseDatabaseSaver(private val database : GylogEntityDatabase,
             val recordId = database.exerciseEntityDao().saveExercise(exercise)
             exercise.recordId = recordId
 
-            var index = modelsCache.exercisesList.size
+
+            var index = if (modelsCache.exercisesMap.containsKey(recordId))
+                    modelsCache.exercisesList.indexOf(modelsCache.exercisesMap[recordId])
+                else modelsCache.exercisesList.size
             val flag = if (modelsCache.exercisesMap.containsKey(recordId)) {
 
-                for (i in 0 until modelsCache.exercisesList.size) {
-                    if (modelsCache.exercisesList[i].recordId
-                        == exercise.recordId) {
-                        index = i
-                        modelsCache.exercisesList[index] = exercise
-                        break
-                    }
-                }
+                modelsCache.exercisesList[index] = exercise
+
                 ExerciseDatabaseSaveResult.Flag.UPDATED
             } else {
                 modelsCache.exercisesList.add(exercise)
-                modelsCache.exercisesMap[recordId] = exercise
                 ExerciseDatabaseSaveResult.Flag.NEW
             }
+
+            modelsCache.exercisesMap[recordId] = exercise
 
             ExerciseDatabaseSaveResult(exercise, flag, index)
         })

@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.models.exercises
 
+import com.gerosprime.gylog.models.muscle.MuscleEnum
 import com.gerosprime.gylog.models.states.ModelCacheBuilder
 import com.gerosprime.gylog.models.states.ModelsCache
 import io.reactivex.Maybe
@@ -22,6 +23,8 @@ class DefaultExercisesCacheLoader(private val modelsCache: ModelsCache,
 
             if (modelsCache.exercisesMap.containsKey(recordId)) {
                 val exercise = modelsCache.exercisesMap[recordId] as ExerciseEntity
+
+
                 LoadedSingleExerciseResult(
                     recordId, exercise.name,
                     exercise.description, exercise.instruction,

@@ -12,18 +12,22 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.gerosprime.gylog.MainActivity.RequestCodes.EXERCISE_DETAIL
 import com.gerosprime.gylog.MainActivity.RequestCodes.EXERCISE_EDIT
 import com.gerosprime.gylog.MainActivity.RequestCodes.PROGRAM_EDIT
+import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.ExerciseDatabaseSaveResult
 import com.gerosprime.gylog.ui.exercises.add.ExerciseAddActivity
 import com.gerosprime.gylog.ui.exercises.dashboard.DashboardExercisesFragment
+import com.gerosprime.gylog.ui.exercises.dashboard.ExerciseItemClick
+import com.gerosprime.gylog.ui.exercises.detail.ExerciseDetailActivity
 import com.gerosprime.gylog.ui.programs.ProgramsDashboardFragment
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
 import com.gerosprime.gylog.ui.settings.SettingsActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), DashboardExercisesFragment.Listener {
 
 
     lateinit var floatingActionButton: FloatingActionButton
@@ -34,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     object RequestCodes {
         const val PROGRAM_EDIT = 32
         const val EXERCISE_EDIT = 33
+        const val EXERCISE_DETAIL = 34
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,6 +103,42 @@ class MainActivity : AppCompatActivity() {
                     fragment.notifyItemInserted(insertIndex)
                 }
 
+            }
+
+            EXERCISE_DETAIL -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val index = data!!.getIntExtra(ExerciseAddActivity.Result.INDEX, 0)
+
+
+                    val flag = data.getIntExtra(ExerciseAddActivity.Result.FLAG, -1)
+                    when (flag) {
+                        ExerciseDatabaseSaveResult.Flag.NEW -> {
+
+                            val findFragmentById =
+                                supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                            val fragment
+                                    = findFragmentById!!.childFragmentManager.fragments[0]
+                                    as DashboardExercisesFragment
+
+                            fragment.notifyItemUpdated(index)
+
+                        }
+
+                        ExerciseDatabaseSaveResult.Flag.UPDATED -> {
+
+                            val findFragmentById =
+                                supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                            val fragment
+                                    = findFragmentById!!.childFragmentManager.fragments[0]
+                                    as DashboardExercisesFragment
+
+                            fragment.notifyItemUpdated(index)
+
+                        }
+
+                    }
+
+                }
             }
 
             EXERCISE_EDIT -> {
@@ -170,6 +211,18 @@ class MainActivity : AppCompatActivity() {
                 EXERCISE_EDIT)
         }
 
+    }
+
+    private fun showExerciseDetail(id : Long) {
+        val intentExercise = Intent(this, ExerciseDetailActivity::class.java)
+        intentExercise.putExtra(ExerciseDetailActivity.Extras.EXERCISE_ID, id)
+        startActivityForResult(intentExercise,
+            EXERCISE_DETAIL
+        )
+    }
+
+    override fun onExerciseItemClick(exerciseItem: ExerciseItemClick) {
+        showExerciseDetail(exerciseItem.entity.recordId!!)
     }
 
     private fun homeNavigationSelected() {

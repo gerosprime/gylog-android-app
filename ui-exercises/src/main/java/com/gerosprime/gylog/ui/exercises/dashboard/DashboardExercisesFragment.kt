@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.ui.exercises.dashboard
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.FetchState
+import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.FetchStateUtils
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
 import com.gerosprime.gylog.ui.exercises.R
@@ -18,6 +20,9 @@ import javax.inject.Inject
 
 class DashboardExercisesFragment :Fragment() {
 
+    object RequestCodes {
+        const val EXERCISE_DETAIL = 1
+    }
 
     @Inject
     lateinit var factory : ViewModelProvider.Factory
@@ -26,6 +31,21 @@ class DashboardExercisesFragment :Fragment() {
     lateinit var progressContentView : View
     lateinit var exercisesRecyclerView : RecyclerView
     lateinit var errorContentView : View
+
+
+    interface Listener {
+        fun onExerciseItemClick(exerciseItem : ExerciseItemClick)
+    }
+
+
+    lateinit var listener : Listener
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is Listener) {
+            listener = context
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
@@ -57,7 +77,13 @@ class DashboardExercisesFragment :Fragment() {
     }
 
     private fun populateExercises(exercises : List<ExerciseEntity>) {
-        exercisesRecyclerView.adapter = DashboardExercisesAdapter(exercises)
+        val adapter = DashboardExercisesAdapter(exercises)
+        exercisesRecyclerView.adapter = adapter
+        adapter.listener = object : OnItemClickListener<ExerciseItemClick> {
+            override fun onItemClicked(item: ExerciseItemClick) {
+                listener.onExerciseItemClick(item)
+            }
+        }
     }
 
     private fun fetchStateChanged(fetchState: FetchState) {

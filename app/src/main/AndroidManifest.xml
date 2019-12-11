@@ -45,6 +45,9 @@
         <activity
             android:name=".ui.exercises.add.ExerciseAddActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.exercises.detail.ExerciseDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

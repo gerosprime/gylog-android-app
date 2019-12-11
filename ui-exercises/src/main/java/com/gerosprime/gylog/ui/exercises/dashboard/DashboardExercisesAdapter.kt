@@ -12,11 +12,11 @@ class DashboardExercisesAdapter(var exercises: List<ExerciseEntity>) :
 
     var inflater : LayoutInflater? = null
 
-    var listener : OnItemClickListener<ExerciseEntity>? = null
+    var listener : OnItemClickListener<ExerciseItemClick>? = null
 
-    private val internalListener : OnItemClickListener<ExerciseEntity> =
-        object : OnItemClickListener<ExerciseEntity> {
-            override fun onItemClicked(item: ExerciseEntity) {
+    private val internalListener : OnItemClickListener<ExerciseItemClick> =
+        object : OnItemClickListener<ExerciseItemClick> {
+            override fun onItemClicked(item: ExerciseItemClick) {
                 listener?.onItemClicked(item)
             }
         }

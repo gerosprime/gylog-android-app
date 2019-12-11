@@ -38,6 +38,7 @@ import com.gerosprime.gylog.models.workouts.runningsession.save.WorkoutSessionSa
 import com.gerosprime.gylog.models.workouts.save.SaveWorkoutsDatabaseUC
 import com.gerosprime.gylog.ui.exercises.add.DefaultExerciseAddViewModel
 import com.gerosprime.gylog.ui.exercises.dashboard.DefaultDashboardExercisesViewModel
+import com.gerosprime.gylog.ui.exercises.detail.DefaultExerciseDetailViewModel
 import com.gerosprime.gylog.ui.exercises.templatesets.DefaultEditTemplateSetsViewModel
 import com.gerosprime.gylog.ui.exercises.templatesets.detail.DefaultTemplateSetEditViewModel
 import com.gerosprime.gylog.ui.programs.DefaultProgramsDashboardViewModel
@@ -228,6 +229,17 @@ class ViewModelModule {
         return DefaultSessionInfoViewModel(MutableLiveData(), SingleLiveEvent(),
             runningWorkoutSessionLoader, AndroidSchedulers.mainThread(),
             Schedulers.io(), Schedulers.computation())
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultExerciseDetailViewModel::class)
+    fun provideDefaultExerciseDetailViewModel(
+        exercisesCacheLoader: ExercisesCacheLoader
+    )
+            : ViewModel {
+        return DefaultExerciseDetailViewModel(MutableLiveData(),
+            exercisesCacheLoader, AndroidSchedulers.mainThread(), Schedulers.io())
     }
 
 }

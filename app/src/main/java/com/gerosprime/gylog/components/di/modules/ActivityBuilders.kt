@@ -1,6 +1,7 @@
 package com.gerosprime.gylog.components.di.modules
 
 import com.gerosprime.gylog.ui.exercises.add.ExerciseAddActivity
+import com.gerosprime.gylog.ui.exercises.detail.ExerciseDetailActivity
 import com.gerosprime.gylog.ui.exercises.templatesets.EditTemplateSetsActivity
 import com.gerosprime.gylog.ui.exercises.templatesets.detail.TemplateSetEditActivity
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
@@ -32,6 +33,9 @@ abstract class ActivityBuilders {
 
     @ContributesAndroidInjector
     abstract fun contributeExerciseAddActivity() : ExerciseAddActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeExerciseDetailActivity() : ExerciseDetailActivity
 
 
 }

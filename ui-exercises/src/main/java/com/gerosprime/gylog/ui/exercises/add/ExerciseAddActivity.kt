@@ -89,7 +89,19 @@ class ExerciseAddActivity : AppCompatActivity() {
 
             selectedMuscles = it.muscles
             for (selectedMuscle in selectedMuscles) {
-                muscleMaps[selectedMuscle]?.isChecked = true
+
+                val checkBox = muscleMaps[selectedMuscle]
+                checkBox?.isChecked = true
+
+            }
+
+            for (value in muscleMaps.values) {
+                value.setOnCheckedChangeListener { compoundButton, _ ->
+                    run {
+                        muscleCheckEvent(compoundButton)
+                    }
+                }
+
             }
 
         })
@@ -99,147 +111,70 @@ class ExerciseAddActivity : AppCompatActivity() {
         directionTextInputLayout = findViewById(R.id.activity_exercise_add_layout_directions)
 
         chestChip = findViewById(R.id.activity_exercise_add_muscle_chest)
-        chestChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
+
         muscleMaps[MuscleEnum.CHEST] = chestChip
         chipMuscleMaps[chestChip] = MuscleEnum.CHEST
 
 
         chestUpperChip = findViewById(R.id.activity_exercise_add_muscle_chest_upper)
-        chestUpperChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.CHEST_UPPER] = chestUpperChip
         chipMuscleMaps[chestUpperChip] = MuscleEnum.CHEST_UPPER
 
         chestLowerChip = findViewById(R.id.activity_exercise_add_muscle_chest_lower)
-        chestLowerChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.CHEST_LOWER] = chestLowerChip
         chipMuscleMaps[chestLowerChip] = MuscleEnum.CHEST_LOWER
 
         tricepsChip = findViewById(R.id.activity_exercise_add_muscle_triceps)
-        tricepsChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.TRICEPS] = tricepsChip
         chipMuscleMaps[tricepsChip] = MuscleEnum.TRICEPS
 
         bicepsChip = findViewById(R.id.activity_exercise_add_muscle_biceps)
-        bicepsChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.BICEPS] = bicepsChip
         chipMuscleMaps[bicepsChip] = MuscleEnum.BICEPS
 
         upperBackChip = findViewById(R.id.activity_exercise_add_muscle_back_upper)
-        upperBackChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.BACK_UPPER] = upperBackChip
         chipMuscleMaps[upperBackChip] = MuscleEnum.BACK_UPPER
 
         lowerBackChip = findViewById(R.id.activity_exercise_add_muscle_back_lower)
-        lowerBackChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.BACK_LOWER] = lowerBackChip
         chipMuscleMaps[lowerBackChip] = MuscleEnum.BACK_LOWER
 
         hamstringsChip = findViewById(R.id.activity_exercise_add_muscle_hamstring)
-        hamstringsChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.HAMSTRINGS] = hamstringsChip
         chipMuscleMaps[hamstringsChip] = MuscleEnum.HAMSTRINGS
 
         forearmsChip = findViewById(R.id.activity_exercise_add_muscle_forearms)
-        forearmsChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.FOREARMS] = forearmsChip
         chipMuscleMaps[forearmsChip] = MuscleEnum.FOREARMS
 
         shoulderSideChip = findViewById(R.id.activity_exercise_add_muscle_shoulder_side)
-        shoulderSideChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.SHOULDER_SIDE] = shoulderSideChip
         chipMuscleMaps[shoulderSideChip] = MuscleEnum.SHOULDER_SIDE
 
         shoulderFrontChip = findViewById(R.id.activity_exercise_add_muscle_shoulder_front)
-        shoulderFrontChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
+
         muscleMaps[MuscleEnum.SHOULDER_FRONT] = shoulderFrontChip
         chipMuscleMaps[shoulderFrontChip] = MuscleEnum.SHOULDER_FRONT
 
         shoulderBackChip = findViewById(R.id.activity_exercise_add_muscle_shoulder_back)
-        shoulderBackChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.SHOULDER_BACK] = shoulderBackChip
         chipMuscleMaps[shoulderBackChip] = MuscleEnum.SHOULDER_BACK
 
         trapsChip = findViewById(R.id.activity_exercise_add_muscle_traps)
-        trapsChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
+
         muscleMaps[MuscleEnum.TRAPS] = trapsChip
         chipMuscleMaps[trapsChip] = MuscleEnum.TRAPS
 
         absChip = findViewById(R.id.activity_exercise_add_muscle_abs)
-        absChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.ABS] = absChip
         chipMuscleMaps[absChip] = MuscleEnum.ABS
 
         quadsChip = findViewById(R.id.activity_exercise_add_muscle_quads)
-        quadsChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.QUADS] = quadsChip
         chipMuscleMaps[quadsChip] = MuscleEnum.QUADS
 
         calvesChip = findViewById(R.id.activity_exercise_add_muscle_calves)
-        calvesChip.setOnCheckedChangeListener { compoundButton, _ ->
-            run {
-                muscleCheckEvent(compoundButton)
-            }
-        }
         muscleMaps[MuscleEnum.CALVES] = calvesChip
         chipMuscleMaps[calvesChip] = MuscleEnum.CALVES
 

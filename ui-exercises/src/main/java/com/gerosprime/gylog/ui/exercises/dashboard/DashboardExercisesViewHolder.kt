@@ -11,7 +11,7 @@ import com.gerosprime.gylog.ui.exercises.R
 
 class DashboardExercisesViewHolder(
     itemView: View,
-    private var listener: OnItemClickListener<ExerciseEntity>
+    private var listener: OnItemClickListener<ExerciseItemClick>
 )
     : RecyclerView.ViewHolder(itemView) {
 
@@ -25,7 +25,7 @@ class DashboardExercisesViewHolder(
                     LinearLayoutManager.HORIZONTAL, false)
 
         itemView.setOnClickListener {
-            listener.onItemClicked(exerciseItem)
+            listener.onItemClicked(ExerciseItemClick(layoutPosition, exerciseItem))
         }
     }
 
