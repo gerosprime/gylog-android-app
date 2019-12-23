@@ -9,7 +9,7 @@ class DefaultCommitEdittedProgramCacheUC
     @Inject constructor(private val editProgramEntityCache: EditProgramEntityCache)
     : CommitEdittedProgramCacheUC {
 
-    override fun commit(name : String, description : String)
+    override fun commit(name : String, description : String, imageUri : String)
             : Single<CommitEdittedProgramCacheResult>
             = Single.fromCallable {
 
@@ -17,6 +17,7 @@ class DefaultCommitEdittedProgramCacheUC
 
         program.name = name
         program.description = description
+        program.imageUri = imageUri
 
          program.workouts = editProgramEntityCache.editWorkouts
 

@@ -1,11 +1,13 @@
 package com.gerosprime.gylog.ui.programs.detail
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.programs.detail.LoadProgramFromCacheResult
 import com.gerosprime.gylog.ui.programs.R
@@ -25,6 +28,8 @@ import com.gerosprime.gylog.ui.programs.detail.adapter.ProgramDetailAdapter
 import com.gerosprime.gylog.ui.programs.workouts.AddWorkoutDialogFragment
 import com.gerosprime.gylog.ui.workouts.detail.WorkoutDetailDialogFragment
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -51,6 +56,7 @@ class ProgramDetailActivity : AppCompatActivity(),
     private lateinit var emptyTextView: TextView
     private lateinit var workoutLabelTextView: TextView
     private lateinit var workoutsRecyclerView: RecyclerView
+    private lateinit var programImage : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -66,6 +72,7 @@ class ProgramDetailActivity : AppCompatActivity(),
         descriptionTextView = findViewById(R.id.activity_program_detail_description)
         emptyTextView = findViewById(R.id.activity_program_detail_empty)
         workoutLabelTextView = findViewById(R.id.activity_program_detail_workouts_label)
+        programImage = findViewById(R.id.activity_program_detail_image)
         workoutsRecyclerView = findViewById(R.id.activity_program_detail_workouts)
         workoutsRecyclerView.layoutManager = LinearLayoutManager(this,
             LinearLayoutManager.HORIZONTAL, false)
@@ -78,8 +85,26 @@ class ProgramDetailActivity : AppCompatActivity(),
 
         })
 
-        if (savedInstanceState == null)
-            viewModel.loadProgramDetail(getProgramRecordId())
+        if (savedInstanceState == null) {
+
+            if (TedPermission.isGranted(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                viewModel.loadProgramDetail(getProgramRecordId())
+            } else {
+                TedPermission.with(this)
+                    .setRationaleMessage(R.string.read_permission_rationale)
+                    .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .setPermissionListener(object : PermissionListener {
+                        override fun onPermissionGranted() {
+                            viewModel.loadProgramDetail(getProgramRecordId())
+                        }
+                        override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                            viewModel.loadProgramDetail(getProgramRecordId())
+                        }
+                    }).check()
+            }
+
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -135,6 +160,10 @@ class ProgramDetailActivity : AppCompatActivity(),
                 showWorkoutDetailDialog(item)
             }
         }
+
+        val programEntity = result.programEntity!!
+        if (programEntity.imageUri.isNotEmpty())
+            Glide.with(this).load(programEntity.imageUri).into(programImage)
 
         toolbar.title = result.programEntity!!.name
         workoutsRecyclerView.adapter = adapter

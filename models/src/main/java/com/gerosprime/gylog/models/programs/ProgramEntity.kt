@@ -7,7 +7,8 @@ import com.gerosprime.gylog.models.workouts.WorkoutEntity
 
 @Entity
 data class ProgramEntity (@PrimaryKey var recordId: Long? = null,
-               var name : String? = null, var description : String? = null) {
+               var name : String? = null, var description : String? = null,
+                          var imageUri : String = "") {
 
      @Ignore
      var workouts : ArrayList<WorkoutEntity> = arrayListOf()

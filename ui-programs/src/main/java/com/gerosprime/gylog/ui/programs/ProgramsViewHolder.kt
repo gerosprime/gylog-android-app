@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.programs.ProgramEntity
 
@@ -26,6 +27,9 @@ class ProgramsViewHolder(
         this.program = program
         this.programPosition = position
         titleText.text = program.name
+
+        if (program.imageUri.isNotEmpty())
+            Glide.with(itemView).load(program.imageUri).into(programImage)
         // programImage.ima
     }
 

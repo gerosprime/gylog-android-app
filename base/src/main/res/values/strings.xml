@@ -49,4 +49,6 @@
     <string name="dismiss">Dismiss</string>
     <string name="clear">Clear</string>
 
+    <string name="read_permission_rationale">In order to fully work. Gylog needs to access external storage.</string>
+
 </resources>

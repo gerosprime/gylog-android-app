@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.ui.exercises.dashboard
 
+import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,8 @@ import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.FetchStateUtils
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
 import com.gerosprime.gylog.ui.exercises.R
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -73,7 +76,28 @@ class DashboardExercisesFragment :Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel.fetchStateLiveData.observe(this, Observer { fetchStateChanged(it) })
         viewModel.exercisesLiveData.observe(this, Observer { populateExercises(exercises = it) })
-        viewModel.loadExercises()
+
+        if (savedInstanceState == null) {
+
+            if (TedPermission.isGranted(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                viewModel.loadExercises()
+            } else {
+                TedPermission.with(context)
+                    .setRationaleMessage(R.string.read_permission_rationale)
+                    .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .setPermissionListener(object : PermissionListener {
+                        override fun onPermissionGranted() {
+                            viewModel.loadExercises()
+                        }
+
+                        override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                            viewModel.loadExercises()
+                        }
+                    }).check()
+
+            }
+
+        }
     }
 
     private fun populateExercises(exercises : List<ExerciseEntity>) {

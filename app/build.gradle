@@ -62,7 +62,6 @@ dependencies {
     androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     androidTestImplementation 'androidx.fragment:fragment-testing:1.1.0'
 
-
     implementation project(path: ':ui-programs')
     implementation project(path: ':ui-exercises')
     implementation project(path: ':ui-workouts')

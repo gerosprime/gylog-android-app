@@ -53,6 +53,9 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    api 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+
     api "io.reactivex.rxjava2:rxjava:2.2.13"
     // api "io.reactivex.rxjava3:rxjava:3.0.0-RC3"
     api 'io.reactivex.rxjava2:rxkotlin:2.4.0'
@@ -72,5 +75,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
     api "com.google.code.gson:gson:$gson_version"
+
+    api 'gun0912.ted:tedpermission:2.2.2'
 
 }

@@ -36,10 +36,11 @@ class DefaultProgramsAddViewModel(
 
     private val compositeDisposable = CompositeDisposable()
 
-    override fun saveProgramToDB(name: String, description: String) {
+    override fun saveProgramToDB(name: String, description: String,
+                                 imageUri : String) {
 
         var commitProgram =
-            commitProgramCacheUseCase.commit(name, description)
+            commitProgramCacheUseCase.commit(name, description, imageUri)
                 .flatMap { commitResult ->
                     saveProgramDatabaseUC.save(commitResult.programEntity)
                 }

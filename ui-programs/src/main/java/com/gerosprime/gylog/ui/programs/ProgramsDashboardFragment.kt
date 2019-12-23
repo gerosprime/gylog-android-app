@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.ui.programs
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +17,8 @@ import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.FetchStateUtils
 import com.gerosprime.gylog.models.programs.ProgramEntity
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -82,7 +85,25 @@ class ProgramsDashboardFragment : Fragment() {
         viewModel.userProgramListLiveData.observe(this, Observer { userProgramsLoaded(it) })
         viewModel.builtInProgramsLiveData.observe(this, Observer { builtInProgramsLoaded(it) })
 
-        if (savedInstanceState == null)
+
+        if (savedInstanceState == null) {
+            if (TedPermission.isGranted(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                viewModel.loadUserPrograms()
+            } else {
+                TedPermission.with(context)
+                    .setRationaleMessage(R.string.read_permission_rationale)
+                    .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .setPermissionListener(object : PermissionListener {
+                        override fun onPermissionGranted() {
+                            viewModel.loadUserPrograms()
+                        }
+                        override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                            viewModel.loadUserPrograms()
+                        }
+                    }).check()
+
+            }
+        }
             viewModel.loadUserPrograms()
 
     }

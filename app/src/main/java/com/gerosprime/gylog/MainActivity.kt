@@ -1,5 +1,6 @@
 package com.gerosprime.gylog
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -26,6 +27,7 @@ import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
 import com.gerosprime.gylog.ui.settings.SettingsActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.gun0912.tedpermission.TedPermission
 
 class MainActivity : AppCompatActivity(), DashboardExercisesFragment.Listener {
 

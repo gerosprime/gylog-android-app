@@ -11,7 +11,7 @@ interface ProgramsAddViewModel {
     val workoutAddToCacheResultMLD : MutableLiveData<WorkoutAddToCacheResult>
     val saveProgramResultMLD : MutableLiveData<SaveProgramDatabaseResult>
 
-    fun saveProgramToDB(name : String, description : String)
+    fun saveProgramToDB(name : String, description : String, imageUri : String)
 
     fun addWorkoutToCache(name : String?, description: String?)
 
