@@ -2,14 +2,22 @@ package com.gerosprime.gylog.models.states
 
 import com.gerosprime.gylog.models.database.GylogEntityDatabase
 import io.reactivex.Completable
+import java.util.concurrent.atomic.AtomicBoolean
 
 class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
                                 private val database: GylogEntityDatabase
 ) : ModelCacheBuilder {
 
+    private val buildingIndicator = AtomicBoolean(false)
+
     override fun build(): Completable {
 
         return Completable.fromAction {
+
+            if (buildingIndicator.get()) return@fromAction
+
+
+            buildingIndicator.set(true)
             if (modelsCache.programsMap.isEmpty()) {
 
                 val programs = database.programEntityDao().getPrograms()
@@ -94,6 +102,7 @@ class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
                 }
             }
 
+            buildingIndicator.set(false)
         }
 
     }
