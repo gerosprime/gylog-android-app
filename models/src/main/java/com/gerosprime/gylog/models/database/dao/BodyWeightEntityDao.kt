@@ -12,6 +12,9 @@ interface BodyWeightEntityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(entity : BodyWeightEntity) : Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveBodyWeights(entities : List<BodyWeightEntity>) : List<Long>
+
     @Query("select * from BodyWeightEntity")
     fun loadBodyWeights(): List<BodyWeightEntity>
 }

@@ -15,6 +15,8 @@ abstract class WorkoutSessionEntityDao {
     abstract fun loadSessions() : List<WorkoutSessionEntity>
     @Insert
     abstract fun insertSession(session : WorkoutSessionEntity) : Long
+    @Insert
+    abstract fun insertSessions(sessions : List<WorkoutSessionEntity>) : List<Long>
 
     @Insert
     abstract fun insertPerformedExercises(exercises : List<ExercisePerformedEntity>) : List<Long>

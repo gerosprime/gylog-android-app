@@ -11,7 +11,7 @@ import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionAdapter
 import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionClicked
 
-internal class ProgramWorkoutsViewHolder(itemView : View,
+class ProgramWorkoutsViewHolder(itemView : View,
                                          private var exerciseWorkoutListener
                                             : OnItemClickListener<Int>? = null,
                                          private var exerciseClickListener

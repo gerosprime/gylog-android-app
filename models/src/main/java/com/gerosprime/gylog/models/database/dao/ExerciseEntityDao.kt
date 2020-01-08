@@ -12,4 +12,6 @@ interface ExerciseEntityDao {
     fun loadExercises() : List<ExerciseEntity>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveExercise(exercise : ExerciseEntity) : Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveExercises(exercises : List<ExerciseEntity>) : List<Long>
 }

@@ -13,6 +13,9 @@ abstract class ProgramEntityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun saveProgram(program : ProgramEntity) : Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun savePrograms(programs : List<ProgramEntity>) : List<Long>
+
     @Insert
     abstract fun saveWorkouts(workouts : List<WorkoutEntity>) : List<Long>
 
