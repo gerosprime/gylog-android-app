@@ -9,21 +9,21 @@ class FakeProgramsCacheLoader : ProgramsCacheLoader {
     override fun loadUserPrograms(): Single<LoadedProgramCacheResult> {
 
         var userList = listOf(ProgramEntity(0,
-            "BLS Phase 1", "", arrayListOf()),
+            "BLS Phase 1", "", ""),
             ProgramEntity(0,
-                "BLS Phase 2", "", arrayListOf()),
+                "BLS Phase 2", "", ""),
             ProgramEntity(0,
-                "BLS Phase 3", "", arrayListOf()),
+                "BLS Phase 3", "", ""),
             ProgramEntity(0,
-                "BLS Phase 3", "", arrayListOf()),
+                "BLS Phase 3", "", ""),
             ProgramEntity(0,
-                "BLS Phase 3", "", arrayListOf()),
+                "BLS Phase 3", "", ""),
             ProgramEntity(0,
-                "BLS Phase 3", "", arrayListOf()),
+                "BLS Phase 3", "", ""),
             ProgramEntity(0,
-                "BLS Phase 3", "", arrayListOf()),
+                "BLS Phase 3", "", ""),
             ProgramEntity(0,
-                "BLS Phase 3", "", arrayListOf()))
+                "BLS Phase 3", "", ""))
 
         return Single.just(LoadedProgramCacheResult(userList, userList))
     }

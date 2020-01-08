@@ -2,6 +2,8 @@ package com.gerosprime.gylog.ui.programs
 
 import android.os.SystemClock
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.gerosprime.gylog.models.programs.ProgramsCacheLoader
 import org.junit.Before
