@@ -12,10 +12,9 @@ class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
 
     override fun build(): Completable {
 
+        if (buildingIndicator.get()) return Completable.complete()
+
         return Completable.fromAction {
-
-            if (buildingIndicator.get()) return@fromAction
-
 
             buildingIndicator.set(true)
             if (modelsCache.programsMap.isEmpty()) {

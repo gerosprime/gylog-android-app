@@ -41,7 +41,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.workouts.session.WorkoutSessionActivity"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar" />
+        <service
+            android:name=".ui.workouts.session.WorkoutSessionService" />
         <activity
             android:name=".ui.exercises.add.ExerciseAddActivity"
             android:theme="@style/AppTheme.NoActionBar" />

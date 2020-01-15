@@ -5,6 +5,7 @@ import android.app.Application
 import android.app.Service
 import androidx.fragment.app.Fragment
 import com.gerosprime.gylog.components.di.DaggerGylogComponent
+import com.gerosprime.gylog.models.states.ModelsCache
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -23,6 +24,9 @@ class GylogApplication : Application(), HasActivityInjector,
     @Inject
     lateinit var dispatchingInjectorFra : DispatchingAndroidInjector<Fragment>
 
+    @Inject
+    lateinit var modelsCache: ModelsCache
+
     override fun onCreate() {
         super.onCreate()
         DaggerGylogComponent.builder()
@@ -34,4 +38,9 @@ class GylogApplication : Application(), HasActivityInjector,
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingInjectorFra
 
     override fun serviceInjector(): AndroidInjector<Service> = dispatchingInjectorSer
+
+    override fun onTerminate() {
+        modelsCache.clear()
+        super.onTerminate()
+    }
 }

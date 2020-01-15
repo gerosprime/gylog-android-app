@@ -9,4 +9,6 @@
     <string name="body_measurement_summary">Body Measurement Summary</string>
     <string name="title_activity_settings">Settings</string>
     <string name="settings">Settings</string>
+    
+    <string name="notification_channel_id_workout_session">notification_workout_session</string>
 </resources>

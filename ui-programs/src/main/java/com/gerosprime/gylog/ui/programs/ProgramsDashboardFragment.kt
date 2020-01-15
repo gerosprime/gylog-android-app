@@ -104,7 +104,6 @@ class ProgramsDashboardFragment : Fragment() {
 
             }
         }
-            viewModel.loadUserPrograms()
 
     }
 

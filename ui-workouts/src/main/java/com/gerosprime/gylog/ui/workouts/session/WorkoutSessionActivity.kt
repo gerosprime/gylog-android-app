@@ -1,6 +1,8 @@
 package com.gerosprime.gylog.ui.workouts.session
 
 import android.app.Activity
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -121,6 +123,10 @@ class WorkoutSessionActivity : AppCompatActivity(),
 
     private val observerDiscard = Observer<RunningWorkoutSessionDiscardResult> {
         setResult(Activity.RESULT_CANCELED)
+
+        val serviceIntent = Intent(this, WorkoutSessionService::class.java)
+        stopService(serviceIntent)
+
         finish()
     }
 
@@ -173,6 +179,8 @@ class WorkoutSessionActivity : AppCompatActivity(),
                     populateCreatedSession(it)
                 })
                 viewModel.createWorkoutSession(getWorkoutRecordID())
+
+                startWorkoutService(getWorkoutRecordID())
             }
 
         } else {
@@ -200,6 +208,28 @@ class WorkoutSessionActivity : AppCompatActivity(),
         viewModel.finalizedSessionMLD.observe(this, observerFinalize)
         viewModel.savedSessionMLD.observe(this, observerSave)
 
+    }
+
+    private fun startWorkoutService(workoutId : Long) {
+        val serviceIntent = Intent(this, WorkoutSessionService::class.java)
+        serviceIntent.putExtra(WorkoutSessionService.Extras.COMMAND, WorkoutSessionService.CommandValues.NORMAL_START)
+        serviceIntent.putExtra(WorkoutSessionService.Extras.COMMAND_ARGUMENT, workoutId)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent)
+        } else {
+            startService(serviceIntent)
+        }
+    }
+
+    private fun startWorkoutServiceTimer(restDuration : Int) {
+        val serviceIntent = Intent(this, WorkoutSessionService::class.java)
+        serviceIntent.putExtra(WorkoutSessionService.Extras.COMMAND, WorkoutSessionService.CommandValues.REST)
+        serviceIntent.putExtra(WorkoutSessionService.Extras.COMMAND_ARGUMENT, restDuration)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent)
+        } else {
+            startService(serviceIntent)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -265,6 +295,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
         val adapter = exercisesRecyclerView.adapter
         adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
 
+        startWorkoutServiceTimer(result.performedSet.restTimeSeconds)
         rest(result.performedSet.restTimeSeconds)
 
         // viewModel.completeSetMutableLiveData.value = null

@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Workouts</string>
 
     <string name="start_workout">Start Workout</string>
 
@@ -38,5 +37,7 @@
     <string name="information_about_the_current_workout_session">Information about the current workout session</string>
     <string name="please_confirm_to_finish_workout">Please confirm to finish workout</string>
     <string name="session_info">Session Info</string>
+    <string name="workout_name_just_started">%s just started.</string>
+    <string name="rest_done_go_back_to_work">Rest time has finished! Let\'s get back to work.</string>
 
 </resources>

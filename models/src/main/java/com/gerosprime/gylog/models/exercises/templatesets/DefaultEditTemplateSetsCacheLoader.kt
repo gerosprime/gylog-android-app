@@ -29,7 +29,7 @@ class DefaultEditTemplateSetsCacheLoader(private val editCache: EditProgramEntit
                 copyTemplates.add(template.deepCopy())
 
                 // Compute total sets, duration, and weight
-                totalWeight += template.weight!!
+                if (template.weight != null) totalWeight += template.weight!!
                 totalRestDuration += template.restTimeSeconds
             }
 

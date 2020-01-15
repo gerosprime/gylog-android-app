@@ -23,4 +23,23 @@ class ModelsCache (val programsMap : MutableMap<Long, ProgramEntity>,
                    val performedExercises : MutableMap<Long, ExercisePerformedEntity>,
                    val performedSets : MutableMap<Long, PerformedSetEntity>,
                    val bodyWeightMap : MutableMap<Long, BodyWeightEntity>,
-                   val bodyFatMap : MutableMap<Long, BodyFatEntity>)
+                   val bodyFatMap : MutableMap<Long, BodyFatEntity>) {
+
+    fun clear() {
+        programsMap.clear()
+        programs.clear()
+        workouts.clear()
+        workoutsMap.clear()
+        exercisesMap.clear()
+        exercisesList.clear()
+        templateExercisesMap.clear()
+        templateExercises.clear()
+        templateSets.clear()
+        templateSetsMap.clear()
+        performedExercises.clear()
+        performedSets.clear()
+        bodyWeightMap.clear()
+        bodyFatMap.clear()
+    }
+
+}

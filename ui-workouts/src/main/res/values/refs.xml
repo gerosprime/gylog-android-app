@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <item name="app_name" type="string" />
+
     <item name="colorAccent" type="color" format="color" />
 
+    <item name="notification_channel_id_workout_session" type="string" />
 </resources>

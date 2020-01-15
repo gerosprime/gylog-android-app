@@ -4,6 +4,7 @@ import com.gerosprime.gylog.models.database.GylogEntityDatabase
 import com.gerosprime.gylog.models.states.*
 import dagger.Module
 import dagger.Provides
+import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -17,13 +18,13 @@ class CacheModule {
     @Provides
     @Singleton
     fun provideModelCache() = ModelsCache(programs = arrayListOf(),
-        programsMap = mutableMapOf(),
-        workouts = arrayListOf(), workoutsMap = mutableMapOf(), exercisesMap = mutableMapOf(),
-        exercisesList = arrayListOf(),
-        templateExercisesMap = mutableMapOf(), templateExercises = arrayListOf(),
-        templateSets = arrayListOf(), templateSetsMap = mutableMapOf(),
-        performedExercises = mutableMapOf(), performedSets = mutableMapOf(),
-        bodyWeightMap = mutableMapOf(), bodyFatMap = mutableMapOf())
+        programsMap = Collections.synchronizedMap(mutableMapOf()),
+        workouts = arrayListOf(), workoutsMap = Collections.synchronizedMap(mutableMapOf()), 
+        exercisesMap = Collections.synchronizedMap(mutableMapOf()), exercisesList = arrayListOf(),
+        templateExercisesMap = Collections.synchronizedMap(mutableMapOf()), templateExercises = arrayListOf(),
+        templateSets = arrayListOf(), templateSetsMap = Collections.synchronizedMap(mutableMapOf()),
+        performedExercises = Collections.synchronizedMap(mutableMapOf()), performedSets = Collections.synchronizedMap(mutableMapOf()),
+        bodyWeightMap = Collections.synchronizedMap(mutableMapOf()), bodyFatMap = Collections.synchronizedMap(mutableMapOf()))
 
     @Provides
     @Singleton
