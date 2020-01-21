@@ -15,11 +15,16 @@ class DefaultEditPerformedSetUC(private val sessionCache: RunningWorkoutSessionC
         performedDate : Date?
     ): Single<EditPerformedSetResult> = Single.fromCallable {
 
-        val performedSet = sessionCache.prePerformedExercises!![exercisePerformedIndex]
-            .performedSets[setIndex]
+        val exercise = sessionCache.prePerformedExercises!![exercisePerformedIndex]
+        val performedSet = exercise.performedSets[setIndex]
         performedSet.reps = reps
         performedSet.weight = weight
         performedSet.datePerformed = performedDate
+
+        val exerciseDate = exercise.performedDate
+        if (exerciseDate == null || exerciseDate.before(performedDate)) {
+            exercise.performedDate = performedDate
+        }
 
         EditPerformedSetResult(exercisePerformedIndex, setIndex, performedSet,
             reps, weight)

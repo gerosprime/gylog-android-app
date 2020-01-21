@@ -1,11 +1,13 @@
 package com.gerosprime.gylog.ui.programs
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +18,8 @@ import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.FetchStateUtils
 import com.gerosprime.gylog.models.programs.ProgramEntity
+import com.gerosprime.gylog.ui.programs.ProgramsDashboardFragment.RequestCodes.PROGRAM_DETAIL
+import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -37,6 +41,10 @@ class ProgramsDashboardFragment : Fragment() {
 
     private var itemClickListener : OnItemClickListener<ProgramEntity>? = null
 
+    object RequestCodes {
+        const val PROGRAM_DETAIL = 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -48,7 +56,14 @@ class ProgramsDashboardFragment : Fragment() {
         val adapter = usersProgramRecyclerView.adapter
 
         adapter!!.notifyItemInserted(insertIndex)
-        usersProgramRecyclerView.smoothScrollToPosition(0)
+        usersProgramRecyclerView.smoothScrollToPosition(insertIndex)
+    }
+
+    fun notifyItemUpdated(updateIndex : Int) {
+        val adapter = usersProgramRecyclerView.adapter
+
+        adapter!!.notifyItemChanged(updateIndex)
+        usersProgramRecyclerView.smoothScrollToPosition(updateIndex)
     }
 
     override fun onDestroy() {
@@ -107,29 +122,57 @@ class ProgramsDashboardFragment : Fragment() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            PROGRAM_DETAIL -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val insertIndex =
+                        data!!.getIntExtra(ProgramDetailActivity.Extras.PROGRAM_INDEX, -1)
+
+                    when (val mode = data.getIntExtra(ProgramDetailActivity.ResultExtras.PROGRAM_EDIT_MODE, -1)) {
+                        ProgramDetailActivity.Mode.EDIT -> {
+                            notifyItemUpdated(insertIndex)
+                        }
+                        ProgramDetailActivity.Mode.INSERT -> {
+                            notifyItemInserted(insertIndex)
+                        }
+                        else -> {
+                            throw IllegalArgumentException("Invalid mode: $mode")
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
     private fun userProgramsLoaded(userPrograms : List<ProgramEntity>) {
         val adapter = ProgramsAdapter(userPrograms)
-        adapter.clickListener = object : OnItemClickListener<ProgramEntity> {
-            override fun onItemClicked(item: ProgramEntity) {
-                openProgramDetail(item)
+        adapter.clickListener = object : OnItemClickListener<ProgramItemClick> {
+            override fun onItemClicked(item: ProgramItemClick) {
+                openProgramDetail(item.index, item.entity)
             }
         }
         usersProgramRecyclerView.adapter = adapter
     }
 
-    private fun openProgramDetail(programEntity: ProgramEntity) {
+    private fun openProgramDetail(index : Int, programEntity: ProgramEntity) {
         val detailIntent = Intent(activity, ProgramDetailActivity::class.java)
         detailIntent.putExtra(ProgramDetailActivity.Extras.PROGRAM_RECORD_ID,
             programEntity.recordId)
-        startActivity(detailIntent)
+        detailIntent.putExtra(ProgramDetailActivity.Extras.PROGRAM_INDEX,
+            index)
+        startActivityForResult(detailIntent, PROGRAM_DETAIL)
     }
 
     private fun builtInProgramsLoaded(userPrograms : List<ProgramEntity>) {
 
         val adapter = ProgramsAdapter(userPrograms)
-        adapter.clickListener = object : OnItemClickListener<ProgramEntity> {
+        adapter.clickListener = object : OnItemClickListener<ProgramItemClick> {
 
-            override fun onItemClicked(item: ProgramEntity) {
+            override fun onItemClicked(item: ProgramItemClick) {
 
             }
         }

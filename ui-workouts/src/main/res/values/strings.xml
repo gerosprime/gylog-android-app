@@ -40,4 +40,7 @@
     <string name="workout_name_just_started">%s just started.</string>
     <string name="rest_done_go_back_to_work">Rest time has finished! Let\'s get back to work.</string>
 
+    <string name="workout_history_repweight_format">%.2f KG x %d Reps</string>
+    <string name="no_performed_repetions_logged">No performed repetions logged</string>
+
 </resources>

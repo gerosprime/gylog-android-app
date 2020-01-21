@@ -28,6 +28,7 @@ import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.R
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.UnflagRemovePerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.save.WorkoutSessionSaveResult
 import com.gerosprime.gylog.ui.workouts.R
+import com.gerosprime.gylog.ui.workouts.history.WorkoutExerciseHistoryFragment
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity.DialogTag.SESSION_INFO
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity.Extras.WORKOUT_RECORD_ID
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity.States.RESUME_WORKOUT
@@ -69,6 +70,16 @@ class WorkoutSessionActivity : AppCompatActivity(),
     }
 
     // Adapter listener implementations
+
+    private val exerciseClickListener = object : OnItemClickListener<WorkoutExerciseClick> {
+        override fun onItemClicked(item: WorkoutExerciseClick) {
+            val historyFragment =
+                WorkoutExerciseHistoryFragment.createInstance(getWorkoutRecordID(),
+                    item.exerciseId)
+            historyFragment.show(supportFragmentManager, "")
+        }
+    }
+
     private val setItemClick = object : OnItemClickListener<PerformedSetClick> {
         override fun onItemClicked(item: PerformedSetClick) {
             if (!item.performedSet.flagRemoved) {
@@ -359,13 +370,14 @@ class WorkoutSessionActivity : AppCompatActivity(),
 
         exercisesRecyclerView.adapter =
             PerformedExerciseAdapter(prePerformedExercises,
-            setItemClick, addClickListener, removeItemClick, unRemoveItemClick)
+            exerciseClickListener, setItemClick, addClickListener, removeItemClick, unRemoveItemClick)
     }
 
     private fun populateCreatedSession(result: WorkoutSessionCreationResult) {
         val prePerformedExercises = result.prePerformedExercises
         exercisesRecyclerView.adapter = PerformedExerciseAdapter(prePerformedExercises,
-            setItemClick, addClickListener, removeItemClick, unRemoveItemClick)
+            exerciseClickListener, setItemClick,
+            addClickListener, removeItemClick, unRemoveItemClick)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

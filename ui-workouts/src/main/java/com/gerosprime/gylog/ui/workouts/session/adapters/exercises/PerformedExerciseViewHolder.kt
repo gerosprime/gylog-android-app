@@ -20,6 +20,7 @@ import com.google.android.material.button.MaterialButton
 
 internal class PerformedExerciseViewHolder
     (itemView: View,
+     private val exerciseClickListener: OnItemClickListener<WorkoutExerciseClick>,
      private val setClickListener: OnItemClickListener<PerformedSetClick>,
      private var addItemClick : OnItemClickListener<AddPerformSetClick>,
      private var removeItemClick : OnItemClickListener<RemovePerformSetClick>,
@@ -35,6 +36,14 @@ internal class PerformedExerciseViewHolder
 
     private lateinit var performedExercise : ExercisePerformedEntity
     private var exercisePosition : Int = -1
+
+    private val internalExerciseClickListener = object : OnItemClickListener<Int> {
+        override fun onItemClicked(item: Int) {
+            exerciseClickListener.onItemClicked(
+                WorkoutExerciseClick(exercisePosition, performedExercise.exerciseId))
+        }
+
+    }
 
     private val internalSetClickListener = object : OnItemClickListener<Int> {
 
@@ -87,8 +96,6 @@ internal class PerformedExerciseViewHolder
 
     private fun menuClicked(menuItem: MenuItem) : Boolean {
 
-
-
         return true
     }
 
@@ -102,6 +109,8 @@ internal class PerformedExerciseViewHolder
         this.performedExercise = performedExercise
         this.exercisePosition = position
         nameTextView.text = performedExercise.name
+
+        nameTextView.setOnClickListener { internalExerciseClickListener.onItemClicked(position) }
 
         if (payloads.isEmpty())
             return
@@ -151,6 +160,8 @@ internal class PerformedExerciseViewHolder
         this.performedExercise = performedExercise
         this.exercisePosition = position
         nameTextView.text = performedExercise.name
+
+        nameTextView.setOnClickListener { internalExerciseClickListener.onItemClicked(position) }
 
         setsRecyclerView.adapter =
             PerformedSetAdapter(performedExercise.performedSets,

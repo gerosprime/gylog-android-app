@@ -3,10 +3,13 @@ package com.gerosprime.gylog.ui.workouts.detail.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.templates.ExerciseTemplateEntity
 import com.gerosprime.gylog.ui.workouts.R
 
-class WorkoutDetailAdapter(private val exercises : List<ExerciseTemplateEntity>)
+class WorkoutDetailAdapter(private val clickListener
+                           : OnItemClickListener<WorkoutExerciseClick>,
+                           private val exercises : List<ExerciseTemplateEntity>)
     : RecyclerView.Adapter<WorkoutDetailViewHolder>() {
 
     private var layoutInflater : LayoutInflater? = null
@@ -17,7 +20,7 @@ class WorkoutDetailAdapter(private val exercises : List<ExerciseTemplateEntity>)
 
         val inflated = layoutInflater!!.inflate(R.layout.viewholder_workout_detail_exercises, parent, false)
 
-        return WorkoutDetailViewHolder(inflated)
+        return WorkoutDetailViewHolder(clickListener, inflated)
 
     }
 

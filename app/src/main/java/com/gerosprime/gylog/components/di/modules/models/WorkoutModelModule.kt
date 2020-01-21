@@ -12,6 +12,8 @@ import com.gerosprime.gylog.models.workouts.edit.commit.DefaultWorkoutSetExercis
 import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutSetExerciseCacheUC
 import com.gerosprime.gylog.models.workouts.edit.load.DefaultWorkoutExerciseEditLoader
 import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoader
+import com.gerosprime.gylog.models.workouts.history.DefaultWorkoutExerciseHistoryLoader
+import com.gerosprime.gylog.models.workouts.history.WorkoutExerciseHistoryLoader
 import com.gerosprime.gylog.models.workouts.save.DefaultSaveWorkoutsDatabaseUC
 import com.gerosprime.gylog.models.workouts.save.SaveWorkoutsDatabaseUC
 import dagger.Module
@@ -64,5 +66,10 @@ class WorkoutModelModule {
                                    database : GylogEntityDatabase) : SaveWorkoutsDatabaseUC
         = DefaultSaveWorkoutsDatabaseUC(modelsCache, cacheBuilder, database)
 
+    @Provides
+    @Singleton
+    fun provideDefaultWorkoutHistory(modelsCache: ModelsCache,
+                                     cacheBuilder: ModelCacheBuilder) : WorkoutExerciseHistoryLoader
+            = DefaultWorkoutExerciseHistoryLoader(cacheBuilder, modelsCache)
 
 }

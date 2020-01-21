@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
 import com.gerosprime.gylog.ui.exercises.R
@@ -35,6 +36,10 @@ class DashboardExercisesViewHolder(
         this.exerciseItem = exerciseEntity
 
         titleTextView.text = exerciseEntity.name
+
+        Glide.with(itemView).load(R.color.colorPrimary)
+            .into(imageTextView)
+
         // TODO Image
         var adapter = targetMusclesRecyclerView.adapter as TargetMusclesAdapter?
         if (adapter != null) {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.google.android.material.appbar.MaterialToolbar
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:subtitle="@string/history"
+            android:id="@+id/fragment_workout_history_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_workout_history_exercises"
+            tools:listitem="@layout/viewholder_workout_exercise_history"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/fragment_workout_history_exercises_empty"
+            android:text="@string/no_performed_repetions_logged"
+            android:visibility="gone"
+            android:layout_margin="@dimen/dimen_16dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="120dp" />
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

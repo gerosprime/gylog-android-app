@@ -26,6 +26,7 @@ import com.gerosprime.gylog.models.workouts.detail.WorkoutCacheLoader
 import com.gerosprime.gylog.models.workouts.edit.add.WorkoutAddToCacheUseCase
 import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutSetExerciseCacheUC
 import com.gerosprime.gylog.models.workouts.edit.load.WorkoutExerciseEditLoader
+import com.gerosprime.gylog.models.workouts.history.WorkoutExerciseHistoryLoader
 import com.gerosprime.gylog.models.workouts.runningsession.create.WorkoutSessionCreator
 import com.gerosprime.gylog.models.workouts.runningsession.discard.RunningWorkoutSessionDiscardUC
 import com.gerosprime.gylog.models.workouts.runningsession.finalizer.RunningWorkoutSessionFinalizer
@@ -46,6 +47,7 @@ import com.gerosprime.gylog.ui.programs.add.DefaultProgramsAddViewModel
 import com.gerosprime.gylog.ui.programs.detail.DefaultProgramDetailViewModel
 import com.gerosprime.gylog.ui.workouts.detail.DefaultWorkoutDetailViewModel
 import com.gerosprime.gylog.ui.workouts.exercises.DefaultWorkoutExerciseEditViewModel
+import com.gerosprime.gylog.ui.workouts.history.DefaultWorkoutExerciseHistoryViewModel
 import com.gerosprime.gylog.ui.workouts.session.DefaultWorkoutSessionViewModel
 import com.gerosprime.gylog.ui.workouts.session.info.DefaultSessionInfoViewModel
 import com.gerosprime.ui.fat.DefaultBodyFatGraphViewModel
@@ -240,6 +242,18 @@ class ViewModelModule {
             : ViewModel {
         return DefaultExerciseDetailViewModel(MutableLiveData(),
             exercisesCacheLoader, AndroidSchedulers.mainThread(), Schedulers.io())
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DefaultWorkoutExerciseHistoryViewModel::class)
+    fun provideDefaultWorkoutExerciseHistoryViewModel(
+        workoutExerciseHistoryLoader: WorkoutExerciseHistoryLoader
+    )
+            : ViewModel {
+        return DefaultWorkoutExerciseHistoryViewModel(
+            MutableLiveData(), MutableLiveData(),
+            workoutExerciseHistoryLoader, AndroidSchedulers.mainThread(), Schedulers.io())
     }
 
 }

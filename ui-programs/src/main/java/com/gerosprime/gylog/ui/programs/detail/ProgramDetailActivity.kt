@@ -25,13 +25,11 @@ import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity.Extras.PROG
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity.RequestCodes.PROGRAM_EDIT
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity.RequestCodes.WORKOUT_SESSION
 import com.gerosprime.gylog.ui.programs.detail.adapter.ProgramDetailAdapter
-import com.gerosprime.gylog.ui.programs.workouts.AddWorkoutDialogFragment
 import com.gerosprime.gylog.ui.workouts.detail.WorkoutDetailDialogFragment
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import dagger.android.AndroidInjection
-import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 
@@ -39,7 +37,18 @@ class ProgramDetailActivity : AppCompatActivity(),
     WorkoutDetailDialogFragment.OnStartClickListener {
 
     object Extras {
+        const val PROGRAM_INDEX = "extra_program_affected_index"
         const val PROGRAM_RECORD_ID = "extra_program_record_id"
+    }
+
+    object ResultExtras {
+        const val PROGRAM_EDIT_MODE = "extra_program_edit_mode"
+    }
+
+    object Mode {
+        const val INSERT = 0
+        const val EDIT = 1
+        const val REMOVE = 2
     }
 
     object RequestCodes {
@@ -135,7 +144,13 @@ class ProgramDetailActivity : AppCompatActivity(),
             PROGRAM_EDIT -> {
                 if (resultCode == Activity.RESULT_OK) {
                     viewModel.loadProgramDetail(getProgramRecordId())
-                    setResult(Activity.RESULT_OK)
+                    val returnData = Intent()
+                    returnData.putExtra(ResultExtras.PROGRAM_EDIT_MODE,
+                        data?.getIntExtra(ProgramsAddActivity.Result.EXTRA_PROGRAM_EDIT_MODE, -1))
+
+                    val index = data?.getIntExtra(ProgramsAddActivity.Result.EXTRA_PROGRAM_AFFECTED_INDEX, -1)
+                    returnData.putExtra(Extras.PROGRAM_INDEX, index)
+                    setResult(Activity.RESULT_OK, returnData)
                 }
             }
 

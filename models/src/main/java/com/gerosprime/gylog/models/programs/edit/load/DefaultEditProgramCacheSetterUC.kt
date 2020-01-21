@@ -19,6 +19,7 @@ class DefaultEditProgramCacheSetterUC @Inject constructor(
     override fun editProgramSetToCache(programId : Long?) : Single<EditProgramSetToCacheResult> {
         return cacheBuilder.build().andThen(Single.fromCallable {
 
+            var mode = EditProgramSetToCacheResult.Mode.ADD
             if (programId == null || programId < 0) {
                 editProgramEntityCache.editProgram =
                     ProgramEntity()
@@ -26,7 +27,7 @@ class DefaultEditProgramCacheSetterUC @Inject constructor(
 
                 val programCopy = modelsCache.programsMap[programId]!!.deepCopy()
                 editProgramEntityCache.editProgram = programCopy
-
+                mode = EditProgramSetToCacheResult.Mode.EDIT
             }
 
             val workouts = editProgramEntityCache.editProgram!!.workouts
@@ -38,8 +39,7 @@ class DefaultEditProgramCacheSetterUC @Inject constructor(
 
             EditProgramSetToCacheResult(
                 editProgramEntityCache.editProgram!!,
-                copyWorkouts
-            )
+                copyWorkouts, mode)
         })
     }
 }

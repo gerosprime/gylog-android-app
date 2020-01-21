@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item >
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorPrimary" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ic_fitness_center_white_24dp"  >
+
+        <bitmap android:src="@drawable/ic_fitness_center_white_24dp"
+            android:tileMode="clamp"
+            android:antialias="true" android:gravity="center" />
+
+    </item>
+
+</layer-list>

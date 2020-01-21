@@ -71,16 +71,18 @@ class DefaultModelCacheBuilder (private val modelsCache: ModelsCache,
             if (modelsCache.performedExercises.isEmpty()) {
                 val performedExercises = database.exercisePerformedDao().loadExercises()
 
+                modelsCache.performedExercises.addAll(performedExercises)
                 for (performedExercise in performedExercises) {
-                    modelsCache.performedExercises[performedExercise.recordId!!] = performedExercise
+                    modelsCache.performedExercisesMap[performedExercise.recordId!!] = performedExercise
                 }
             }
 
             if (modelsCache.performedSets.isEmpty()) {
                 val performedSets = database.performedSetEntityDao().loadPerformedSets()
-
+                modelsCache.performedSets.addAll(performedSets)
                 for (performedSet in performedSets) {
-                    modelsCache.performedSets[performedSet.recordId!!] = performedSet
+                    modelsCache.performedSetsMap[performedSet.recordId!!] = performedSet
+
                 }
             }
 

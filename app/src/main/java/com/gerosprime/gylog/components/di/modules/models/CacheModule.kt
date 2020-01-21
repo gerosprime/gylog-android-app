@@ -23,7 +23,8 @@ class CacheModule {
         exercisesMap = Collections.synchronizedMap(mutableMapOf()), exercisesList = arrayListOf(),
         templateExercisesMap = Collections.synchronizedMap(mutableMapOf()), templateExercises = arrayListOf(),
         templateSets = arrayListOf(), templateSetsMap = Collections.synchronizedMap(mutableMapOf()),
-        performedExercises = Collections.synchronizedMap(mutableMapOf()), performedSets = Collections.synchronizedMap(mutableMapOf()),
+        performedExercisesMap = Collections.synchronizedMap(mutableMapOf()), performedExercises = arrayListOf(),
+        performedSetsMap = Collections.synchronizedMap(mutableMapOf()), performedSets = arrayListOf(),
         bodyWeightMap = Collections.synchronizedMap(mutableMapOf()), bodyFatMap = Collections.synchronizedMap(mutableMapOf()))
 
     @Provides

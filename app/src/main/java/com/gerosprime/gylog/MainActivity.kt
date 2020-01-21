@@ -1,6 +1,5 @@
 package com.gerosprime.gylog
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -15,8 +14,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.gerosprime.gylog.MainActivity.RequestCodes.EXERCISE_DETAIL
 import com.gerosprime.gylog.MainActivity.RequestCodes.EXERCISE_EDIT
+import com.gerosprime.gylog.MainActivity.RequestCodes.PROGRAM_DETAIL
 import com.gerosprime.gylog.MainActivity.RequestCodes.PROGRAM_EDIT
-import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.ExerciseDatabaseSaveResult
 import com.gerosprime.gylog.ui.exercises.add.ExerciseAddActivity
 import com.gerosprime.gylog.ui.exercises.dashboard.DashboardExercisesFragment
@@ -24,10 +23,10 @@ import com.gerosprime.gylog.ui.exercises.dashboard.ExerciseItemClick
 import com.gerosprime.gylog.ui.exercises.detail.ExerciseDetailActivity
 import com.gerosprime.gylog.ui.programs.ProgramsDashboardFragment
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
+import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity
 import com.gerosprime.gylog.ui.settings.SettingsActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.gun0912.tedpermission.TedPermission
 
 class MainActivity : AppCompatActivity(), DashboardExercisesFragment.Listener {
 
@@ -38,6 +37,7 @@ class MainActivity : AppCompatActivity(), DashboardExercisesFragment.Listener {
 
 
     object RequestCodes {
+        const val PROGRAM_DETAIL = 31
         const val PROGRAM_EDIT = 32
         const val EXERCISE_EDIT = 33
         const val EXERCISE_DETAIL = 34
@@ -91,18 +91,55 @@ class MainActivity : AppCompatActivity(), DashboardExercisesFragment.Listener {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            PROGRAM_EDIT -> {
 
+            PROGRAM_DETAIL -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val insertIndex =
-                        data!!.getIntExtra(ProgramsAddActivity.Result.EXTRA_PROGRAM_INSERT_INDEX, 0)
+                        data!!.getIntExtra(ProgramDetailActivity.Extras.PROGRAM_INDEX, 0)
 
                     val findFragmentById =
                         supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
                     val fragment
                             = findFragmentById!!.childFragmentManager.fragments[0]
                             as ProgramsDashboardFragment
-                    fragment.notifyItemInserted(insertIndex)
+
+                    when (val mode = data.getIntExtra(ProgramDetailActivity.ResultExtras.PROGRAM_EDIT_MODE, -1)) {
+                        ProgramsAddActivity.Mode.EDIT -> {
+                            fragment.notifyItemUpdated(insertIndex)
+                        }
+                        ProgramsAddActivity.Mode.INSERT -> {
+                            fragment.notifyItemInserted(insertIndex)
+                        }
+                        else -> {
+                            throw IllegalArgumentException("Invalid mode: $mode")
+                        }
+                    }
+                }
+            }
+
+            PROGRAM_EDIT -> {
+
+                if (resultCode == Activity.RESULT_OK) {
+                    val insertIndex =
+                        data!!.getIntExtra(ProgramsAddActivity.Result.EXTRA_PROGRAM_AFFECTED_INDEX, 0)
+
+                    val findFragmentById =
+                        supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                    val fragment
+                            = findFragmentById!!.childFragmentManager.fragments[0]
+                            as ProgramsDashboardFragment
+
+                    when (val mode = data.getIntExtra(ProgramsAddActivity.Result.EXTRA_PROGRAM_EDIT_MODE, -1)) {
+                        ProgramsAddActivity.Mode.EDIT -> {
+                            fragment.notifyItemUpdated(insertIndex)
+                        }
+                        ProgramsAddActivity.Mode.INSERT -> {
+                            fragment.notifyItemInserted(insertIndex)
+                        }
+                        else -> {
+                            throw IllegalArgumentException("Invalid mode: $mode")
+                        }
+                    }
                 }
 
             }

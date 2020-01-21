@@ -57,7 +57,8 @@ class DefaultWorkoutSessionCreator(private val modelsCache: ModelsCache,
             val performedExercise = ExercisePerformedEntity(
                 exerciseId = exercise.exerciseId,
                 previousExercisePerformedId = 0,
-                name = exercise.name)
+                name = exercise.name,
+                workoutId = exercise.workoutId)
             performedExercise.performedSets = performedSets
             prePerformedExercises.add(performedExercise)
         }

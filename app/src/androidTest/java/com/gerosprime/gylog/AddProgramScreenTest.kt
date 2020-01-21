@@ -60,6 +60,7 @@ class AddProgramScreenTest {
         addProgramScreen {
             programName("New Program Name")
             description("New Program Description")
+            closeInputKeyboard()
             clickAddWorkout()
         }
 

@@ -28,7 +28,8 @@ import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.Extras.EXTRA_PRO
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.RequestCodes.IMAGE_PICKER
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.RequestCodes.TEMPLATE_SET_EDIT
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.RequestCodes.WORKOUT_EDIT
-import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.Result.EXTRA_PROGRAM_INSERT_INDEX
+import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.Result.EXTRA_PROGRAM_AFFECTED_INDEX
+import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.Result.EXTRA_PROGRAM_EDIT_MODE
 import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionClicked
 import com.gerosprime.gylog.ui.programs.add.workouts.ProgramWorkoutsAdapter
 import com.gerosprime.gylog.ui.programs.workouts.AddWorkoutDialogFragment
@@ -56,9 +57,17 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
     private lateinit var toolbar : Toolbar
 
     private var pictureUri : Uri? = null
+    private var mode : Int = -1
+
+    object Mode {
+        const val INSERT = 0
+        const val EDIT = 1
+        const val REMOVE = 2
+    }
 
     object Result {
-        const val EXTRA_PROGRAM_INSERT_INDEX = "program_insert_index"
+        const val EXTRA_PROGRAM_AFFECTED_INDEX = "program_insert_index"
+        const val EXTRA_PROGRAM_EDIT_MODE = "program_edit_mode"
     }
 
     object Extras {
@@ -127,8 +136,6 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
                     }).check()
             }
 
-
-
         else {
             if (savedInstanceState.containsKey(State.STATE_PICTURE_URI)) {
                 pictureUri = savedInstanceState.getParcelable(State.STATE_PICTURE_URI)
@@ -162,7 +169,8 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
     private fun programSaved(result: SaveProgramDatabaseResult?) {
 
         val intentData = Intent()
-        intentData.putExtra(EXTRA_PROGRAM_INSERT_INDEX, result!!.savedIndex)
+        intentData.putExtra(EXTRA_PROGRAM_AFFECTED_INDEX, result!!.savedIndex)
+        intentData.putExtra(EXTRA_PROGRAM_EDIT_MODE, mode)
         setResult(Activity.RESULT_OK, intentData)
         finish()
 
@@ -203,6 +211,8 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
     }
 
     private fun newProgramLoaded(editProgramSetToCacheResult: EditProgramSetToCacheResult) {
+
+        mode = editProgramSetToCacheResult.mode
 
         val adapter = ProgramWorkoutsAdapter(editProgramSetToCacheResult.workouts)
         adapter.exerciseWorkoutListener = object : OnItemClickListener<Int> {

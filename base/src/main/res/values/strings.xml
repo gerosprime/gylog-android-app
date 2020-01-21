@@ -50,5 +50,6 @@
     <string name="clear">Clear</string>
 
     <string name="read_permission_rationale">In order to fully work. Gylog needs to access external storage. This allows to read pictures to be displayed in items.</string>
+    <string name="history">History</string>
 
 </resources>

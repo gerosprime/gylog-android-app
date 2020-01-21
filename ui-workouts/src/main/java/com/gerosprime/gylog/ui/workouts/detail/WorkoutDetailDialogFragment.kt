@@ -13,12 +13,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.TimeFormatUtil
 import com.gerosprime.gylog.models.workouts.detail.LoadWorkoutFromCacheResult
 import com.gerosprime.gylog.ui.workouts.R
 import com.gerosprime.gylog.ui.workouts.detail.adapter.WorkoutDetailAdapter
-import com.gerosprime.gylog.ui.workouts.detail.adapter.WorkoutDetailViewHolder
+import com.gerosprime.gylog.ui.workouts.detail.adapter.WorkoutExerciseClick
+import com.gerosprime.gylog.ui.workouts.history.WorkoutExerciseHistoryFragment
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.activity_workout_session.*
 import javax.inject.Inject
 
 class WorkoutDetailDialogFragment : DialogFragment() {
@@ -37,6 +40,15 @@ class WorkoutDetailDialogFragment : DialogFragment() {
     lateinit var exercisesRecyclerView: RecyclerView
 
     private var listener : OnStartClickListener? = null
+
+    private var exerciseClickListener = object : OnItemClickListener<WorkoutExerciseClick> {
+        override fun onItemClicked(item: WorkoutExerciseClick) {
+            val historyFragment =
+                WorkoutExerciseHistoryFragment.createInstance(getWorkoutRecordID(),
+                    item.entity.exerciseId)
+            historyFragment.show(childFragmentManager, "")
+        }
+    }
 
     companion object Factory {
         fun createInstance(workoutRecordId: Long) : WorkoutDetailDialogFragment {
@@ -97,7 +109,8 @@ class WorkoutDetailDialogFragment : DialogFragment() {
     private fun populateWorkoutDetail(result: LoadWorkoutFromCacheResult) {
 
         val workout = result.workout
-        exercisesRecyclerView.adapter = WorkoutDetailAdapter(workout.exercises)
+        exercisesRecyclerView.adapter = WorkoutDetailAdapter(exerciseClickListener,
+            workout.exercises)
         durationTextView.text = TimeFormatUtil.secondsToString(result.durationSeconds.toLong())
         titleTextView.text = workout.name
         subTitleTextView.text = workout.description

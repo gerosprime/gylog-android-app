@@ -10,6 +10,7 @@ import com.gerosprime.gylog.ui.workouts.R
 
 internal class PerformedExerciseAdapter
     (private val performedExercises: List<ExercisePerformedEntity>,
+     private val exerciseClickListener: OnItemClickListener<WorkoutExerciseClick>,
      private val setClickListener: OnItemClickListener<PerformedSetClick>,
      private var addItemClick : OnItemClickListener<AddPerformSetClick>,
      private var removeItemClick : OnItemClickListener<RemovePerformSetClick>,
@@ -26,7 +27,7 @@ internal class PerformedExerciseAdapter
             R.layout.viewholder_workout_session_exercises,
             parent, false)
 
-        return PerformedExerciseViewHolder(inflated,
+        return PerformedExerciseViewHolder(inflated, exerciseClickListener,
             setClickListener, addItemClick,
             removeItemClick, unRemovetemClick)
     }
