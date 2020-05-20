@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -97,7 +96,7 @@ class EditTemplateSetsActivity : AppCompatActivity() {
         totalRestTimeTextView = findViewById(R.id.activity_template_set_total_rest_time)
 
 
-        viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProvider(this, factory)
             .get(DefaultEditTemplateSetsViewModel::class.java)
 
         viewModel.loadTemplateSetsMutableLiveData.observe(this,

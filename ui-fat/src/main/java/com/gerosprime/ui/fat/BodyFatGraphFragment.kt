@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.gerosprime.gylog.models.body.fat.AllBodyFatsCacheLoadResult
 import com.gerosprime.gylog.models.body.fat.BodyFatEntity
 import com.gerosprime.ui.fat.BodyFatGraphFragment.DialogTags.BODY_WEIGHT_LOG
@@ -43,7 +42,7 @@ class BodyFatGraphFragment : Fragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProvider(this, factory)
             .get(DefaultBodyFatGraphViewModel::class.java)
 
     }
@@ -88,9 +87,9 @@ class BodyFatGraphFragment : Fragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.bodyFatDataMLD.observe(this, Observer { plotBodyWeightsToChart(it) })
+        viewModel.bodyFatDataMLD.observe(viewLifecycleOwner, Observer { plotBodyWeightsToChart(it) })
 
-        viewModel.savedBodyFatDataMLD.observe(this, Observer {
+        viewModel.savedBodyFatDataMLD.observe(viewLifecycleOwner, Observer {
             viewModel.loadData()
         })
 

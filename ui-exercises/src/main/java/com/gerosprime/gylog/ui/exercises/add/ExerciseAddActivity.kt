@@ -9,7 +9,6 @@ import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.gerosprime.gylog.models.muscle.MuscleEnum
 import com.gerosprime.gylog.ui.exercises.R
 import com.gerosprime.gylog.ui.exercises.add.ExerciseAddActivity.Extras.RECORD_ID
@@ -27,9 +26,9 @@ class ExerciseAddActivity : AppCompatActivity() {
     lateinit var factory : ViewModelProvider.Factory
     lateinit var viewModel : ExerciseAddViewModel
 
-    lateinit var nameTextInputLayout: TextInputLayout
-    lateinit var descriptionTextInputLayout: TextInputLayout
-    lateinit var directionTextInputLayout: TextInputLayout
+    private lateinit var nameTextInputLayout: TextInputLayout
+    private lateinit var descriptionTextInputLayout: TextInputLayout
+    private lateinit var directionTextInputLayout: TextInputLayout
 
     object Extras {
         const val RECORD_ID = "extra_exercise_record_id"
@@ -40,15 +39,15 @@ class ExerciseAddActivity : AppCompatActivity() {
         const val INDEX = "result_index"
     }
 
-    var muscleMaps : MutableMap<MuscleEnum, Chip> = mutableMapOf()
-    var chipMuscleMaps : MutableMap<Chip, MuscleEnum> = mutableMapOf()
+    private var muscleMaps : MutableMap<MuscleEnum, Chip> = mutableMapOf()
+    private var chipMuscleMaps : MutableMap<Chip, MuscleEnum> = mutableMapOf()
 
-    lateinit var chestChip : Chip
-    lateinit var chestUpperChip : Chip
-    lateinit var chestLowerChip : Chip
-    lateinit var tricepsChip : Chip
-    lateinit var bicepsChip : Chip
-    lateinit var upperBackChip : Chip
+    private lateinit var chestChip : Chip
+    private lateinit var chestUpperChip : Chip
+    private lateinit var chestLowerChip : Chip
+    private lateinit var tricepsChip : Chip
+    private lateinit var bicepsChip : Chip
+    private lateinit var upperBackChip : Chip
     lateinit var lowerBackChip : Chip
     lateinit var hamstringsChip : Chip
     lateinit var forearmsChip : Chip
@@ -60,13 +59,13 @@ class ExerciseAddActivity : AppCompatActivity() {
     lateinit var quadsChip : Chip
     lateinit var calvesChip : Chip
 
-    lateinit var selectedMuscles : ArrayList<MuscleEnum>
+    private lateinit var selectedMuscles : ArrayList<MuscleEnum>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProvider(this, factory)
             .get(DefaultExerciseAddViewModel::class.java)
 
         setContentView(R.layout.activity_exercise_add)
@@ -220,7 +219,7 @@ class ExerciseAddActivity : AppCompatActivity() {
 
         val name = nameTextInputLayout.editText?.text.toString()
 
-        if (name.isNullOrBlank()) {
+        if (name.isBlank()) {
             nameTextInputLayout.error = getString(R.string.exercise_add_name_is_required)
             return
         }

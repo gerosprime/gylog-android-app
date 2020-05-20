@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
@@ -120,10 +119,10 @@ class WorkoutDetailDialogFragment : DialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProvider(this, factory)
             .get(DefaultWorkoutDetailViewModel::class.java)
 
-        viewModel.workoutLoadCacheResultMLD.observe(this,
+        viewModel.workoutLoadCacheResultMLD.observe(viewLifecycleOwner,
             Observer {
             populateWorkoutDetail(it)
         })

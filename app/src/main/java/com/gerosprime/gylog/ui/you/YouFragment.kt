@@ -1,6 +1,6 @@
 package com.gerosprime.gylog.ui.you
 
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -57,7 +57,7 @@ class YouFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(YouViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(YouViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

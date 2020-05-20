@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.TimeFormatUtil
@@ -171,7 +170,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
         addTimerButton = findViewById(R.id.activity_workout_session_rest_timer_add)
         minusTimerButton = findViewById(R.id.activity_workout_session_rest_timer_minus)
 
-        viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProvider(this, factory)
             .get(DefaultWorkoutSessionViewModel::class.java)
 
         timerContainer.visibility =

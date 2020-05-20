@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.OnItemClickListener
@@ -53,7 +52,7 @@ class DashboardExercisesFragment :Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProvider(this, factory)
             .get(DefaultDashboardExercisesViewModel::class.java)
     }
 
@@ -74,8 +73,8 @@ class DashboardExercisesFragment :Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.fetchStateLiveData.observe(this, Observer { fetchStateChanged(it) })
-        viewModel.exercisesLiveData.observe(this, Observer { populateExercises(exercises = it) })
+        viewModel.fetchStateLiveData.observe(viewLifecycleOwner, Observer { fetchStateChanged(it) })
+        viewModel.exercisesLiveData.observe(viewLifecycleOwner, Observer { populateExercises(exercises = it) })
 
         if (savedInstanceState == null) {
 

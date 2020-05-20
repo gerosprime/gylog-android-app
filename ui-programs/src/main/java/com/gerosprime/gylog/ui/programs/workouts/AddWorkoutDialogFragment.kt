@@ -32,8 +32,8 @@ class AddWorkoutDialogFragment : DialogFragment() {
 
         return AlertDialog.Builder(context!!)
             .setTitle(R.string.add_workout)
-            .setPositiveButton("Create") { dialogInterface, i -> }
-            .setNegativeButton("Cancel") { dialogInterface, i -> }
+            .setPositiveButton("Create") { _, _ -> }
+            .setNegativeButton("Cancel") { _, _ -> }
             .setView(R.layout.fragment_add_workout_dialog)
             .create()
 

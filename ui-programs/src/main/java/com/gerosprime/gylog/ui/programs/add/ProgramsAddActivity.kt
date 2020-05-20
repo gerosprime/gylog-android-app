@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gerosprime.gylog.base.OnItemClickListener
@@ -92,7 +91,7 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProvider(this, factory)
             .get(DefaultProgramsAddViewModel::class.java)
 
         setContentView(R.layout.activity_add_programs)

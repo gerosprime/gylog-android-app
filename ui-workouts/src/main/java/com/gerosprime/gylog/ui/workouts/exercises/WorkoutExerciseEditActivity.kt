@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.FetchState
@@ -30,12 +29,10 @@ class WorkoutExerciseEditActivity : AppCompatActivity(),
 
     object EXTRAS {
         const val EXTRA_WORKOUT_INDEX = "extra_workout_index"
-        val EXTRA_RESULT_START_INDEX = "extra_result_start_index"
-        val EXTRA_RESULT_END_INDEX = "extra_result_end_index"
     }
 
     object DialogTags {
-        val FILTER_DIALOG = "dialog_filter_dialog"
+        const val FILTER_DIALOG = "dialog_filter_dialog"
     }
 
     @Inject
@@ -51,7 +48,7 @@ class WorkoutExerciseEditActivity : AppCompatActivity(),
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProvider(this, factory)
             .get(DefaultWorkoutExerciseEditViewModel::class.java)
 
         setContentView(R.layout.activity_workout_exercise_add)
@@ -69,8 +66,6 @@ class WorkoutExerciseEditActivity : AppCompatActivity(),
         exercisesRecyclerView.addItemDecoration(DividerItemDecoration(this,
             DividerItemDecoration.VERTICAL))
 
-        viewModel.fetchStateMutableLiveData.observe(this,
-            Observer { fetchStateChanged(it) })
         viewModel.exercisesMutableLiveData.observe(this,
             Observer { populateExercises(it) })
         viewModel.exerciseCacheMutableLiveData.observe(this,
@@ -113,20 +108,8 @@ class WorkoutExerciseEditActivity : AppCompatActivity(),
             result.workoutExercisesMap,
             result.exercises
         )
-        adapter.imageClickListener = object : OnItemClickListener<ExerciseEntity> {
-            override fun onItemClicked(item: ExerciseEntity) {
-                exerciseImageClicked(item)
-            }
-        }
+
         exercisesRecyclerView.adapter = adapter
-    }
-
-    private fun exerciseImageClicked(entity: ExerciseEntity) {
-        // Open details
-    }
-
-    private fun fetchStateChanged(fetchState: FetchState) {
-
     }
 
     private fun exercisesSetToWorkout(result : WorkoutExerciseSetCacheResult) {

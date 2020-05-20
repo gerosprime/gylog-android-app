@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.models.workouts.history.WorkoutExerciseHistoryResult
@@ -58,7 +57,7 @@ class WorkoutExerciseHistoryFragment : BottomSheetDialogFragment() {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProvider(this, factory)
             .get(DefaultWorkoutExerciseHistoryViewModel::class.java)
 
     }
@@ -85,7 +84,7 @@ class WorkoutExerciseHistoryFragment : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.workoutExerciseHistoryMLD.observe(this, Observer {
+        viewModel.workoutExerciseHistoryMLD.observe(viewLifecycleOwner, Observer {
             populateExercises(it)
         })
 

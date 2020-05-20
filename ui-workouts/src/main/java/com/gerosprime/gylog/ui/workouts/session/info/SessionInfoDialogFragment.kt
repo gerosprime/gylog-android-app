@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.gerosprime.gylog.models.workouts.runningsession.load.WorkoutSessionInfoLoadResult
 import com.gerosprime.gylog.ui.workouts.R
 import dagger.android.support.AndroidSupportInjection
@@ -68,7 +67,7 @@ class SessionInfoDialogFragment : DialogFragment() {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        viewmodel = ViewModelProviders.of(this, factory)
+        viewmodel = ViewModelProvider(this, factory)
             .get(DefaultSessionInfoViewModel::class.java)
     }
 
@@ -124,10 +123,10 @@ class SessionInfoDialogFragment : DialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewmodel.sessionInfoStopwatchMLD.observe(this,  Observer {
+        viewmodel.sessionInfoStopwatchMLD.observe(viewLifecycleOwner,  Observer {
             durationTextView.text = it.toTimeString()
         })
-        viewmodel.sessionInfoMLD.observe(this, Observer {
+        viewmodel.sessionInfoMLD.observe(viewLifecycleOwner, Observer {
 
             populateSessionInfo(it)
             if (savedInstanceState == null)

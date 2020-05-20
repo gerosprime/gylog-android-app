@@ -7,11 +7,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.FetchState
@@ -19,7 +17,7 @@ import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.FetchStateUtils
 import com.gerosprime.gylog.models.programs.ProgramEntity
 import com.gerosprime.gylog.ui.programs.ProgramsDashboardFragment.RequestCodes.PROGRAM_DETAIL
-import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
+import com.gerosprime.gylog.ui.programs.databinding.FragmentDashboardProgramsBinding
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -35,6 +33,9 @@ class ProgramsDashboardFragment : Fragment() {
     private lateinit var usersProgramRecyclerView : RecyclerView
     private lateinit var builtInProgramRecyclerView : RecyclerView
 
+
+    private lateinit var programsBinding: FragmentDashboardProgramsBinding
+
     private lateinit var mainContent : View
     private lateinit var progressContent : View
     private lateinit var errorContent : View
@@ -48,8 +49,8 @@ class ProgramsDashboardFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(DefaultProgramsDashboardViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)
+        .get(DefaultProgramsDashboardViewModel::class.java)
     }
 
     fun notifyItemInserted(insertIndex : Int) {
@@ -79,26 +80,22 @@ class ProgramsDashboardFragment : Fragment() {
         var inflated : View = inflater.inflate(R.layout.fragment_dashboard_programs,
             container, false)
 
-        mainContent = inflated.findViewById(R.id.fragment_dashboard_programs_content)
-        progressContent = inflated.findViewById(R.id.fragment_dashboard_programs_progress)
-        errorContent = inflated.findViewById(R.id.fragment_dashboard_programs_error_content)
+        programsBinding = FragmentDashboardProgramsBinding.bind(inflated)
 
-
-        usersProgramRecyclerView = mainContent.findViewById(R.id.fragment_dashboard_userprograms)
-        usersProgramRecyclerView.layoutManager = LinearLayoutManager(context,
+        programsBinding.fragmentDashboardUserprograms.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.HORIZONTAL, false)
-        builtInProgramRecyclerView = mainContent.findViewById(R.id.fragment_dashboard_builtin_programs)
-        builtInProgramRecyclerView.layoutManager = LinearLayoutManager(context,
+        programsBinding.fragmentDashboardBuiltinPrograms.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.HORIZONTAL, false)
         return inflated
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.fetchStateLiveData.observe(this, Observer { fetchStateChanged(it) })
-        viewModel.userProgramListLiveData.observe(this, Observer { userProgramsLoaded(it) })
-        viewModel.builtInProgramsLiveData.observe(this, Observer { builtInProgramsLoaded(it) })
+        viewModel.fetchStateLiveData.observe(viewLifecycleOwner, Observer { fetchStateChanged(it) })
+        viewModel.userProgramListLiveData.observe(viewLifecycleOwner, Observer { userProgramsLoaded(it) })
+        viewModel.builtInProgramsLiveData.observe(viewLifecycleOwner, Observer { builtInProgramsLoaded(it) })
 
 
         if (savedInstanceState == null) {

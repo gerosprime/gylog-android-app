@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.gerosprime.gylog.base.utils.TimeFormatUtil
 import com.gerosprime.gylog.models.exercises.templatesets.single.TemplateSetEditLoadResult
 import com.gerosprime.gylog.models.exercises.templatesets.single.commit.TemplateSetCommitResult
@@ -55,7 +54,7 @@ class TemplateSetEditActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_template_set_edit)
 
-        viewModel = ViewModelProviders.of(this, factory)
+        viewModel = ViewModelProvider(this, factory)
             .get(DefaultTemplateSetEditViewModel::class.java)
 
         toolbar = findViewById(R.id.toolbar)
