@@ -28,7 +28,7 @@ android {
 
 }
 
-def dagger_version = '2.19'
+def dagger_version = '2.26'
 
 dependencies {
     implementation project(path: ':models')
