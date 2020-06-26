@@ -1,12 +1,12 @@
 package com.gerosprime.gylog.ui.exercises.dashboard
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
 
 interface DashboardExercisesViewModel {
-    val fetchStateLiveData: MutableLiveData<FetchState>
-    val exercisesLiveData: MutableLiveData<List<ExerciseEntity>>
-    val errorLiveData : MutableLiveData<Throwable>
+    val fetchStateLiveData: LiveData<FetchState>
+    val exercisesLiveData: LiveData<List<ExerciseEntity>>
+    val errorLiveData : LiveData<Throwable>
     fun loadExercises()
 }

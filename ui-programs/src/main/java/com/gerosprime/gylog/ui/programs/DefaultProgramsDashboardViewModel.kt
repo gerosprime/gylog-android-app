@@ -24,6 +24,7 @@ class DefaultProgramsDashboardViewModel constructor(
 
     private var compositeDisposable : CompositeDisposable = CompositeDisposable()
 
+
     override fun loadUserPrograms() {
 
         var loader : Single<LoadedProgramCacheResult> = programsCacheLoader.loadUserPrograms()

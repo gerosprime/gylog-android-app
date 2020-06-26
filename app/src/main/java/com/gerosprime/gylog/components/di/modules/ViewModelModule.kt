@@ -74,8 +74,7 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(DefaultDashboardExercisesViewModel::class)
     fun provideDefaultDashboardExercisesViewModel(exercisesCacheLoader: ExercisesCacheLoader) : ViewModel {
-        return DefaultDashboardExercisesViewModel(MutableLiveData(), MutableLiveData(),
-            MutableLiveData(), exercisesCacheLoader, Schedulers.io(),
+        return DefaultDashboardExercisesViewModel(exercisesCacheLoader, Schedulers.io(),
             AndroidSchedulers.mainThread())
     }
 
@@ -87,11 +86,9 @@ class ViewModelModule {
                                            commitProgramCacheUseCase : CommitEdittedProgramCacheUC,
                                            saveProgramDatabaseUC: SaveProgramDatabaseUC,
                                            saveWorkoutsDatabaseUC: SaveWorkoutsDatabaseUC,
-
                                            clearCacheUC: EditCacheClearUC
                                            ) : ViewModel {
         return DefaultProgramsAddViewModel(
-            MutableLiveData(), MutableLiveData(), MutableLiveData(),
             workoutAddTCUC, editProgramCSUC, commitProgramCacheUseCase, saveProgramDatabaseUC,
             saveWorkoutsDatabaseUC, clearCacheUC,
             AndroidSchedulers.mainThread(),

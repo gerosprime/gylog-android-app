@@ -15,6 +15,7 @@ import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.FetchStateUtils
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
 import com.gerosprime.gylog.ui.exercises.R
+import com.gerosprime.gylog.ui.exercises.databinding.FragmentDashboardExercisesBinding
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import dagger.android.support.AndroidSupportInjection
@@ -30,15 +31,11 @@ class DashboardExercisesFragment :Fragment() {
     lateinit var factory : ViewModelProvider.Factory
     lateinit var viewModel: DashboardExercisesViewModel
 
-    lateinit var progressContentView : View
-    lateinit var exercisesRecyclerView : RecyclerView
-    lateinit var errorContentView : View
-
-
     interface Listener {
         fun onExerciseItemClick(exerciseItem : ExerciseItemClick)
     }
 
+    private lateinit var binding : FragmentDashboardExercisesBinding
 
     lateinit var listener : Listener
 
@@ -61,13 +58,9 @@ class DashboardExercisesFragment :Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var inflated = inflater.inflate(R.layout.fragment_dashboard_exercises,
+        val inflated = inflater.inflate(R.layout.fragment_dashboard_exercises,
             container, false)
-
-        exercisesRecyclerView = inflated.findViewById(R.id.fragment_dashboard_exercises)
-        progressContentView = inflated.findViewById(R.id.fragment_dashboard_progress)
-        errorContentView = inflated.findViewById(R.id.fragment_dashboard_exercises_errorcontent)
-
+        binding = FragmentDashboardExercisesBinding.bind(inflated)
         return inflated
     }
 
@@ -101,7 +94,7 @@ class DashboardExercisesFragment :Fragment() {
 
     private fun populateExercises(exercises : List<ExerciseEntity>) {
         val adapter = DashboardExercisesAdapter(exercises)
-        exercisesRecyclerView.adapter = adapter
+        binding.dashboardExercises.adapter = adapter
         adapter.listener = object : OnItemClickListener<ExerciseItemClick> {
             override fun onItemClicked(item: ExerciseItemClick) {
                 listener.onExerciseItemClick(item)
@@ -111,16 +104,17 @@ class DashboardExercisesFragment :Fragment() {
 
     private fun fetchStateChanged(fetchState: FetchState) {
         FetchStateUtils.updateViewContentsByState(fetchState,
-            exercisesRecyclerView, progressContentView, errorContentView)
+            binding.dashboardExercises,
+            binding.dashboardProgress, binding.errorContent)
     }
 
     fun notifyItemUpdated(index: Int) {
-        exercisesRecyclerView.adapter?.notifyItemChanged(index)
+        binding.dashboardExercises.adapter?.notifyItemChanged(index)
     }
 
     fun notifyItemInserted(index: Int) {
-        exercisesRecyclerView.adapter?.notifyItemInserted(index)
-        exercisesRecyclerView.scrollToPosition(index)
+        binding.dashboardExercises.adapter?.notifyItemInserted(index)
+        binding.dashboardExercises.scrollToPosition(index)
     }
 
 }

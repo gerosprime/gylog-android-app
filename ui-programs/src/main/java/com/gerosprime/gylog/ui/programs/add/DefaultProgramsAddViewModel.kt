@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.ui.programs.add
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
 import com.gerosprime.gylog.models.programs.edit.commit.CommitEdittedProgramCacheUC
@@ -17,10 +18,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 
 class DefaultProgramsAddViewModel(
-    override val programSetToCacheResultMLD: MutableLiveData<EditProgramSetToCacheResult>,
-    override val workoutAddToCacheResultMLD: MutableLiveData<WorkoutAddToCacheResult>,
-    override val saveProgramResultMLD : MutableLiveData<SaveProgramDatabaseResult>,
-
     private val workoutAddToCacheUseCase: WorkoutAddToCacheUseCase,
     private val editProgramCacheSetterUseCase: EditProgramCacheSetterUseCase,
     private val commitProgramCacheUseCase : CommitEdittedProgramCacheUC,
@@ -33,6 +30,10 @@ class DefaultProgramsAddViewModel(
     private val uiScheduler: Scheduler? = null,
     private val backgroundScheduler: Scheduler? = null
 ) : BaseViewModel(), ProgramsAddViewModel {
+
+    private val programSetMLD = MutableLiveData<EditProgramSetToCacheResult>()
+    private val workoutAddToCacheMLD = MutableLiveData<WorkoutAddToCacheResult>()
+    private val saveProgramMLD = MutableLiveData<SaveProgramDatabaseResult>()
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -52,9 +53,7 @@ class DefaultProgramsAddViewModel(
         if (uiScheduler != null)
             commitProgram = commitProgram.subscribeOn(backgroundScheduler)
 
-        compositeDisposable.add(commitProgram.subscribe(Consumer { saveProgramResultMLD.value = it }))
-
-
+        compositeDisposable.add(commitProgram.subscribe(Consumer { saveProgramMLD.value = it }))
 
     }
 
@@ -69,7 +68,7 @@ class DefaultProgramsAddViewModel(
             addToCacheUseCase = addToCacheUseCase.subscribeOn(backgroundScheduler)
 
         compositeDisposable.add(addToCacheUseCase
-            .subscribe(Consumer { workoutAddToCacheResultMLD.value =  it }))
+            .subscribe(Consumer { workoutAddToCacheMLD.value =  it }))
 
     }
 
@@ -85,7 +84,7 @@ class DefaultProgramsAddViewModel(
             programSetToCache = programSetToCache.subscribeOn(backgroundScheduler)
 
         compositeDisposable.add(programSetToCache
-            .subscribe({ programSetToCacheResultMLD.value = it }, { it.printStackTrace() }))
+            .subscribe({ programSetMLD.value = it }, { it.printStackTrace() }))
 
     }
 
@@ -101,4 +100,14 @@ class DefaultProgramsAddViewModel(
         compositeDisposable.add(clearCache.subscribe())
 
     }
+
+    override val programSetToCacheResultMLD: LiveData<EditProgramSetToCacheResult>
+        get() = programSetMLD
+
+    override val workoutAddToCacheResultMLD: LiveData<WorkoutAddToCacheResult>
+        get() = workoutAddToCacheMLD
+
+    override val saveProgramResultMLD: LiveData<SaveProgramDatabaseResult>
+        get() = saveProgramMLD
+
 }

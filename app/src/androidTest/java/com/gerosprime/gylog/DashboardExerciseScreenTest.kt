@@ -1,15 +1,12 @@
 package com.gerosprime.gylog
 
-import android.content.ComponentName
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
-import com.gerosprime.gylog.models.muscle.MuscleEnum
 import com.gerosprime.gylog.robots.dashboardExercises
 import com.gerosprime.gylog.robots.editExerciseScreen
 import com.gerosprime.gylog.robots.mainScreen
@@ -66,7 +63,7 @@ class DashboardExerciseScreenTest {
         }
 
         val lastItemIndex = mActivityTestRule
-            .activity.findViewById<RecyclerView>(R.id.fragment_dashboard_exercises)
+            .activity.findViewById<RecyclerView>(R.id.dashboardExercises)
             .adapter!!.itemCount - 1
 
         dashboardExercises {

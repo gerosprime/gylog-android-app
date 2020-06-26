@@ -20,13 +20,13 @@ fun dashboardExercises(func: DashboardExercisesTestRobot.() -> Unit) = Dashboard
 class DashboardExercisesTestRobot : BaseTestRobot() {
 
     fun clickExerciseAt(position : Int) : ViewInteraction {
-        return recyclerViewItemClick<DashboardExercisesViewHolder>(R.id.fragment_dashboard_exercises,
+        return recyclerViewItemClick<DashboardExercisesViewHolder>(R.id.dashboardExercises,
             position)
     }
 
     fun checkNameAt(position : Int, name : String) : ViewInteraction {
 
-        return onView(RecyclerViewMatcher(R.id.fragment_dashboard_exercises)
+        return onView(RecyclerViewMatcher(R.id.dashboardExercises)
             .atPositionOnView(position, R.id.viewholder_dashboard_name))
             .check(matches(isDisplayed()))
             .check(matches(withText(name)))
@@ -34,7 +34,7 @@ class DashboardExercisesTestRobot : BaseTestRobot() {
 
     fun checkExerciseNotInDashboard(position: Int,
                                     name : String) : ViewInteraction {
-        return onView(RecyclerViewMatcher(R.id.fragment_dashboard_exercises)
+        return onView(RecyclerViewMatcher(R.id.dashboardExercises)
             .atPositionOnView(position, R.id.viewholder_dashboard_name))
             .check(matches(not(hasDescendant(withText(name)))))
 
@@ -42,7 +42,7 @@ class DashboardExercisesTestRobot : BaseTestRobot() {
 
     fun checkTargetMuscleAt(position : Int, muscleEnum: MuscleEnum) : ViewInteraction {
 
-        return onView(RecyclerViewMatcher(R.id.fragment_dashboard_exercises)
+        return onView(RecyclerViewMatcher(R.id.dashboardExercises)
             .atPositionOnView(position, R.id.viewholder_dashboard_muscles))
             .check(matches(isDisplayed()))
             .check(matches(hasDescendant(withText(muscleEnum.stringResId))))
@@ -50,7 +50,7 @@ class DashboardExercisesTestRobot : BaseTestRobot() {
 
     fun scrollToItem(position: Int) : ViewInteraction {
         return recyclerViewItemScrollTo<DashboardExercisesViewHolder>(
-            R.id.fragment_dashboard_exercises, position)
+            R.id.dashboardExercises, position)
     }
 
     fun isExerciseDetailOpened() {

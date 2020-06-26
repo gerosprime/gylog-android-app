@@ -30,15 +30,7 @@ class ProgramsDashboardFragment : Fragment() {
     lateinit var viewModelFactory : ViewModelProvider.Factory
     private lateinit var viewModel: ProgramsDashboardViewModel
 
-    private lateinit var usersProgramRecyclerView : RecyclerView
-    private lateinit var builtInProgramRecyclerView : RecyclerView
-
-
     private lateinit var programsBinding: FragmentDashboardProgramsBinding
-
-    private lateinit var mainContent : View
-    private lateinit var progressContent : View
-    private lateinit var errorContent : View
 
     private var itemClickListener : OnItemClickListener<ProgramEntity>? = null
 
@@ -54,16 +46,22 @@ class ProgramsDashboardFragment : Fragment() {
     }
 
     fun notifyItemInserted(insertIndex : Int) {
+
+        val usersProgramRecyclerView = programsBinding.fragmentDashboardUserprograms
+
         val adapter = usersProgramRecyclerView.adapter
 
-        adapter!!.notifyItemInserted(insertIndex)
+        adapter?.notifyItemInserted(insertIndex)
         usersProgramRecyclerView.smoothScrollToPosition(insertIndex)
     }
 
     fun notifyItemUpdated(updateIndex : Int) {
+
+        val usersProgramRecyclerView = programsBinding.fragmentDashboardUserprograms
+
         val adapter = usersProgramRecyclerView.adapter
 
-        adapter!!.notifyItemChanged(updateIndex)
+        adapter?.notifyItemChanged(updateIndex)
         usersProgramRecyclerView.smoothScrollToPosition(updateIndex)
     }
 
@@ -152,7 +150,7 @@ class ProgramsDashboardFragment : Fragment() {
                 openProgramDetail(item.index, item.entity)
             }
         }
-        usersProgramRecyclerView.adapter = adapter
+        programsBinding.fragmentDashboardUserprograms.adapter = adapter
     }
 
     private fun openProgramDetail(index : Int, programEntity: ProgramEntity) {
@@ -173,12 +171,13 @@ class ProgramsDashboardFragment : Fragment() {
 
             }
         }
-        builtInProgramRecyclerView.adapter = adapter
+        programsBinding.fragmentDashboardBuiltinPrograms.adapter = adapter
     }
 
     private fun fetchStateChanged(fetchState: FetchState) {
         FetchStateUtils.updateViewContentsByState(fetchState,
-            mainContent, progressContent, errorContent)
+            programsBinding.mainContent,
+            programsBinding.progressContent, programsBinding.errorContent)
     }
 
 }

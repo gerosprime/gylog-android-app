@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/fragment_dashboard_programs_content"
+        android:id="@+id/mainContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -93,7 +93,7 @@
 
     <LinearLayout
         android:visibility="invisible"
-        android:id="@+id/fragment_dashboard_programs_progress"
+        android:id="@+id/progressContent"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -105,7 +105,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/fragment_dashboard_programs_error_content"
+        android:id="@+id/errorContent"
         android:visibility="invisible"
         android:gravity="center"
         android:orientation="vertical"

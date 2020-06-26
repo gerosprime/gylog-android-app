@@ -3,7 +3,6 @@ package com.gerosprime.gylog
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
@@ -65,7 +64,7 @@ class AddExerciseScreenTest {
         }
 
         val lastItemIndex = mActivityTestRule
-            .activity.findViewById<RecyclerView>(R.id.fragment_dashboard_exercises)
+            .activity.findViewById<RecyclerView>(R.id.dashboardExercises)
             .adapter!!.itemCount - 1
 
         dashboardExercises {
@@ -97,7 +96,7 @@ class AddExerciseScreenTest {
         }
 
         val lastItemIndex = mActivityTestRule
-            .activity.findViewById<RecyclerView>(R.id.fragment_dashboard_exercises)
+            .activity.findViewById<RecyclerView>(R.id.dashboardExercises)
             .adapter!!.itemCount - 1
 
         //

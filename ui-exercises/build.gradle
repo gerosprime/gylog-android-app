@@ -6,6 +6,9 @@ android {
     compileSdkVersion 28
     buildToolsVersion "29.0.1"
 
+    viewBinding {
+        enabled = true
+    }
 
     defaultConfig {
         minSdkVersion 21

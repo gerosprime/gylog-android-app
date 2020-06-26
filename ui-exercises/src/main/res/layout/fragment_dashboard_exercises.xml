@@ -8,14 +8,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:visibility="visible"
-        android:id="@+id/fragment_dashboard_exercises"
+        android:id="@+id/dashboardExercises"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/viewholder_dashboard_exercises"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:id="@+id/fragment_dashboard_progress"
+        android:id="@+id/dashboardProgress"
         android:orientation="vertical"
         android:visibility="invisible"
         android:gravity="center"
@@ -29,7 +29,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/fragment_dashboard_exercises_errorcontent"
+        android:id="@+id/errorContent"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="match_parent"
