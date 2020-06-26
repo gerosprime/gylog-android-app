@@ -152,7 +152,7 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(DefaultWorkoutDetailViewModel::class)
     fun provideDefaultWorkoutDetailViewModel(workoutDetaiLoader: WorkoutCacheLoader) : ViewModel {
-        return DefaultWorkoutDetailViewModel(MutableLiveData(), MutableLiveData(), workoutDetaiLoader,
+        return DefaultWorkoutDetailViewModel(workoutDetaiLoader,
             AndroidSchedulers.mainThread(), Schedulers.io())
     }
 

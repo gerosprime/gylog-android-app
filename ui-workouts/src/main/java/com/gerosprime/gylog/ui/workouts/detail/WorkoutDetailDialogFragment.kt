@@ -6,21 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.TimeFormatUtil
 import com.gerosprime.gylog.models.workouts.detail.LoadWorkoutFromCacheResult
 import com.gerosprime.gylog.ui.workouts.R
+import com.gerosprime.gylog.ui.workouts.databinding.FragmentWorkoutDetailDialogBinding
 import com.gerosprime.gylog.ui.workouts.detail.adapter.WorkoutDetailAdapter
 import com.gerosprime.gylog.ui.workouts.detail.adapter.WorkoutExerciseClick
 import com.gerosprime.gylog.ui.workouts.history.WorkoutExerciseHistoryFragment
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.activity_workout_session.*
 import javax.inject.Inject
 
 class WorkoutDetailDialogFragment : DialogFragment() {
@@ -32,13 +30,9 @@ class WorkoutDetailDialogFragment : DialogFragment() {
     lateinit var factory: ViewModelProvider.Factory
     lateinit var viewModel: WorkoutDetailDialogViewModel
 
-    lateinit var titleTextView: TextView
-    lateinit var subTitleTextView: TextView
-
-    lateinit var durationTextView : TextView
-    lateinit var exercisesRecyclerView: RecyclerView
-
     private var listener : OnStartClickListener? = null
+
+    private lateinit var binding : FragmentWorkoutDetailDialogBinding
 
     private var exerciseClickListener = object : OnItemClickListener<WorkoutExerciseClick> {
         override fun onItemClicked(item: WorkoutExerciseClick) {
@@ -86,17 +80,13 @@ class WorkoutDetailDialogFragment : DialogFragment() {
         val inflated =  inflater.inflate(R.layout.fragment_workout_detail_dialog,
             container, false)
 
-        titleTextView = inflated.findViewById(R.id.fragment_workout_detail_dialog_title)
-        subTitleTextView = inflated.findViewById(R.id.fragment_workout_detail_dialog_subtitle)
-        durationTextView = inflated.findViewById(R.id.fragment_workout_detail_dialog_duration)
-        exercisesRecyclerView = inflated.findViewById(R.id.fragment_workout_detail_exercises)
-        exercisesRecyclerView.layoutManager =
+        binding = FragmentWorkoutDetailDialogBinding.bind(inflated)
+
+        binding.fragmentWorkoutDetailExercises.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        cancelButton = inflated.findViewById(R.id.fragment_workout_detail_dialog_cancel)
-        cancelButton.setOnClickListener { dismiss() }
-        startButton = inflated.findViewById(R.id.fragment_workout_detail_dialog_start)
-        startButton.setOnClickListener {
+        binding.fragmentWorkoutDetailDialogCancel.setOnClickListener { dismiss() }
+        binding.fragmentWorkoutDetailDialogStart.setOnClickListener {
             listener!!.onStartClicked(getWorkoutRecordID())
             dismiss()
         }
@@ -108,11 +98,11 @@ class WorkoutDetailDialogFragment : DialogFragment() {
     private fun populateWorkoutDetail(result: LoadWorkoutFromCacheResult) {
 
         val workout = result.workout
-        exercisesRecyclerView.adapter = WorkoutDetailAdapter(exerciseClickListener,
+        binding.fragmentWorkoutDetailExercises.adapter = WorkoutDetailAdapter(exerciseClickListener,
             workout.exercises)
-        durationTextView.text = TimeFormatUtil.secondsToString(result.durationSeconds.toLong())
-        titleTextView.text = workout.name
-        subTitleTextView.text = workout.description
+        binding.fragmentWorkoutDetailDialogDuration.text = TimeFormatUtil.secondsToString(result.durationSeconds.toLong())
+        binding.fragmentWorkoutDetailDialogTitle.text = workout.name
+        binding.fragmentWorkoutDetailDialogSubtitle.text = workout.description
 
     }
 
@@ -122,7 +112,7 @@ class WorkoutDetailDialogFragment : DialogFragment() {
         viewModel = ViewModelProvider(this, factory)
             .get(DefaultWorkoutDetailViewModel::class.java)
 
-        viewModel.workoutLoadCacheResultMLD.observe(viewLifecycleOwner,
+        viewModel.workoutLoadCacheResultLD.observe(viewLifecycleOwner,
             Observer {
             populateWorkoutDetail(it)
         })

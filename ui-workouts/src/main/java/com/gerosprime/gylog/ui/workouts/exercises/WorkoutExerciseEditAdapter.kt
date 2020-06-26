@@ -9,7 +9,8 @@ import com.gerosprime.gylog.ui.workouts.R
 
 
 class WorkoutExerciseEditAdapter(private val workoutExercises : MutableMap<Long, ExerciseEntity>,
-                                 private val exercises : List<ExerciseEntity>)
+                                 private val exercises : List<ExerciseEntity>,
+                                 private var imageClickListener : OnItemClickListener<ExerciseEntity>? = null)
     : RecyclerView.Adapter<WorkoutExerciseEditViewHolder>() {
 
 
@@ -26,11 +27,9 @@ class WorkoutExerciseEditAdapter(private val workoutExercises : MutableMap<Long,
 
     var layoutInflater : LayoutInflater? = null
 
-    var imageClickListener : OnItemClickListener<ExerciseEntity>? = null
-
     private var internalImageClickListener = object : OnItemClickListener<ExerciseEntity> {
         override fun onItemClicked(item: ExerciseEntity) {
-            imageClickListener!!.onItemClicked(item)
+            imageClickListener?.onItemClicked(item)
         }
     }
 

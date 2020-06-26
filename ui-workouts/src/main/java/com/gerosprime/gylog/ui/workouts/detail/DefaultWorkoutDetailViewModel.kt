@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.ui.workouts.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
@@ -11,12 +12,13 @@ import io.reactivex.functions.Consumer
 
 
 class DefaultWorkoutDetailViewModel(
-    override val fetchStateMLD: MutableLiveData<FetchState>,
-    override val workoutLoadCacheResultMLD: MutableLiveData<LoadWorkoutFromCacheResult>,
     private val workoutDetaiLoader: WorkoutCacheLoader,
     private val uiScheduler: Scheduler?,
     private val backgroundScheduler: Scheduler?
 ) : BaseViewModel(), WorkoutDetailDialogViewModel {
+
+    private val fetchStateMLD = MutableLiveData<FetchState>()
+    private val workoutLoadCacheResultMLD = MutableLiveData<LoadWorkoutFromCacheResult>()
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -36,4 +38,10 @@ class DefaultWorkoutDetailViewModel(
             workoutLoadCacheResultMLD.value = it
         }))
     }
+
+    override val fetchStateLD: LiveData<FetchState>
+        get() = fetchStateMLD
+    override val workoutLoadCacheResultLD: LiveData<LoadWorkoutFromCacheResult>
+        get() = workoutLoadCacheResultMLD
+
 }

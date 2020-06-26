@@ -12,8 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.gerosprime.gylog.base.FetchState
-import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
 import com.gerosprime.gylog.models.muscle.MuscleEnum
 import com.gerosprime.gylog.models.workouts.edit.commit.WorkoutExerciseSetCacheResult
@@ -106,8 +104,7 @@ class WorkoutExerciseEditActivity : AppCompatActivity(),
     private fun populateExercises(result : WorkoutExerciseEditLoadResult) {
         val adapter = WorkoutExerciseEditAdapter(
             result.workoutExercisesMap,
-            result.exercises
-        )
+            result.exercises)
 
         exercisesRecyclerView.adapter = adapter
     }
