@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
+import com.gerosprime.ui.fat.databinding.FragmentBodyFatLogDialogBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
 import java.text.DateFormat
@@ -52,10 +53,7 @@ class BodyFatLogDialogFragment : DialogFragment() {
 
     private lateinit var dateFormat : DateFormat
 
-    private lateinit var fatInputLayout : TextInputLayout
-    private lateinit var noteInputLayout : TextInputLayout
-    private lateinit var dateInputLayout : TextInputLayout
-    private lateinit var dateButton : Button
+    private lateinit var binding : FragmentBodyFatLogDialogBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -69,32 +67,27 @@ class BodyFatLogDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        binding = FragmentBodyFatLogDialogBinding.inflate(inflater, container, false)
         val inflated =  inflater.inflate(R.layout.fragment_body_fat_log_dialog,
             container, false)
 
-        dateInputLayout = inflated.findViewById(R.id.fragment_body_fat_log_date)
-
-        dateButton = inflated.findViewById(R.id.fragment_body_fat_log_dialog_date)
-        dateButton.setOnClickListener {
+        binding.fragmentBodyFatLogDialogDate.setOnClickListener {
             showDateSelectorBuilder(getDate().time)
         }
-        val cancelButton : Button? = inflated.findViewById(R.id.fragment_body_fat_cancel)
-        cancelButton!!.setOnClickListener {
+
+        binding.fragmentBodyFatCancel.setOnClickListener {
             dismiss()
         }
-
-        fatInputLayout = inflated.findViewById(R.id.fragment_body_fat_log_fat)
-        noteInputLayout = inflated.findViewById(R.id.fragment_body_fat_log_notes)
 
         val createButton : Button = inflated.findViewById(R.id.fragment_body_fat_save)
         createButton.setOnClickListener {
 
             kotlin.run {
-                val weight = fatInputLayout.editText!!.text.toString()
-                val notes = noteInputLayout.editText!!.text.toString()
+                val weight = binding.fragmentBodyFatLogFat.editText!!.text.toString()
+                val notes = binding.fragmentBodyFatLogNotes.editText!!.text.toString()
 
                 defineWorkout(getRecordId(), weight,
-                    dateInputLayout.editText!!.text.toString(), notes)
+                    binding.fragmentBodyFatLogDate.editText!!.text.toString(), notes)
             }
 
         }
@@ -111,17 +104,17 @@ class BodyFatLogDialogFragment : DialogFragment() {
         if (savedInstanceState == null) {
             val weight = getWeight()
             if (weight != null)
-                fatInputLayout.editText!!.setText(weight.toString())
+                binding.fragmentBodyFatLogFat.editText!!.setText(weight.toString())
             else
-                fatInputLayout.editText!!.setText("")
+                binding.fragmentBodyFatLogFat.editText!!.setText("")
 
             val note = getNote()
-            noteInputLayout.editText!!.setText(note)
-            dateInputLayout.editText!!.setText(dateFormat.format(getDate()))
+            binding.fragmentBodyFatLogNotes.editText!!.setText(note)
+            binding.fragmentBodyFatLogDate.editText!!.setText(dateFormat.format(getDate()))
 
         } else {
             savedInstanceState.getLong(Extras.DATE)
-            dateInputLayout.editText!!.setText(dateFormat.format(getDate()))
+            binding.fragmentBodyFatLogDate.editText!!.setText(dateFormat.format(getDate()))
 
         }
     }
@@ -144,7 +137,7 @@ class BodyFatLogDialogFragment : DialogFragment() {
 
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             calendar.timeInMillis = buildDialog.selection!!
-            dateInputLayout.editText!!.setText(dateFormat.format(calendar.time))
+            binding.fragmentBodyFatLogDate.editText!!.setText(dateFormat.format(calendar.time))
         }
 
         buildDialog.show(fragmentManager!!, "")
@@ -181,19 +174,19 @@ class BodyFatLogDialogFragment : DialogFragment() {
 
 
         if (weight.isBlank()) {
-            fatInputLayout.error = getString(R.string.body_fat_is_required)
+            binding.fragmentBodyFatLogDate.error = getString(R.string.body_fat_is_required)
             return
         }
 
         if (date.isBlank()) {
-            dateInputLayout.error = getString(R.string.body_fat_is_required)
+            binding.fragmentBodyFatLogDate.error = getString(R.string.body_fat_is_required)
             return
         }
 
         try {
             dateFormat.parse(date)
         } catch (e : ParseException) {
-            dateInputLayout.error = getString(R.string.date_is_invalid)
+            binding.fragmentBodyFatLogDate.error = getString(R.string.date_is_invalid)
             return
         }
 

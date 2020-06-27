@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.gerosprime.gylog.models.body.fat.AllBodyFatsCacheLoadResult
 import com.gerosprime.gylog.models.body.fat.BodyFatEntity
 import com.gerosprime.ui.fat.BodyFatGraphFragment.DialogTags.BODY_WEIGHT_LOG
+import com.gerosprime.ui.fat.databinding.FragmentBodyFatGraphBinding
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -31,13 +32,12 @@ class BodyFatGraphFragment : Fragment(),
         const val BODY_WEIGHT_LOG = "body_weight_log_tag"
     }
 
-    private lateinit var currentTextView : TextView
-    private lateinit var lineChart : LineChart
-    private lateinit var buttonLog : Button
 
     @Inject
     lateinit var factory : ViewModelProvider.Factory
     private lateinit var viewModel : BodyFatGraphViewModel
+
+    private lateinit var binding : FragmentBodyFatGraphBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
@@ -57,39 +57,37 @@ class BodyFatGraphFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
 
-        val inflated = inflater.inflate(R.layout.fragment_body_fat_graph, container, false)
+        binding = FragmentBodyFatGraphBinding.inflate(inflater, container, false)
 
-        lineChart = inflated.findViewById(R.id.fragment_body_fat_current_chart)
-        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        lineChart.xAxis.spaceMin = 0.3f
-        lineChart.xAxis.spaceMax = 0.3f
-        lineChart.xAxis.setDrawGridLinesBehindData(false)
-        lineChart.xAxis.setDrawGridLines(false)
-        lineChart.xAxis.textSize = 12f
-        lineChart.axisLeft.textSize = 12f
+        binding.fragmentBodyFatCurrentChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        binding.fragmentBodyFatCurrentChart.xAxis.spaceMin = 0.3f
+        binding.fragmentBodyFatCurrentChart.xAxis.spaceMax = 0.3f
+        binding.fragmentBodyFatCurrentChart.xAxis.setDrawGridLinesBehindData(false)
+        binding.fragmentBodyFatCurrentChart.xAxis.setDrawGridLines(false)
+        binding.fragmentBodyFatCurrentChart.xAxis.textSize = 12f
+        binding.fragmentBodyFatCurrentChart.axisLeft.textSize = 12f
 
         // lineChart.axisLeft.valueFormatter = WeightValueFormatter()
 
-        lineChart.axisRight.setDrawLabels(false)
-        lineChart.legend.isEnabled = false
-        lineChart.setOnChartValueSelectedListener(this)
+        binding.fragmentBodyFatCurrentChart.axisRight.setDrawLabels(false)
+        binding.fragmentBodyFatCurrentChart.legend.isEnabled = false
+        binding.fragmentBodyFatCurrentChart.setOnChartValueSelectedListener(this)
 
-        buttonLog = inflated.findViewById(R.id.fragment_body_fat_graph_log)
-        buttonLog.setOnClickListener {
+
+        binding.fragmentBodyFatGraphLog.setOnClickListener {
             showBodyFatLog(null)
         }
 
-        currentTextView = inflated.findViewById(R.id.fragment_body_fat_current_weight)
 
-        return inflated
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.bodyFatDataMLD.observe(viewLifecycleOwner, Observer { plotBodyWeightsToChart(it) })
+        viewModel.bodyFatDataLD.observe(viewLifecycleOwner, Observer { plotBodyWeightsToChart(it) })
 
-        viewModel.savedBodyFatDataMLD.observe(viewLifecycleOwner, Observer {
+        viewModel.savedBodyFatDataLD.observe(viewLifecycleOwner, Observer {
             viewModel.loadData()
         })
 
@@ -106,14 +104,14 @@ class BodyFatGraphFragment : Fragment(),
 
         val size = result.bodyFatArray.size
         if (result.bodyFatArray.isNotEmpty())
-            currentTextView.text = "${result.bodyFatArray[size - 1].fat} KG"
+            binding.fragmentBodyFatCurrentWeight.text = "${result.bodyFatArray[size - 1].fat} KG"
         else
-            currentTextView.text = ""
+            binding.fragmentBodyFatCurrentWeight.text = ""
 
-        lineChart.xAxis.valueFormatter = DateXValueFormatter(SimpleDateFormat("MMM-dd",
+        binding.fragmentBodyFatCurrentChart.xAxis.valueFormatter = DateXValueFormatter(SimpleDateFormat("MMM-dd",
             Locale.US)
                 , result.bodyFatArray)
-        lineChart.xAxis.granularity = 1f
+        binding.fragmentBodyFatCurrentChart.xAxis.granularity = 1f
 
         val points : ArrayList<Entry> = arrayListOf()
         val lineDataSet = LineDataSet(points, "")
@@ -127,8 +125,8 @@ class BodyFatGraphFragment : Fragment(),
                 Entry(bodyFatEntity.recordId!!.toFloat(), bodyFatEntity.fat,
                     bodyFatEntity))
         }
-        lineChart.data = LineData(lineDataSet)
-        lineChart.invalidate()
+        binding.fragmentBodyFatCurrentChart.data = LineData(lineDataSet)
+        binding.fragmentBodyFatCurrentChart.invalidate()
 
     }
 

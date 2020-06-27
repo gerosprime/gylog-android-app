@@ -209,8 +209,7 @@ class ViewModelModule {
                                                bodyFatSaver : BodyFatDatabaseSaver
     )
             : ViewModel {
-        return DefaultBodyFatGraphViewModel(MutableLiveData(), SingleLiveEvent(),
-            bodyFatLoader, bodyFatSaver,
+        return DefaultBodyFatGraphViewModel(bodyFatLoader, bodyFatSaver,
             AndroidSchedulers.mainThread(), Schedulers.io())
     }
 

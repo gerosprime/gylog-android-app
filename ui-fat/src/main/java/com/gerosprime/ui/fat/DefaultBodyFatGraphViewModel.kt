@@ -1,5 +1,6 @@
 package com.gerosprime.ui.fat
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
 import com.gerosprime.gylog.models.body.fat.AllBodyFatsCacheLoadResult
@@ -12,13 +13,15 @@ import io.reactivex.functions.Consumer
 import java.util.*
 
 class DefaultBodyFatGraphViewModel
-    (override val bodyFatDataMLD: MutableLiveData<AllBodyFatsCacheLoadResult>,
-     override val savedBodyFatDataMLD: MutableLiveData<BodyFatSaveResult>,
+    (
      private val bodyFatLoader : BodyFatCacheLoader,
      private val bodyFatSaver : BodyFatDatabaseSaver,
      private val uiScheduler: Scheduler?,
      private val backgroundScheduler: Scheduler?)
     : BaseViewModel(), BodyFatGraphViewModel {
+
+    private val bodyFatDataMLD = MutableLiveData<AllBodyFatsCacheLoadResult>()
+    private val savedBodyFatDataMLD = MutableLiveData<BodyFatSaveResult>()
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -49,4 +52,11 @@ class DefaultBodyFatGraphViewModel
         }))
 
     }
+
+    override val bodyFatDataLD: LiveData<AllBodyFatsCacheLoadResult>
+        get() = bodyFatDataMLD
+
+    override val savedBodyFatDataLD: LiveData<BodyFatSaveResult>
+        get() = savedBodyFatDataMLD
+
 }
