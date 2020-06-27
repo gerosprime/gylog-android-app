@@ -27,6 +27,7 @@ import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.R
 import com.gerosprime.gylog.models.workouts.runningsession.performedset.remove.UnflagRemovePerformedSetResult
 import com.gerosprime.gylog.models.workouts.runningsession.save.WorkoutSessionSaveResult
 import com.gerosprime.gylog.ui.workouts.R
+import com.gerosprime.gylog.ui.workouts.databinding.ActivityWorkoutSessionBinding
 import com.gerosprime.gylog.ui.workouts.history.WorkoutExerciseHistoryFragment
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity.DialogTag.SESSION_INFO
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity.Extras.WORKOUT_RECORD_ID
@@ -45,16 +46,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
     lateinit var factory: ViewModelProvider.Factory
     private lateinit var viewModel: WorkoutSessionViewModel
 
-    private lateinit var toolbar : Toolbar
-
-    private lateinit var exercisesRecyclerView: RecyclerView
-
-    private lateinit var timerContainer : View
-    private lateinit var totalRestTimer : TextView
-    private lateinit var runningRestTimer : TextView
-    private lateinit var skipTimerButton : ImageButton
-    private lateinit var addTimerButton : ImageButton
-    private lateinit var minusTimerButton : ImageButton
+    private lateinit var binding : ActivityWorkoutSessionBinding
 
     object DialogTag {
         const val SESSION_INFO = "dialog_session_info"
@@ -153,39 +145,36 @@ class WorkoutSessionActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_workout_session)
+        binding = ActivityWorkoutSessionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
-        exercisesRecyclerView = findViewById(R.id.activity_workout_session_exercises)
-
-        timerContainer = findViewById(R.id.activity_workout_session_rest_container)
-        totalRestTimer = findViewById(R.id.activity_workout_session_rest_title)
-        runningRestTimer = findViewById(R.id.activity_workout_session_rest_running)
-        skipTimerButton = findViewById(R.id.activity_workout_session_rest_timer_rest)
-        skipTimerButton.setOnClickListener {
+        binding.activityWorkoutSessionRestTimerRest.setOnClickListener {
             skipRest()
         }
-        addTimerButton = findViewById(R.id.activity_workout_session_rest_timer_add)
-        minusTimerButton = findViewById(R.id.activity_workout_session_rest_timer_minus)
 
         viewModel = ViewModelProvider(this, factory)
             .get(DefaultWorkoutSessionViewModel::class.java)
 
-        timerContainer.visibility =
+        binding.activityWorkoutSessionExercises.adapter = PerformedExerciseAdapter(
+            mutableListOf(),
+            exerciseClickListener, setItemClick,
+            addClickListener, removeItemClick, unRemoveItemClick)
+
+        binding.activityWorkoutSessionTimerContainer.visibility =
             if (viewModel.isResting()) View.VISIBLE
             else View.GONE
 
         if (savedInstanceState == null) {
 
             if (shouldResumeWorkout()) {
-                viewModel.workoutSessionLoadMLD.observe(this, Observer {
+                viewModel.workoutSessionLoadLiveData.observe(this, Observer {
                     populateLoadedSession(it)
                 })
                 viewModel.resumeWorkoutSession(getWorkoutRecordID())
             } else {
-                viewModel.workoutSessionCreateMLD.observe(this, Observer {
+                viewModel.workoutSessionCreateLiveData.observe(this, Observer {
                     populateCreatedSession(it)
                 })
                 viewModel.createWorkoutSession(getWorkoutRecordID())
@@ -194,29 +183,29 @@ class WorkoutSessionActivity : AppCompatActivity(),
             }
 
         } else {
-            viewModel.workoutSessionLoadMLD.observe(this, Observer {
+            viewModel.workoutSessionLoadLiveData.observe(this, Observer {
                 populateLoadedSession(it)
             })
             viewModel.resumeWorkoutSession(getWorkoutRecordID())
         }
 
-        viewModel.addSetMutableLiveData
+        viewModel.addSetLiveData
             .observe(this, observerAdd)
 
-        viewModel.removeSetMutableLiveData
+        viewModel.removeSetLiveData
             .observe(this, observerRemove)
 
-        viewModel.completeSetMutableLiveData.observe(this, observerEdit)
-        viewModel.clearSetMutableLiveData.observe(this, observerClear)
+        viewModel.completeSetLiveData.observe(this, observerEdit)
+        viewModel.clearSetLiveData.observe(this, observerClear)
 
-        viewModel.restTimerMLD.observe(this, observerRest)
+        viewModel.restTimerLiveData.observe(this, observerRest)
 
-        viewModel.unFlagRemoveSetMutableLiveData.observe(this, observerUnRemove)
+        viewModel.unFlagRemoveSetLiveData.observe(this, observerUnRemove)
 
-        viewModel.discardSessionMLD.observe(this, observerDiscard)
+        viewModel.discardSessionLiveData.observe(this, observerDiscard)
 
-        viewModel.finalizedSessionMLD.observe(this, observerFinalize)
-        viewModel.savedSessionMLD.observe(this, observerSave)
+        viewModel.finalizedSessionLiveData.observe(this, observerFinalize)
+        viewModel.savedSessionLiveData.observe(this, observerSave)
 
     }
 
@@ -270,40 +259,29 @@ class WorkoutSessionActivity : AppCompatActivity(),
             .show(supportFragmentManager, SESSION_INFO)
     }
 
-    private fun exerciseSetUnRemoved(result: UnflagRemovePerformedSetResult?) {
+    private fun exerciseSetUnRemoved(result: UnflagRemovePerformedSetResult) {
 
-        if (result == null)
-            return
+        val adapter = binding.activityWorkoutSessionExercises.adapter
+        adapter?.notifyItemChanged(result.exercisePerformedIndex, result)
+    }
 
-        val adapter = exercisesRecyclerView.adapter
+    private fun exerciseSetRemoved(result: RemoveWorkoutSessionSetResult) {
+
+        val adapter = binding.activityWorkoutSessionExercises.adapter
         adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
     }
 
-    private fun exerciseSetRemoved(result: RemoveWorkoutSessionSetResult?) {
+    private fun exerciseSetClear(result: ClearPerformedSetResult) {
 
-        if (result == null)
-            return
-
-        val adapter = exercisesRecyclerView.adapter
-        adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
-    }
-
-    private fun exerciseSetClear(result: ClearPerformedSetResult?) {
-        if (result == null)
-            return
-
-        val adapter = exercisesRecyclerView.adapter
-        adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
+        val adapter = binding.activityWorkoutSessionExercises.adapter
+        adapter?.notifyItemChanged(result.exercisePerformedIndex, result)
 
     }
 
-    private fun exerciseSetCompleted(result: EditPerformedSetResult?) {
+    private fun exerciseSetCompleted(result: EditPerformedSetResult) {
 
-        if (result == null)
-            return
-
-        val adapter = exercisesRecyclerView.adapter
-        adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
+        val adapter = binding.activityWorkoutSessionExercises.adapter
+        adapter?.notifyItemChanged(result.exercisePerformedIndex, result)
 
         startWorkoutServiceTimer(result.performedSet.restTimeSeconds)
         rest(result.performedSet.restTimeSeconds)
@@ -313,43 +291,40 @@ class WorkoutSessionActivity : AppCompatActivity(),
     }
 
     private fun rest(duration : Int) {
-        val timeString = TimeFormatUtil.secondsToString(duration.toLong())
-        totalRestTimer.text = getString(R.string.time_rest_format, timeString)
-        runningRestTimer.text = timeString
-        timerContainer.visibility = View.VISIBLE
 
-        viewModel.restTimerMLD.observe(this, observerRest)
+        val timeString = TimeFormatUtil.secondsToString(duration.toLong())
+
+        binding.activityWorkoutSessionRestTitle.text = getString(R.string.time_rest_format, timeString)
+        binding.activityWorkoutSessionRestRunning.text = timeString
+        binding.activityWorkoutSessionTimerContainer.visibility = View.VISIBLE
+
+        viewModel.restTimerLiveData.observe(this, observerRest)
         viewModel.restSet(duration)
     }
 
     private fun skipRest() {
         viewModel.cancelRest()
-        totalRestTimer.text = ""
-        runningRestTimer.text = ""
-        timerContainer.visibility = View.GONE
+        binding.activityWorkoutSessionRestTitle.text = ""
+        binding.activityWorkoutSessionRestRunning.text = ""
+        binding.activityWorkoutSessionTimerContainer.visibility = View.GONE
 
-        viewModel.restTimerMLD.removeObserver(observerRest)
-        viewModel.restTimerMLD.value = null
-
+        viewModel.restTimerLiveData.removeObserver(observerRest)
     }
 
-    private fun updateTimerLabel(time: String?) {
+    private fun updateTimerLabel(time: String) {
 
-        if (time == null || time.isEmpty()) {
-            timerContainer.visibility = View.GONE
+        if (time.isEmpty()) {
+            binding.activityWorkoutSessionTimerContainer.visibility = View.GONE
         } else {
-            runningRestTimer.text = time
+            binding.activityWorkoutSessionRestRunning.text = time
         }
 
     }
 
-    private fun exerciseSetAdded(result: AddPerformedSetResult?) {
+    private fun exerciseSetAdded(result: AddPerformedSetResult) {
 
-        if (result == null)
-            return
-
-        val adapter = exercisesRecyclerView.adapter
-        adapter!!.notifyItemChanged(result.exercisePerformedIndex, result)
+        val adapter = binding.activityWorkoutSessionExercises.adapter
+        adapter?.notifyItemChanged(result.exercisePerformedIndex, result)
     }
 
     private fun showEditSetDialog(item: PerformedSetClick) {
@@ -367,16 +342,19 @@ class WorkoutSessionActivity : AppCompatActivity(),
     private fun populateLoadedSession(result: WorkoutSessionCacheLoadResult) {
         val prePerformedExercises = result.prePerformedExercises
 
-        exercisesRecyclerView.adapter =
-            PerformedExerciseAdapter(prePerformedExercises,
-            exerciseClickListener, setItemClick, addClickListener, removeItemClick, unRemoveItemClick)
+        val adapter = binding.activityWorkoutSessionExercises.adapter
+                as PerformedExerciseAdapter
+        adapter.performedExercises = prePerformedExercises
+        adapter.notifyItemMoved(0, prePerformedExercises.size)
     }
 
     private fun populateCreatedSession(result: WorkoutSessionCreationResult) {
         val prePerformedExercises = result.prePerformedExercises
-        exercisesRecyclerView.adapter = PerformedExerciseAdapter(prePerformedExercises,
-            exerciseClickListener, setItemClick,
-            addClickListener, removeItemClick, unRemoveItemClick)
+
+        val adapter = binding.activityWorkoutSessionExercises.adapter
+                as PerformedExerciseAdapter
+        adapter.performedExercises = prePerformedExercises
+        adapter.notifyItemMoved(0, prePerformedExercises.size)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.ui.workouts.session
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
@@ -34,20 +35,6 @@ import java.util.*
 
 class DefaultWorkoutSessionViewModel(
 
-    override val fetchStateMLD: MutableLiveData<FetchState>,
-    override val workoutSessionLoadMLD: MutableLiveData<WorkoutSessionCacheLoadResult>,
-    override val workoutSessionCreateMLD: MutableLiveData<WorkoutSessionCreationResult>,
-    override val addSetMutableLiveData: MutableLiveData<AddPerformedSetResult>,
-    override val removeSetMutableLiveData: MutableLiveData<RemoveWorkoutSessionSetResult>,
-    override val unFlagRemoveSetMutableLiveData: MutableLiveData<UnflagRemovePerformedSetResult>,
-    override val completeSetMutableLiveData: MutableLiveData<EditPerformedSetResult>,
-    override val clearSetMutableLiveData: MutableLiveData<ClearPerformedSetResult>,
-    override val sessionTimerMLD: MutableLiveData<String>,
-    override val restTimerMLD: MutableLiveData<String>,
-    override val finalizedSessionMLD: MutableLiveData<FinalizedRunningSessionResult>,
-    override val savedSessionMLD: MutableLiveData<WorkoutSessionSaveResult>,
-    override val discardSessionMLD: MutableLiveData<RunningWorkoutSessionDiscardResult>,
-
     private val createWorkoutSessionUC : WorkoutSessionCreator,
     private val runningWorkoutSessionLoader: RunningWorkoutSessionLoader,
     private val sessionFinalizer: RunningWorkoutSessionFinalizer,
@@ -64,6 +51,21 @@ class DefaultWorkoutSessionViewModel(
 
 
 ) : BaseViewModel(), WorkoutSessionViewModel {
+
+
+    private val fetchStateMLD =  MutableLiveData<FetchState>()
+    private val workoutSessionLoadMLD =  MutableLiveData<WorkoutSessionCacheLoadResult>()
+    private val workoutSessionCreateMLD =  MutableLiveData<WorkoutSessionCreationResult>()
+    private val addSetMutableLiveData =  MutableLiveData<AddPerformedSetResult>()
+    private val removeSetMutableLiveData =  MutableLiveData<RemoveWorkoutSessionSetResult>()
+    private val unFlagRemoveSetMutableLiveData =  MutableLiveData<UnflagRemovePerformedSetResult>()
+    private val completeSetMutableLiveData =  MutableLiveData<EditPerformedSetResult>()
+    private val clearSetMutableLiveData =  MutableLiveData<ClearPerformedSetResult>()
+    private val sessionTimerMLD =  MutableLiveData<String>()
+    private val restTimerMLD =  MutableLiveData<String>()
+    private val finalizedSessionMLD =  MutableLiveData<FinalizedRunningSessionResult>()
+    private val savedSessionMLD =  MutableLiveData<WorkoutSessionSaveResult>()
+    private val discardSessionMLD =  MutableLiveData<RunningWorkoutSessionDiscardResult>()
 
 
     private val compositeDisposable = CompositeDisposable()
@@ -252,5 +254,32 @@ class DefaultWorkoutSessionViewModel(
             disposableTimer!!.dispose()
         disposableTimer = null
     }
+
+    override val fetchStateLiveData: LiveData<FetchState>
+        get() = fetchStateMLD
+    override val workoutSessionLoadLiveData: LiveData<WorkoutSessionCacheLoadResult>
+        get() = workoutSessionLoadMLD
+    override val workoutSessionCreateLiveData: LiveData<WorkoutSessionCreationResult>
+        get() = workoutSessionCreateMLD
+    override val addSetLiveData: LiveData<AddPerformedSetResult>
+        get() = addSetMutableLiveData
+    override val removeSetLiveData: LiveData<RemoveWorkoutSessionSetResult>
+        get() = removeSetMutableLiveData
+    override val unFlagRemoveSetLiveData: LiveData<UnflagRemovePerformedSetResult>
+        get() = unFlagRemoveSetMutableLiveData
+    override val completeSetLiveData: LiveData<EditPerformedSetResult>
+        get() = completeSetMutableLiveData
+    override val clearSetLiveData: LiveData<ClearPerformedSetResult>
+        get() = clearSetMutableLiveData
+    override val finalizedSessionLiveData: LiveData<FinalizedRunningSessionResult>
+        get() = finalizedSessionMLD
+    override val savedSessionLiveData: LiveData<WorkoutSessionSaveResult>
+        get() = savedSessionMLD
+    override val discardSessionLiveData: LiveData<RunningWorkoutSessionDiscardResult>
+        get() = discardSessionMLD
+    override val sessionTimerLiveData: LiveData<String>
+        get() = sessionTimerMLD
+    override val restTimerLiveData: LiveData<String>
+        get() = restTimerMLD
 
 }

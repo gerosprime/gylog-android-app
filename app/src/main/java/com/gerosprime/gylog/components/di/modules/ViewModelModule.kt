@@ -170,11 +170,7 @@ class ViewModelModule {
                                               sessionSaver : WorkoutSessionSaver,
                                               sessionDiscardUC : RunningWorkoutSessionDiscardUC)
             : ViewModel {
-        return DefaultWorkoutSessionViewModel(MutableLiveData(), MutableLiveData(),
-            MutableLiveData(), MutableLiveData(), SingleLiveEvent(),
-            SingleLiveEvent(), SingleLiveEvent(), SingleLiveEvent(),
-            SingleLiveEvent(), SingleLiveEvent(),
-            SingleLiveEvent(), SingleLiveEvent(), SingleLiveEvent(),
+        return DefaultWorkoutSessionViewModel(
             createWorkoutSessionUC, runningWorkoutSessionLoader,
             sessionFinalizer, sessionSaver, sessionDiscardUC,
             addPerformedSetUC, removePerformedSetUC, unRemovePerformedSetUC,

@@ -1,6 +1,6 @@
 package com.gerosprime.gylog.ui.workouts.session
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.models.workouts.runningsession.create.WorkoutSessionCreationResult
 import com.gerosprime.gylog.models.workouts.runningsession.discard.RunningWorkoutSessionDiscardResult
@@ -16,22 +16,22 @@ import java.util.*
 
 interface WorkoutSessionViewModel {
 
-    val fetchStateMLD : MutableLiveData<FetchState>
-    val workoutSessionLoadMLD : MutableLiveData<WorkoutSessionCacheLoadResult>
-    val workoutSessionCreateMLD : MutableLiveData<WorkoutSessionCreationResult>
+    val fetchStateLiveData : LiveData<FetchState>
+    val workoutSessionLoadLiveData : LiveData<WorkoutSessionCacheLoadResult>
+    val workoutSessionCreateLiveData : LiveData<WorkoutSessionCreationResult>
 
-    val addSetMutableLiveData : MutableLiveData<AddPerformedSetResult>
-    val removeSetMutableLiveData : MutableLiveData<RemoveWorkoutSessionSetResult>
-    val unFlagRemoveSetMutableLiveData : MutableLiveData<UnflagRemovePerformedSetResult>
-    val completeSetMutableLiveData : MutableLiveData<EditPerformedSetResult>
-    val clearSetMutableLiveData : MutableLiveData<ClearPerformedSetResult>
+    val addSetLiveData : LiveData<AddPerformedSetResult>
+    val removeSetLiveData : LiveData<RemoveWorkoutSessionSetResult>
+    val unFlagRemoveSetLiveData : LiveData<UnflagRemovePerformedSetResult>
+    val completeSetLiveData : LiveData<EditPerformedSetResult>
+    val clearSetLiveData : LiveData<ClearPerformedSetResult>
 
-    val finalizedSessionMLD : MutableLiveData<FinalizedRunningSessionResult>
-    val savedSessionMLD : MutableLiveData<WorkoutSessionSaveResult>
-    val discardSessionMLD: MutableLiveData<RunningWorkoutSessionDiscardResult>
+    val finalizedSessionLiveData : LiveData<FinalizedRunningSessionResult>
+    val savedSessionLiveData : LiveData<WorkoutSessionSaveResult>
+    val discardSessionLiveData: LiveData<RunningWorkoutSessionDiscardResult>
 
-    val sessionTimerMLD : MutableLiveData<String>
-    val restTimerMLD : MutableLiveData<String>
+    val sessionTimerLiveData : LiveData<String>
+    val restTimerLiveData : LiveData<String>
 
     fun createWorkoutSession(workoutRecordId : Long)
     fun addSet(exercisePerformedIndex : Int)

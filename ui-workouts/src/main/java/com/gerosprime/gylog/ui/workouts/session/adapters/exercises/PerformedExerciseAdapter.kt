@@ -9,7 +9,7 @@ import com.gerosprime.gylog.ui.workouts.R
 
 
 internal class PerformedExerciseAdapter
-    (private val performedExercises: List<ExercisePerformedEntity>,
+    (var performedExercises: List<ExercisePerformedEntity>,
      private val exerciseClickListener: OnItemClickListener<WorkoutExerciseClick>,
      private val setClickListener: OnItemClickListener<PerformedSetClick>,
      private var addItemClick : OnItemClickListener<AddPerformSetClick>,
