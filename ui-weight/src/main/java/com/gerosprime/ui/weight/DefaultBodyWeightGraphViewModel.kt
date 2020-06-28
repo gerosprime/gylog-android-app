@@ -1,23 +1,29 @@
 package com.gerosprime.ui.weight
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.gerosprime.gylog.base.components.android.SingleLiveEvent
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
-import com.gerosprime.gylog.models.body.fat.AllBodyFatsCacheLoadResult
-
-import com.gerosprime.gylog.models.body.weight.*
+import com.gerosprime.gylog.models.body.weight.AllBodyWeightsCacheLoadResult
+import com.gerosprime.gylog.models.body.weight.BodyWeightCacheLoader
+import com.gerosprime.gylog.models.body.weight.BodyWeightDatabaseSaver
+import com.gerosprime.gylog.models.body.weight.BodyWeightSaveResult
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import java.util.*
 
 class DefaultBodyWeightGraphViewModel
-    (override val bodyWeightDataMLD: MutableLiveData<AllBodyWeightsCacheLoadResult>,
-     override val savedBodyWeightDataMLD: MutableLiveData<BodyWeightSaveResult>,
+    (
      private val bodyWeightLoader : BodyWeightCacheLoader,
      private val bodyWeightSaver : BodyWeightDatabaseSaver,
      private val uiScheduler: Scheduler?,
      private val backgroundScheduler: Scheduler?)
     : BaseViewModel(), BodyWeightGraphViewModel {
+
+
+    private val bodyWeightDataMLD = MutableLiveData<AllBodyWeightsCacheLoadResult>()
+    private val savedBodyWeightDataMLD = SingleLiveEvent<BodyWeightSaveResult>()
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -48,4 +54,11 @@ class DefaultBodyWeightGraphViewModel
         }))
 
     }
+
+    override val bodyWeightDataLiveData: LiveData<AllBodyWeightsCacheLoadResult>
+        get() = bodyWeightDataMLD
+
+    override val savedBodyWeightDataLiveData: LiveData<BodyWeightSaveResult>
+        get() = savedBodyWeightDataMLD
+
 }

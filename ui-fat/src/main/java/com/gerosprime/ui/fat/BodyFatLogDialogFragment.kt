@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import com.gerosprime.ui.fat.databinding.FragmentBodyFatLogDialogBinding
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.textfield.TextInputLayout
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -68,31 +66,30 @@ class BodyFatLogDialogFragment : DialogFragment() {
     ): View? {
 
         binding = FragmentBodyFatLogDialogBinding.inflate(inflater, container, false)
-        val inflated =  inflater.inflate(R.layout.fragment_body_fat_log_dialog,
-            container, false)
 
-        binding.fragmentBodyFatLogDialogDate.setOnClickListener {
-            showDateSelectorBuilder(getDate().time)
-        }
-
-        binding.fragmentBodyFatCancel.setOnClickListener {
-            dismiss()
-        }
-
-        val createButton : Button = inflated.findViewById(R.id.fragment_body_fat_save)
-        createButton.setOnClickListener {
-
-            kotlin.run {
-                val weight = binding.fragmentBodyFatLogFat.editText!!.text.toString()
-                val notes = binding.fragmentBodyFatLogNotes.editText!!.text.toString()
-
-                defineWorkout(getRecordId(), weight,
-                    binding.fragmentBodyFatLogDate.editText!!.text.toString(), notes)
+        binding.run {
+            fragmentBodyFatLogDialogDate.setOnClickListener {
+                showDateSelectorBuilder(getDate().time)
             }
 
+            fragmentBodyFatCancel.setOnClickListener {
+                dismiss()
+            }
+
+            fragmentBodyFatSave.setOnClickListener {
+
+                kotlin.run {
+                    val weight = fragmentBodyFatLogFatEdit.text.toString()
+                    val notes = fragmentBodyFatLogFatNotes.text.toString()
+
+                    defineWorkout(getRecordId(), weight,
+                        fragmentBodyFatLogDateEdit.text.toString(), notes)
+                }
+
+            }
         }
 
-        return inflated
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -102,27 +99,27 @@ class BodyFatLogDialogFragment : DialogFragment() {
         dateFormat.isLenient = false
 
         if (savedInstanceState == null) {
-            val weight = getWeight()
-            if (weight != null)
-                binding.fragmentBodyFatLogFat.editText!!.setText(weight.toString())
-            else
-                binding.fragmentBodyFatLogFat.editText!!.setText("")
 
-            val note = getNote()
-            binding.fragmentBodyFatLogNotes.editText!!.setText(note)
-            binding.fragmentBodyFatLogDate.editText!!.setText(dateFormat.format(getDate()))
+            binding.run {
+                val weight = getWeight()
+                if (weight != null)
+                    fragmentBodyFatLogFatEdit.setText(weight.toString())
+                else
+                    fragmentBodyFatLogFatEdit.setText("")
+
+                val note = getNote()
+                fragmentBodyFatLogFatNotes.setText(note)
+                fragmentBodyFatLogDateEdit.setText(dateFormat.format(getDate()))
+
+            }
+
+
 
         } else {
             savedInstanceState.getLong(Extras.DATE)
             binding.fragmentBodyFatLogDate.editText!!.setText(dateFormat.format(getDate()))
 
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        // outState.putLong(Extras.DATE,
-        //    dateFormat.parse(dateInputLayout.editText!!.text.toString()).time)
     }
 
     private fun showDateSelectorBuilder(dateMillis : Long) {
@@ -173,21 +170,23 @@ class BodyFatLogDialogFragment : DialogFragment() {
                               date : String, notes : String) {
 
 
-        if (weight.isBlank()) {
-            binding.fragmentBodyFatLogDate.error = getString(R.string.body_fat_is_required)
-            return
-        }
+        binding.run {
+            if (weight.isBlank()) {
+                fragmentBodyFatLogDate.error = getString(R.string.body_fat_is_required)
+                return
+            }
 
-        if (date.isBlank()) {
-            binding.fragmentBodyFatLogDate.error = getString(R.string.body_fat_is_required)
-            return
-        }
+            if (date.isBlank()) {
+                fragmentBodyFatLogDate.error = getString(R.string.body_fat_is_required)
+                return
+            }
 
-        try {
-            dateFormat.parse(date)
-        } catch (e : ParseException) {
-            binding.fragmentBodyFatLogDate.error = getString(R.string.date_is_invalid)
-            return
+            try {
+                dateFormat.parse(date)
+            } catch (e : ParseException) {
+                fragmentBodyFatLogDate.error = getString(R.string.date_is_invalid)
+                return
+            }
         }
 
         listener.bodyWeightSet(recordId, weight.toFloat(),
