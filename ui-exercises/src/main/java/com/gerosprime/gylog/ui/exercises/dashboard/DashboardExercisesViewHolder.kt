@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
 import com.gerosprime.gylog.ui.exercises.R
+import com.gerosprime.gylog.ui.exercises.databinding.ViewholderDashboardExercisesBinding
 
 class DashboardExercisesViewHolder(
     itemView: View,
@@ -16,14 +17,17 @@ class DashboardExercisesViewHolder(
 )
     : RecyclerView.ViewHolder(itemView) {
 
-    private var titleTextView : TextView = itemView.findViewById(R.id.viewholder_dashboard_name)
-    private var imageTextView : ImageView = itemView.findViewById(R.id.viewholder_dashboard_photo)
-    private var targetMusclesRecyclerView : RecyclerView = itemView.findViewById(R.id.viewholder_dashboard_muscles)
+
+    private val binding = ViewholderDashboardExercisesBinding.bind(itemView)
 
     init {
-        targetMusclesRecyclerView.layoutManager = LinearLayoutManager(
-                    itemView.context,
-                    LinearLayoutManager.HORIZONTAL, false)
+        binding.apply {
+            viewholderDashboardMuscles.layoutManager = LinearLayoutManager(
+                itemView.context,
+                LinearLayoutManager.HORIZONTAL, false)
+
+            viewholderDashboardMuscles.adapter = TargetMusclesAdapter(mutableListOf())
+        }
 
         itemView.setOnClickListener {
             listener.onItemClicked(ExerciseItemClick(layoutPosition, exerciseItem))
@@ -32,23 +36,20 @@ class DashboardExercisesViewHolder(
 
     private lateinit var exerciseItem : ExerciseEntity
 
-    fun set(exerciseEntity: ExerciseEntity) {
+    fun bind(exerciseEntity: ExerciseEntity) {
         this.exerciseItem = exerciseEntity
 
-        titleTextView.text = exerciseEntity.name
+        binding.apply {
+            viewholderDashboardName.text = exerciseEntity.name
 
-        Glide.with(itemView).load(R.color.colorPrimary)
-            .into(imageTextView)
+            Glide.with(itemView).load(R.color.colorPrimary)
+                .into(viewholderDashboardPhoto)
 
-        // TODO Image
-        var adapter = targetMusclesRecyclerView.adapter as TargetMusclesAdapter?
-        if (adapter != null) {
+            val adapter = viewholderDashboardMuscles.adapter as TargetMusclesAdapter
             adapter.muscles = exerciseEntity.targetMuscles
             adapter.notifyDataSetChanged()
-        }
-        else
-            targetMusclesRecyclerView.adapter = TargetMusclesAdapter(exerciseItem.targetMuscles)
 
+        }
 
     }
 

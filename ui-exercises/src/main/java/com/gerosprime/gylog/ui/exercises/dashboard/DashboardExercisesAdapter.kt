@@ -38,6 +38,6 @@ class DashboardExercisesAdapter(var exercises: List<ExerciseEntity>) :
     override fun getItemCount(): Int = exercises.size
 
     override fun onBindViewHolder(holder: DashboardExercisesViewHolder, position: Int) {
-        holder.set(exercises[position])
+        holder.bind(exercises[position])
     }
 }

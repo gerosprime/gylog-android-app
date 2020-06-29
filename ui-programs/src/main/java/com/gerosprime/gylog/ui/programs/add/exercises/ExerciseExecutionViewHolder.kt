@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.templates.ExerciseTemplateEntity
 import com.gerosprime.gylog.ui.programs.R
+import com.gerosprime.gylog.ui.programs.databinding.ViewholderWorkoutExerciseExecsBinding
 
 internal class ExerciseExecutionViewHolder (itemView: View,
     var exerciseClickListener: OnItemClickListener<ExerciseExecutionClicked>?)
     : RecyclerView.ViewHolder(itemView) {
 
-    private var imageView : ImageView = itemView.findViewById(R.id.viewholder_workout_exercise_execs_image)
-    private var nameTextView : TextView = itemView.findViewById(R.id.viewholder_workout_exercise_execs_name)
-    private var setsTextView : TextView = itemView.findViewById(R.id.viewholder_workout_exercise_execs_sets)
+
+    private val binding = ViewholderWorkoutExerciseExecsBinding.bind(itemView)
 
     private lateinit var exercise : ExerciseTemplateEntity
     private var exerciseIndex: Int = -1
@@ -39,12 +39,17 @@ internal class ExerciseExecutionViewHolder (itemView: View,
         this.workoutIndex = workoutIndex
         this.exerciseIndex = exerciseIndex
 
-        nameTextView.text = exercise.name
+        binding.apply {
+            viewholderWorkoutExerciseExecsName.text = exercise.name
 
-        val setsFormat : String = context.resources.getQuantityText(R.plurals.sets_format,
-            exercise.setTemplates.size).toString()
+            val setsFormat : String = context.resources.getQuantityText(R.plurals.sets_format,
+                exercise.setTemplates.size).toString()
 
-        setsTextView.text = String.format(setsFormat, exercise.setTemplates.size)
+            viewholderWorkoutExerciseExecsSets.text =
+                String.format(setsFormat, exercise.setTemplates.size)
+
+        }
+
 
     }
 

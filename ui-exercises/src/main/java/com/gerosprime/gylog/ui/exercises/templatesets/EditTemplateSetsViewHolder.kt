@@ -8,6 +8,7 @@ import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.TimeFormatUtil
 import com.gerosprime.gylog.models.exercises.templatesets.TemplateSetEntity
 import com.gerosprime.gylog.ui.exercises.R
+import com.gerosprime.gylog.ui.exercises.databinding.ViewholderTemplateSetBinding
 
 class EditTemplateSetsViewHolder(itemView : View,
                                  var itemClickListener : OnItemClickListener<Int>? = null)
@@ -17,14 +18,7 @@ class EditTemplateSetsViewHolder(itemView : View,
     lateinit var entity : TemplateSetEntity
     var templatePosition : Int = -1
 
-    private val setIndexTextView : TextView
-            = itemView.findViewById(R.id.viewholder_template_set_index)
-    private val minMaxRepsTextView : TextView
-            = itemView.findViewById(R.id.viewholder_template_set_min_max_reps)
-    private val weightTextView : TextView
-            = itemView.findViewById(R.id.viewholder_template_set_weight)
-    private val restTimeTextView : TextView
-            = itemView.findViewById(R.id.viewholder_template_set_rest)
+    private val binding = ViewholderTemplateSetBinding.bind(itemView)
 
     private val resources : Resources = itemView.resources
 
@@ -36,41 +30,45 @@ class EditTemplateSetsViewHolder(itemView : View,
 
 
     fun set(entity: TemplateSetEntity, position : Int) {
+
         this.entity = entity
         this.templatePosition = position
 
-        setIndexTextView.text = resources.getString(R.string.template_set_index_format,
-            position + 1)
+        binding.apply {
+            viewholderTemplateSetIndex.text =
+                resources.getString(R.string.template_set_index_format, position + 1)
 
+            if (entity.minReps != null && entity.reps != null) {
+                viewholderTemplateSetMinMaxReps.text = resources.getString(
+                    R.string.template_set_min_max_reps_format,
+                    entity.minReps, entity.reps
+                )
+            } else if (entity.minReps != null) {
+                viewholderTemplateSetMinMaxReps.text = resources.getString(
+                    R.string.template_set_reps_format,
+                    entity.minReps)
+            } else if (entity.reps != null) {
+                viewholderTemplateSetMinMaxReps.text = resources.getString(
+                    R.string.template_set_reps_format,
+                    entity.reps)
+            } else {
+                viewholderTemplateSetMinMaxReps.text = resources.getText(R.string.template_set_no_reps_range_set)
+            }
 
-        if (entity.minReps != null && entity.reps != null) {
-            minMaxRepsTextView.text = resources.getString(
-                R.string.template_set_min_max_reps_format,
-                entity.minReps, entity.reps
-            )
-        } else if (entity.minReps != null) {
-            minMaxRepsTextView.text = resources.getString(
-                R.string.template_set_reps_format,
-                entity.minReps)
-        } else if (entity.reps != null) {
-            minMaxRepsTextView.text = resources.getString(
-                R.string.template_set_reps_format,
-                entity.reps)
-        } else {
-            minMaxRepsTextView.text = resources.getText(R.string.template_set_no_reps_range_set)
+            if (entity.weight != null && entity.weight!! > 0f) {
+                viewholderTemplateSetWeight.text = resources.getString(
+                    R.string.template_set_weight_format,
+                    entity.weight, "KG"
+                )
+            } else {
+                viewholderTemplateSetWeight.text = resources.getText(R.string.template_set_no_required_weight_range_set)
+            }
+
+            viewholderTemplateSetRest.text = resources.getString(R.string.template_set_rest_format,
+                TimeFormatUtil.secondsToString(entity.restTimeSeconds.toLong()))
+
         }
 
-        if (entity.weight != null && entity.weight!! > 0f) {
-            weightTextView.text = resources.getString(
-                R.string.template_set_weight_format,
-                entity.weight, "KG"
-            )
-        } else {
-            weightTextView.text = resources.getText(R.string.template_set_no_required_weight_range_set)
-        }
-
-        restTimeTextView.text = resources.getString(R.string.template_set_rest_format,
-            TimeFormatUtil.secondsToString(entity.restTimeSeconds.toLong()))
 
     }
 
