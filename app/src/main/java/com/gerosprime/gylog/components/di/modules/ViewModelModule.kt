@@ -131,9 +131,7 @@ class ViewModelModule {
     fun provideDefaultTemplateSetEditViewModel(templateSetloader : TemplateSetEditCacheLoader,
                                                templateSetCommitter : TemplateSetCommitUC
                                                ) : ViewModel {
-        return DefaultTemplateSetEditViewModel(
-            MutableLiveData(), MutableLiveData(),
-            MutableLiveData(), templateSetloader, templateSetCommitter,
+        return DefaultTemplateSetEditViewModel(templateSetloader, templateSetCommitter,
             AndroidSchedulers.mainThread(),Schedulers.io())
     }
 

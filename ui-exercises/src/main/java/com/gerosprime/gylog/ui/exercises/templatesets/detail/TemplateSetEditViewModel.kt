@@ -1,14 +1,16 @@
 package com.gerosprime.gylog.ui.exercises.templatesets.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.models.exercises.templatesets.single.TemplateSetEditLoadResult
 import com.gerosprime.gylog.models.exercises.templatesets.single.commit.TemplateSetCommitResult
 
 interface TemplateSetEditViewModel {
-    val fetchStateMLD : MutableLiveData<FetchState>
-    val loadTemplateSetMLD : MutableLiveData<TemplateSetEditLoadResult>
-    val commitMLD : MutableLiveData<TemplateSetCommitResult>
+
+    val fetchStateLiveData : LiveData<FetchState>
+    val loadTemplateSetLiveData : LiveData<TemplateSetEditLoadResult>
+    val commitLiveData : LiveData<TemplateSetCommitResult>
 
     fun loadTemplate(workoutIndex : Int, exerciseIndex : Int,
                      templateIndex : Int)

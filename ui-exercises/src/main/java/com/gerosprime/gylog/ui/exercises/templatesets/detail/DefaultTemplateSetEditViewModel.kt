@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.ui.exercises.templatesets.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
@@ -13,14 +14,15 @@ import io.reactivex.functions.Consumer
 
 
 class DefaultTemplateSetEditViewModel(
-    override val fetchStateMLD: MutableLiveData<FetchState>,
-    override val loadTemplateSetMLD: MutableLiveData<TemplateSetEditLoadResult>,
-    override val commitMLD: MutableLiveData<TemplateSetCommitResult>,
+
     private val templateSetloader : TemplateSetEditCacheLoader,
     private val templateSetCommitter : TemplateSetCommitUC,
     private val uiScheduler : Scheduler?,
     private val backgroundScheduler: Scheduler?) : BaseViewModel(), TemplateSetEditViewModel {
 
+    private val fetchStateMLD = MutableLiveData<FetchState>()
+    private val loadTemplateSetMLD = MutableLiveData<TemplateSetEditLoadResult>()
+    private val commitMLD = MutableLiveData<TemplateSetCommitResult>()
 
     private val compositeDisposable : CompositeDisposable = CompositeDisposable()
 
@@ -61,4 +63,12 @@ class DefaultTemplateSetEditViewModel(
         compositeDisposable.add(committer.subscribe(Consumer { commitMLD.value = it }))
 
     }
+
+    override val fetchStateLiveData: LiveData<FetchState>
+        get() = fetchStateMLD
+    override val loadTemplateSetLiveData: LiveData<TemplateSetEditLoadResult>
+        get() = loadTemplateSetMLD
+    override val commitLiveData: LiveData<TemplateSetCommitResult>
+        get() = commitMLD
+
 }
