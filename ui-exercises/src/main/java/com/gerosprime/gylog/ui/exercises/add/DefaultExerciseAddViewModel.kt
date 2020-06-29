@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.ui.exercises.add
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
@@ -10,15 +11,18 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 
 class DefaultExerciseAddViewModel
-    (override val fetchStateMLD: MutableLiveData<FetchState>,
-     override val saveResultMLD : MutableLiveData<ExerciseDatabaseSaveResult>,
-     override val loadResultMLD: MutableLiveData<LoadedSingleExerciseResult>,
+    (
      private val uiScheduler: Scheduler?,
      private val backgroundScheduler: Scheduler?,
      private val exerciseSaver : ExerciseDatabaseSaver,
      private val exerciseLoader : ExercisesCacheLoader)
 
     : BaseViewModel(), ExerciseAddViewModel {
+
+
+    private val fetchStateMLD = MutableLiveData<FetchState>()
+    private val saveResultMLD = MutableLiveData<ExerciseDatabaseSaveResult>()
+    private val loadResultMLD = MutableLiveData<LoadedSingleExerciseResult>()
 
     private val compositeDisposable  = CompositeDisposable()
 
@@ -63,4 +67,12 @@ class DefaultExerciseAddViewModel
             loadResultMLD.value = it
         })
     }
+
+    override val fetchStateLiveData: LiveData<FetchState>
+        get() = fetchStateMLD
+    override val loadResultLiveData: LiveData<LoadedSingleExerciseResult>
+        get() = loadResultMLD
+    override val saveResultLiveData: LiveData<ExerciseDatabaseSaveResult>
+        get() = saveResultMLD
+
 }

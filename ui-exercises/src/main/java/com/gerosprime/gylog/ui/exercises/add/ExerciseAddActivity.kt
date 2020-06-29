@@ -9,12 +9,14 @@ import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.gerosprime.gylog.models.exercises.ExerciseDatabaseSaveResult
+import com.gerosprime.gylog.models.exercises.LoadedSingleExerciseResult
 import com.gerosprime.gylog.models.muscle.MuscleEnum
 import com.gerosprime.gylog.ui.exercises.R
 import com.gerosprime.gylog.ui.exercises.add.ExerciseAddActivity.Extras.RECORD_ID
+import com.gerosprime.gylog.ui.exercises.databinding.ActivityExerciseAddBinding
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
-import com.google.android.material.textfield.TextInputLayout
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -24,11 +26,8 @@ class ExerciseAddActivity : AppCompatActivity() {
 
     @Inject
     lateinit var factory : ViewModelProvider.Factory
-    lateinit var viewModel : ExerciseAddViewModel
+    private lateinit var viewModel : ExerciseAddViewModel
 
-    private lateinit var nameTextInputLayout: TextInputLayout
-    private lateinit var descriptionTextInputLayout: TextInputLayout
-    private lateinit var directionTextInputLayout: TextInputLayout
 
     object Extras {
         const val RECORD_ID = "extra_exercise_record_id"
@@ -42,141 +41,88 @@ class ExerciseAddActivity : AppCompatActivity() {
     private var muscleMaps : MutableMap<MuscleEnum, Chip> = mutableMapOf()
     private var chipMuscleMaps : MutableMap<Chip, MuscleEnum> = mutableMapOf()
 
-    private lateinit var chestChip : Chip
-    private lateinit var chestUpperChip : Chip
-    private lateinit var chestLowerChip : Chip
-    private lateinit var tricepsChip : Chip
-    private lateinit var bicepsChip : Chip
-    private lateinit var upperBackChip : Chip
-    lateinit var lowerBackChip : Chip
-    lateinit var hamstringsChip : Chip
-    lateinit var forearmsChip : Chip
-    lateinit var shoulderSideChip : Chip
-    lateinit var shoulderFrontChip : Chip
-    lateinit var shoulderBackChip : Chip
-    lateinit var trapsChip : Chip
-    lateinit var absChip : Chip
-    lateinit var quadsChip : Chip
-    lateinit var calvesChip : Chip
+    private lateinit var binding : ActivityExerciseAddBinding
 
     private lateinit var selectedMuscles : ArrayList<MuscleEnum>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-
         viewModel = ViewModelProvider(this, factory)
             .get(DefaultExerciseAddViewModel::class.java)
 
-        setContentView(R.layout.activity_exercise_add)
+        binding = ActivityExerciseAddBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
+
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        viewModel.saveResultMLD.observe(this, Observer {
-            val dataIntent = Intent()
-            dataIntent.putExtra(Result.FLAG, it.flag)
-            dataIntent.putExtra(Result.INDEX, it.itemIndex)
-            setResult(Activity.RESULT_OK, dataIntent)
-            finish()
-        })
-        viewModel.loadResultMLD.observe(this, Observer {
 
-            nameTextInputLayout.editText?.setText(it?.name)
-            descriptionTextInputLayout.editText?.setText(it?.description)
-            directionTextInputLayout.editText?.setText(it?.directions)
-            nameTextInputLayout.editText?.setText(it?.name)
+        viewModel.saveResultLiveData.observe(this, Observer { exerciseSaved(it) })
 
-            selectedMuscles = it.muscles
-            for (selectedMuscle in selectedMuscles) {
-
-                val checkBox = muscleMaps[selectedMuscle]
-                checkBox?.isChecked = true
-
-            }
-
-            for (value in muscleMaps.values) {
-                value.setOnCheckedChangeListener { compoundButton, _ ->
-                    run {
-                        muscleCheckEvent(compoundButton)
-                    }
-                }
-
-            }
-
-        })
-
-        nameTextInputLayout = findViewById(R.id.activity_exercise_add_layout_name)
-        descriptionTextInputLayout = findViewById(R.id.activity_exercise_add_layout_description)
-        directionTextInputLayout = findViewById(R.id.activity_exercise_add_layout_directions)
-
-        chestChip = findViewById(R.id.activity_exercise_add_muscle_chest)
-
-        muscleMaps[MuscleEnum.CHEST] = chestChip
-        chipMuscleMaps[chestChip] = MuscleEnum.CHEST
+        viewModel.loadResultLiveData.observe(this, Observer { exerciseLoaded(it) })
 
 
-        chestUpperChip = findViewById(R.id.activity_exercise_add_muscle_chest_upper)
-        muscleMaps[MuscleEnum.CHEST_UPPER] = chestUpperChip
-        chipMuscleMaps[chestUpperChip] = MuscleEnum.CHEST_UPPER
+        binding.apply {
+            muscleMaps[MuscleEnum.CHEST] = activityExerciseAddMuscleChest
+            chipMuscleMaps[activityExerciseAddMuscleChest] = MuscleEnum.CHEST
 
-        chestLowerChip = findViewById(R.id.activity_exercise_add_muscle_chest_lower)
-        muscleMaps[MuscleEnum.CHEST_LOWER] = chestLowerChip
-        chipMuscleMaps[chestLowerChip] = MuscleEnum.CHEST_LOWER
+            muscleMaps[MuscleEnum.CHEST_UPPER] = activityExerciseAddMuscleChestUpper
+            chipMuscleMaps[activityExerciseAddMuscleChestUpper] = MuscleEnum.CHEST_UPPER
 
-        tricepsChip = findViewById(R.id.activity_exercise_add_muscle_triceps)
-        muscleMaps[MuscleEnum.TRICEPS] = tricepsChip
-        chipMuscleMaps[tricepsChip] = MuscleEnum.TRICEPS
 
-        bicepsChip = findViewById(R.id.activity_exercise_add_muscle_biceps)
-        muscleMaps[MuscleEnum.BICEPS] = bicepsChip
-        chipMuscleMaps[bicepsChip] = MuscleEnum.BICEPS
+            muscleMaps[MuscleEnum.CHEST_LOWER] = activityExerciseAddMuscleChestLower
+            chipMuscleMaps[activityExerciseAddMuscleChestLower] = MuscleEnum.CHEST_LOWER
 
-        upperBackChip = findViewById(R.id.activity_exercise_add_muscle_back_upper)
-        muscleMaps[MuscleEnum.BACK_UPPER] = upperBackChip
-        chipMuscleMaps[upperBackChip] = MuscleEnum.BACK_UPPER
+            muscleMaps[MuscleEnum.TRICEPS] = activityExerciseAddMuscleTriceps
+            chipMuscleMaps[activityExerciseAddMuscleTriceps] = MuscleEnum.TRICEPS
 
-        lowerBackChip = findViewById(R.id.activity_exercise_add_muscle_back_lower)
-        muscleMaps[MuscleEnum.BACK_LOWER] = lowerBackChip
-        chipMuscleMaps[lowerBackChip] = MuscleEnum.BACK_LOWER
 
-        hamstringsChip = findViewById(R.id.activity_exercise_add_muscle_hamstring)
-        muscleMaps[MuscleEnum.HAMSTRINGS] = hamstringsChip
-        chipMuscleMaps[hamstringsChip] = MuscleEnum.HAMSTRINGS
+            muscleMaps[MuscleEnum.BICEPS] = activityExerciseAddMuscleBiceps
+            chipMuscleMaps[activityExerciseAddMuscleBiceps] = MuscleEnum.BICEPS
 
-        forearmsChip = findViewById(R.id.activity_exercise_add_muscle_forearms)
-        muscleMaps[MuscleEnum.FOREARMS] = forearmsChip
-        chipMuscleMaps[forearmsChip] = MuscleEnum.FOREARMS
 
-        shoulderSideChip = findViewById(R.id.activity_exercise_add_muscle_shoulder_side)
-        muscleMaps[MuscleEnum.SHOULDER_SIDE] = shoulderSideChip
-        chipMuscleMaps[shoulderSideChip] = MuscleEnum.SHOULDER_SIDE
+            muscleMaps[MuscleEnum.BACK_UPPER] = activityExerciseAddMuscleBackUpper
+            chipMuscleMaps[activityExerciseAddMuscleBackUpper] = MuscleEnum.BACK_UPPER
 
-        shoulderFrontChip = findViewById(R.id.activity_exercise_add_muscle_shoulder_front)
 
-        muscleMaps[MuscleEnum.SHOULDER_FRONT] = shoulderFrontChip
-        chipMuscleMaps[shoulderFrontChip] = MuscleEnum.SHOULDER_FRONT
+            muscleMaps[MuscleEnum.BACK_LOWER] = activityExerciseAddMuscleBackLower
+            chipMuscleMaps[activityExerciseAddMuscleBackLower] = MuscleEnum.BACK_LOWER
 
-        shoulderBackChip = findViewById(R.id.activity_exercise_add_muscle_shoulder_back)
-        muscleMaps[MuscleEnum.SHOULDER_BACK] = shoulderBackChip
-        chipMuscleMaps[shoulderBackChip] = MuscleEnum.SHOULDER_BACK
 
-        trapsChip = findViewById(R.id.activity_exercise_add_muscle_traps)
+            muscleMaps[MuscleEnum.HAMSTRINGS] = activityExerciseAddMuscleHamstring
+            chipMuscleMaps[activityExerciseAddMuscleHamstring] = MuscleEnum.HAMSTRINGS
 
-        muscleMaps[MuscleEnum.TRAPS] = trapsChip
-        chipMuscleMaps[trapsChip] = MuscleEnum.TRAPS
 
-        absChip = findViewById(R.id.activity_exercise_add_muscle_abs)
-        muscleMaps[MuscleEnum.ABS] = absChip
-        chipMuscleMaps[absChip] = MuscleEnum.ABS
+            muscleMaps[MuscleEnum.FOREARMS] = activityExerciseAddMuscleForearms
+            chipMuscleMaps[activityExerciseAddMuscleForearms] = MuscleEnum.FOREARMS
 
-        quadsChip = findViewById(R.id.activity_exercise_add_muscle_quads)
-        muscleMaps[MuscleEnum.QUADS] = quadsChip
-        chipMuscleMaps[quadsChip] = MuscleEnum.QUADS
 
-        calvesChip = findViewById(R.id.activity_exercise_add_muscle_calves)
-        muscleMaps[MuscleEnum.CALVES] = calvesChip
-        chipMuscleMaps[calvesChip] = MuscleEnum.CALVES
+            muscleMaps[MuscleEnum.SHOULDER_SIDE] = activityExerciseAddMuscleShoulderSide
+            chipMuscleMaps[activityExerciseAddMuscleShoulderSide] = MuscleEnum.SHOULDER_SIDE
 
+
+            muscleMaps[MuscleEnum.SHOULDER_FRONT] = activityExerciseAddMuscleShoulderFront
+            chipMuscleMaps[activityExerciseAddMuscleShoulderFront] = MuscleEnum.SHOULDER_FRONT
+
+            muscleMaps[MuscleEnum.SHOULDER_BACK] = activityExerciseAddMuscleShoulderBack
+            chipMuscleMaps[activityExerciseAddMuscleShoulderBack] = MuscleEnum.SHOULDER_BACK
+
+
+            muscleMaps[MuscleEnum.TRAPS] = activityExerciseAddMuscleTraps
+            chipMuscleMaps[activityExerciseAddMuscleTraps] = MuscleEnum.TRAPS
+
+            muscleMaps[MuscleEnum.ABS] = activityExerciseAddMuscleAbs
+            chipMuscleMaps[activityExerciseAddMuscleAbs] = MuscleEnum.ABS
+
+            muscleMaps[MuscleEnum.QUADS] = activityExerciseAddMuscleQuads
+            chipMuscleMaps[activityExerciseAddMuscleQuads] = MuscleEnum.QUADS
+
+            muscleMaps[MuscleEnum.CALVES] = activityExerciseAddMuscleCalves
+            chipMuscleMaps[activityExerciseAddMuscleCalves] = MuscleEnum.CALVES
+
+        }
 
         if (savedInstanceState == null) {
             viewModel.loadExercise(getExerciseId())
@@ -192,6 +138,40 @@ class ExerciseAddActivity : AppCompatActivity() {
             selectedMuscles.remove(chipMuscleMaps[cmp]!!)
         }
 
+    }
+
+    private fun exerciseLoaded(result : LoadedSingleExerciseResult) {
+
+        binding.apply {
+            activityExerciseAddEditName.setText(result.name)
+            activityExerciseAddEditDescription.setText(result.description)
+            activityExerciseAddEditDirections.setText(result.directions)
+
+            selectedMuscles = result.muscles
+            for (selectedMuscle in selectedMuscles) {
+
+                val checkBox = muscleMaps[selectedMuscle]
+                checkBox?.isChecked = true
+
+            }
+
+            for (value in muscleMaps.values) {
+                value.setOnCheckedChangeListener { compoundButton, _ ->
+                    run {
+                        muscleCheckEvent(compoundButton)
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun exerciseSaved(result : ExerciseDatabaseSaveResult) {
+        val dataIntent = Intent()
+        dataIntent.putExtra(Result.FLAG, result.flag)
+        dataIntent.putExtra(Result.INDEX, result.itemIndex)
+        setResult(Activity.RESULT_OK, dataIntent)
+        finish()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -217,20 +197,23 @@ class ExerciseAddActivity : AppCompatActivity() {
 
     private fun saveExercise() {
 
-        val name = nameTextInputLayout.editText?.text.toString()
+        binding.apply {
+            val name = activityExerciseAddEditName.text.toString()
 
-        if (name.isBlank()) {
-            nameTextInputLayout.error = getString(R.string.exercise_add_name_is_required)
-            return
+            if (name.isBlank()) {
+                activityExerciseAddEditName.error = getString(R.string.exercise_add_name_is_required)
+                return
+            }
+
+            val description = activityExerciseAddEditDescription.text.toString()
+            val instruction = activityExerciseAddEditDirections.text.toString()
+
+            // val muscles : ArrayList<MuscleEnum> =  arrayListOf()
+
+            viewModel.saveExercise(getExerciseId(), name, description,
+                instruction, selectedMuscles)
         }
 
-        val description = descriptionTextInputLayout.editText?.text.toString()
-        val instruction = directionTextInputLayout.editText?.text.toString()
-
-        // val muscles : ArrayList<MuscleEnum> =  arrayListOf()
-
-        viewModel.saveExercise(getExerciseId(), name, description,
-            instruction, selectedMuscles)
     }
 
     private fun getExerciseId() : Long? {

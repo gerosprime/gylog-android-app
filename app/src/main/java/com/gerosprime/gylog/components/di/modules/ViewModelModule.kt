@@ -185,7 +185,6 @@ class ViewModelModule {
                                            exercisesCacheLoader: ExercisesCacheLoader)
             : ViewModel {
         return DefaultExerciseAddViewModel(
-            MutableLiveData(), MutableLiveData(), MutableLiveData(),
             AndroidSchedulers.mainThread(), Schedulers.io(),
             exerciseDatabaseSaver, exercisesCacheLoader)
     }
