@@ -8,7 +8,7 @@ import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 
 class DefaultExerciseDetailViewModel(
-    override val loadedExerciseResultMLD: MutableLiveData<LoadedSingleExerciseResult>,
+    override val loadedExerciseResultLiveData: MutableLiveData<LoadedSingleExerciseResult>,
     private val exercisesCacheLoader: ExercisesCacheLoader,
     private val uiScheduler: Scheduler?,
     private val backgroundScheduler: Scheduler?) : BaseViewModel(), ExerciseDetailViewModel {
@@ -25,7 +25,7 @@ class DefaultExerciseDetailViewModel(
             loader = loader.subscribeOn(backgroundScheduler)
 
         compositeDisposable.add(loader.subscribe {
-            loadedExerciseResultMLD.value = it
+            loadedExerciseResultLiveData.value = it
         })
     }
 }

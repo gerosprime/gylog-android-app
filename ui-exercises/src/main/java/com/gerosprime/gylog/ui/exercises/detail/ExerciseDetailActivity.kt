@@ -3,7 +3,6 @@ package com.gerosprime.gylog.ui.exercises.detail
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -16,6 +15,7 @@ import com.gerosprime.gylog.models.exercises.LoadedSingleExerciseResult
 import com.gerosprime.gylog.ui.exercises.R
 import com.gerosprime.gylog.ui.exercises.add.ExerciseAddActivity
 import com.gerosprime.gylog.ui.exercises.dashboard.TargetMusclesAdapter
+import com.gerosprime.gylog.ui.exercises.databinding.ActivityExerciseDetailBinding
 import com.gerosprime.gylog.ui.exercises.detail.ExerciseDetailActivity.Extras.EXERCISE_ID
 import com.gerosprime.gylog.ui.exercises.detail.ExerciseDetailActivity.RequestCodes.EXERCISE_EDIT
 import com.google.android.material.appbar.MaterialToolbar
@@ -46,11 +46,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
     lateinit var factory: ViewModelProvider.Factory
     private lateinit var viewModel: ExerciseDetailViewModel
 
-    private lateinit var toolbar : MaterialToolbar
-
-    private lateinit var description : TextView
-    private lateinit var directions : TextView
-    private lateinit var musclesRecyclerView: RecyclerView
+    private lateinit var binding : ActivityExerciseDetailBinding
 
     private var flag : Int? = null
     private var index: Int? = null
@@ -62,23 +58,20 @@ class ExerciseDetailActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, factory)
             .get(DefaultExerciseDetailViewModel::class.java)
 
-        setContentView(R.layout.activity_exercise_detail)
+        binding = ActivityExerciseDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        binding.let {
+            setSupportActionBar(it.toolbar)
+            it.activityExerciseDetailMuscles.layoutManager = LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false)
+        }
 
-        description = findViewById(R.id.activity_exercise_detail_description)
-        directions = findViewById(R.id.activity_exercise_detail_directions)
-        musclesRecyclerView = findViewById(R.id.activity_exercise_detail_muscles)
-        musclesRecyclerView.layoutManager = LinearLayoutManager(this,
-            LinearLayoutManager.HORIZONTAL, false)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        viewModel.loadedExerciseResultMLD.observe(this,
-            Observer {
-                populateExerciseDetail(it)
-            })
+        viewModel.loadedExerciseResultLiveData.observe(this,
+            Observer { populateExerciseDetail(it) })
 
         if(savedInstanceState == null)
             viewModel.load(getExerciseID())
@@ -145,11 +138,15 @@ class ExerciseDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun populateExerciseDetail(it: LoadedSingleExerciseResult) {
-        description.text = it.description
-        directions.text = it.directions
-        supportActionBar?.title = it.name
-        musclesRecyclerView.adapter = TargetMusclesAdapter(it.muscles)
+    private fun populateExerciseDetail(result: LoadedSingleExerciseResult) {
+
+        binding.apply {
+            activityExerciseDetailDescription.text = result.description
+            activityExerciseDetailDirections.text = result.directions
+            supportActionBar?.title = result.name
+            activityExerciseDetailMuscles.adapter = TargetMusclesAdapter(result.muscles)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
