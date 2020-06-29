@@ -6,14 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.TimeFormatUtil
 import com.gerosprime.gylog.models.exercises.templatesets.LoadTemplateSetsToCacheResult
@@ -21,27 +18,15 @@ import com.gerosprime.gylog.models.exercises.templatesets.add.CreateTemplateSetT
 import com.gerosprime.gylog.models.exercises.templatesets.commit.CommitTemplateSetsToWorkoutResult
 import com.gerosprime.gylog.models.exercises.templatesets.remove.RemoveTemplateFromCacheResult
 import com.gerosprime.gylog.ui.exercises.R
+import com.gerosprime.gylog.ui.exercises.databinding.ActivityTemplateSetsBinding
 import com.gerosprime.gylog.ui.exercises.templatesets.EditTemplateSetsActivity.RequestCodes.TEMPLATE_EDIT
 import com.gerosprime.gylog.ui.exercises.templatesets.detail.TemplateSetEditActivity
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class EditTemplateSetsActivity : AppCompatActivity() {
 
 
-    private lateinit var collapsingToolbar: CollapsingToolbarLayout
-    private lateinit var toolbar: Toolbar
-    private lateinit var addSetButton : ExtendedFloatingActionButton
-
-    private lateinit var templateSetsRecyclerView : RecyclerView
-    private lateinit var emptyTextView: TextView
-
-    private lateinit var totalContainer : View
-    private lateinit var totalWeightTextView : TextView
-    private lateinit var totalSetsTextView : TextView
-    private lateinit var totalRestTimeTextView : TextView
 
     @Inject
     lateinit var factory : ViewModelProvider.Factory
@@ -56,22 +41,38 @@ class EditTemplateSetsActivity : AppCompatActivity() {
         const val EXERCISE_INDEX = "extra_exercise_index"
     }
 
+    private lateinit var binding : ActivityTemplateSetsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_template_sets)
-        toolbar = findViewById(R.id.toolbar)
-        collapsingToolbar = findViewById(R.id.collapsingToolbar)
-        setSupportActionBar(toolbar)
 
-        addSetButton = findViewById(R.id.activity_template_set_add_set)
-        addSetButton.setOnClickListener { viewModel.addTemplate(getWorkoutIndex(),
-            getExerciseIndex()) }
+        viewModel = ViewModelProvider(this, factory)
+            .get(DefaultEditTemplateSetsViewModel::class.java)
 
-        emptyTextView = findViewById(R.id.activity_template_set_empty)
+        binding = ActivityTemplateSetsBinding.inflate(layoutInflater)
 
-        templateSetsRecyclerView = findViewById(R.id.activity_exercise_add_exercises)
-        templateSetsRecyclerView.addItemDecoration(DividerItemDecoration(this,
+        setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
+
+        binding.activityTemplateSetAddSet.setOnClickListener {
+            viewModel.addTemplate(getWorkoutIndex(), getExerciseIndex())
+        }
+
+        val adapter = EditTemplateSetsAdapter(mutableListOf())
+        binding.activityExerciseAddExercises.adapter = adapter
+        val intentSet = Intent(this, TemplateSetEditActivity::class.java)
+        adapter.itemClickListener = object : OnItemClickListener<Int> {
+            override fun onItemClicked(item: Int) {
+                intentSet.putExtra(TemplateSetEditActivity.Extras.TEMPLATE_INDEX, item)
+                intentSet.putExtra(TemplateSetEditActivity.Extras.WORKOUT_INDEX, getWorkoutIndex())
+                intentSet.putExtra(TemplateSetEditActivity.Extras.EXERCISE_INDEX, getExerciseIndex())
+                startActivityForResult(intentSet, TEMPLATE_EDIT)
+            }
+        }
+
+        binding.activityExerciseAddExercises.addItemDecoration(DividerItemDecoration(this,
             DividerItemDecoration.VERTICAL))
 
         // TODO Clean code
@@ -88,16 +89,7 @@ class EditTemplateSetsActivity : AppCompatActivity() {
             }
         }
 
-        ItemTouchHelper(callback).attachToRecyclerView(templateSetsRecyclerView)
-
-        totalContainer = findViewById(R.id.activity_template_sets_total_container)
-        totalWeightTextView = findViewById(R.id.activity_template_set_total_weight)
-        totalSetsTextView = findViewById(R.id.activity_template_set_total_sets)
-        totalRestTimeTextView = findViewById(R.id.activity_template_set_total_rest_time)
-
-
-        viewModel = ViewModelProvider(this, factory)
-            .get(DefaultEditTemplateSetsViewModel::class.java)
+        ItemTouchHelper(callback).attachToRecyclerView(binding.activityExerciseAddExercises)
 
         viewModel.loadTemplateSetsMutableLiveData.observe(this,
             Observer { populateTemplateSets(it) })
@@ -122,7 +114,8 @@ class EditTemplateSetsActivity : AppCompatActivity() {
 
                     val editSetPosition = data!!
                         .getIntExtra(TemplateSetEditActivity.Extras.TEMPLATE_INDEX, -1)
-                    val adapter = templateSetsRecyclerView.adapter as EditTemplateSetsAdapter
+                    val adapter = binding.activityExerciseAddExercises.adapter
+                            as EditTemplateSetsAdapter
                     adapter.notifyItemChanged(editSetPosition)
 
                 }
@@ -132,26 +125,24 @@ class EditTemplateSetsActivity : AppCompatActivity() {
     }
 
     private fun updateTotalInfos(totalWeight : Float, totalSeconds : Int, totalSets : Int) {
-        totalWeightTextView.text = getString(R.string.template_set_weight_format, totalWeight, "KG")
-        totalRestTimeTextView.text = TimeFormatUtil.secondsToString(totalSeconds.toLong())
-        totalSetsTextView.text = getString(R.string.template_set_total_sets_format, totalSets)
+        binding.apply {
+            activityTemplateSetTotalWeight.text = getString(R.string.template_set_weight_format, totalWeight, "KG")
+            activityTemplateSetTotalRestTime.text = TimeFormatUtil.secondsToString(totalSeconds.toLong())
+            activityTemplateSetTotalSets.text = getString(R.string.template_set_total_sets_format, totalSets)
+        }
     }
 
-    private fun templateSetRemoved(result: RemoveTemplateFromCacheResult?) {
+    private fun templateSetRemoved(result: RemoveTemplateFromCacheResult) {
 
-        val adapter = templateSetsRecyclerView.adapter as EditTemplateSetsAdapter
-        val removedIndex = result!!.templateRemovedIndex
-
+        val adapter = binding.activityExerciseAddExercises.adapter as EditTemplateSetsAdapter
+        val removedIndex = result.templateRemovedIndex
 
         adapter.notifyItemRemoved(removedIndex)
         adapter.notifyItemRangeChanged(removedIndex, adapter.itemCount - removedIndex);
 
-        if (adapter.itemCount == 0) {
-            emptyTextView.visibility = View.VISIBLE
-            templateSetsRecyclerView.visibility = View.INVISIBLE
-        } else {
-            emptyTextView.visibility = View.GONE
-            templateSetsRecyclerView.visibility = View.VISIBLE
+        binding.apply {
+            activityTemplateSetEmpty.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.GONE
+            activityExerciseAddExercises.visibility = if (adapter.itemCount == 0) View.INVISIBLE else View.VISIBLE
         }
 
         updateTotalInfos(result.totalWeight, result.totalRestDuration, result.totalSets)
@@ -187,14 +178,17 @@ class EditTemplateSetsActivity : AppCompatActivity() {
         return true
     }
 
-    private fun newTemplateSetAdded(result: CreateTemplateSetToCacheResult?) {
-        templateSetsRecyclerView.adapter!!
-            .notifyItemRangeInserted(result!!.insertIndex, 1)
+    private fun newTemplateSetAdded(result: CreateTemplateSetToCacheResult) {
 
-        emptyTextView.visibility = View.GONE
-        templateSetsRecyclerView.visibility = View.VISIBLE
+        binding.apply {
+            activityExerciseAddExercises.adapter!!
+                .notifyItemRangeInserted(result.insertIndex, 1)
+            activityTemplateSetEmpty.visibility = View.GONE
+            activityExerciseAddExercises.visibility = View.VISIBLE
 
-        updateTotalInfos(result.totalWeight, result.totalRest, result.totalSets)
+            updateTotalInfos(result.totalWeight, result.totalRest, result.totalSets)
+        }
+
     }
 
     private fun getWorkoutIndex() : Int {
@@ -207,31 +201,28 @@ class EditTemplateSetsActivity : AppCompatActivity() {
 
     private fun populateTemplateSets(result: LoadTemplateSetsToCacheResult) {
 
-        val adapter = EditTemplateSetsAdapter(result.copyTemplates)
-        val intentSet = Intent(this, TemplateSetEditActivity::class.java)
-        adapter.itemClickListener = object : OnItemClickListener<Int> {
-            override fun onItemClicked(item: Int) {
-                intentSet.putExtra(TemplateSetEditActivity.Extras.TEMPLATE_INDEX, item)
-                intentSet.putExtra(TemplateSetEditActivity.Extras.WORKOUT_INDEX, getWorkoutIndex())
-                intentSet.putExtra(TemplateSetEditActivity.Extras.EXERCISE_INDEX, getExerciseIndex())
-                startActivityForResult(intentSet, TEMPLATE_EDIT)
+
+        binding.let {
+
+            val adapter = it.activityExerciseAddExercises.adapter as EditTemplateSetsAdapter
+
+            adapter.templates = result.copyTemplates
+            adapter.notifyItemRangeChanged(0, result.copyTemplates.size)
+            if (result.copyTemplates.isEmpty()) {
+                it.activityTemplateSetEmpty.visibility = View.VISIBLE
+                it.activityExerciseAddExercises.visibility = View.INVISIBLE
+            } else {
+                it.activityTemplateSetEmpty.visibility = View.GONE
+                it.activityExerciseAddExercises.visibility = View.VISIBLE
             }
-        }
-        templateSetsRecyclerView.adapter = adapter
 
-        if (result.copyTemplates.isEmpty()) {
-            emptyTextView.visibility = View.VISIBLE
-            templateSetsRecyclerView.visibility = View.INVISIBLE
-        } else {
-            emptyTextView.visibility = View.GONE
-            templateSetsRecyclerView.visibility = View.VISIBLE
+            it.collapsingToolbar.title = result.exerciseTemplateEntity.name
+            it.toolbar.title = result.exerciseTemplateEntity.name
+
+            updateTotalInfos(result.totalWeight, result.totalRestDuration, result.totalSets)
+
         }
 
-
-        collapsingToolbar.title = result.exerciseTemplateEntity.name
-        toolbar.title = result.exerciseTemplateEntity.name
-
-        updateTotalInfos(result.totalWeight, result.totalRestDuration, result.totalSets)
     }
 
 

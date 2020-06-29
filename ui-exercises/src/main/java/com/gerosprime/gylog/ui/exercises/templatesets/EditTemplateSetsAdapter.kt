@@ -7,7 +7,7 @@ import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.exercises.templatesets.TemplateSetEntity
 import com.gerosprime.gylog.ui.exercises.R
 
-class EditTemplateSetsAdapter(private val templates : List<TemplateSetEntity>) : RecyclerView.Adapter<EditTemplateSetsViewHolder>() {
+class EditTemplateSetsAdapter(var templates : List<TemplateSetEntity>) : RecyclerView.Adapter<EditTemplateSetsViewHolder>() {
 
 
     private var inflater : LayoutInflater? = null
