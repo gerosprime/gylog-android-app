@@ -27,7 +27,8 @@ internal class ExerciseExecutionViewHolder (itemView: View,
         itemView.setOnClickListener {
             exerciseClickListener!!.onItemClicked(
                 ExerciseExecutionClicked(workoutIndex, exercise, exerciseIndex)
-            ) }
+            )
+        }
     }
 
     fun set(

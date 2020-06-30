@@ -13,13 +13,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 class AddWorkoutDialogFragment : DialogFragment() {
 
-    lateinit var nameEditTextLayout : TextInputLayout
-    lateinit var descriptionEditTextLayout : TextInputLayout
-
     private var listener : Listener? = null
-
-    lateinit var cancelButton : Button
-    lateinit var createButton : Button
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

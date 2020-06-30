@@ -8,7 +8,7 @@ import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionClicked
 
-class ProgramWorkoutsAdapter(private val items : ArrayList<WorkoutEntity>)
+class ProgramWorkoutsAdapter(var items : List<WorkoutEntity>)
     : RecyclerView.Adapter<ProgramWorkoutsViewHolder>() {
 
     var layoutInflater : LayoutInflater? = null

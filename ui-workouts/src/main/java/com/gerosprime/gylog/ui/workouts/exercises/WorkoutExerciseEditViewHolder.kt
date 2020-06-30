@@ -11,6 +11,7 @@ import com.gerosprime.gylog.base.components.android.CheckableRelativeLayout
 import com.gerosprime.gylog.models.exercises.ExerciseEntity
 import com.gerosprime.gylog.ui.exercises.dashboard.TargetMusclesAdapter
 import com.gerosprime.gylog.ui.workouts.R
+import com.gerosprime.gylog.ui.workouts.databinding.ViewholderWorkoutExerciseAddBinding
 
 
 class WorkoutExerciseEditViewHolder(
@@ -19,44 +20,39 @@ class WorkoutExerciseEditViewHolder(
         private val imageClickListener: OnItemClickListener<ExerciseEntity>)
             : RecyclerView.ViewHolder(itemView) {
 
-    lateinit var entity : ExerciseEntity
+    private lateinit var entity : ExerciseEntity
 
-    private val checkableItemView = itemView as CheckableRelativeLayout
-
-    private var nameTextView : TextView
-            = itemView.findViewById(R.id.viewholder_exercise_add_name)
-    private var imageExercise : ImageView
-            = itemView.findViewById(R.id.viewholder_exercise_add_photo)
-
-    private var recyclerViewMuscles : RecyclerView
-            = itemView.findViewById(R.id.viewholder_workout_exercises_muscles)
-
-    private var checkBox : CheckBox
-            = itemView.findViewById(R.id.viewholder_exercise_add_checkbox)
+    private val binding = ViewholderWorkoutExerciseAddBinding.bind(itemView)
+    private val checkableItemView = binding.root
 
     init {
 
-        recyclerViewMuscles.layoutManager = LinearLayoutManager(itemView.context,
-            LinearLayoutManager.HORIZONTAL, false)
+        binding.apply {
 
-        imageExercise.setOnClickListener {
-            imageClickListener.onItemClicked(entity)
-        }
+            viewholderWorkoutExercisesMuscles.adapter = TargetMusclesAdapter(listOf())
+            viewholderWorkoutExercisesMuscles.layoutManager = LinearLayoutManager(itemView.context,
+                LinearLayoutManager.HORIZONTAL, false)
 
-        checkableItemView.setOnClickListener {
-            checkableItemView.toggle()
-            onCheck(checkableItemView.isChecked)
-            updateCheckBox(checkableItemView.isChecked)
+            viewholderExerciseAddPhoto.setOnClickListener {
+                imageClickListener.onItemClicked(entity)
+            }
 
-        }
 
-        checkBox.setOnCheckedChangeListener {
-                _, b ->
-            run {
-                updateItemViewCheck(b)
-                onCheck(b)
+            checkableItemView.setOnClickListener {
+                checkableItemView.toggle()
+                onCheck(checkableItemView.isChecked)
+                updateCheckBox(checkableItemView.isChecked)
+
+            }
+
+            viewholderExerciseAddCheckbox.setOnCheckedChangeListener { _, b ->
+                run {
+                    updateItemViewCheck(b)
+                    onCheck(b)
+                }
             }
         }
+
     }
 
     private fun updateItemViewCheck(check: Boolean) {
@@ -64,16 +60,20 @@ class WorkoutExerciseEditViewHolder(
     }
 
     private fun updateCheckBox (check : Boolean) {
-        checkBox.setOnCheckedChangeListener(null)
-        checkBox.isChecked = check
 
-        checkBox.setOnCheckedChangeListener {
-                _, b ->
-            run {
-                updateItemViewCheck(b)
-                onCheck(b)
+        binding.apply {
+            viewholderExerciseAddCheckbox.setOnCheckedChangeListener(null)
+            viewholderExerciseAddCheckbox.isChecked = check
+
+            viewholderExerciseAddCheckbox.setOnCheckedChangeListener {
+                    _, b ->
+                run {
+                    updateItemViewCheck(b)
+                    onCheck(b)
+                }
             }
         }
+
     }
 
     private fun onCheck (check : Boolean) {
@@ -87,12 +87,18 @@ class WorkoutExerciseEditViewHolder(
         this.entity = entity
 
 
-        nameTextView.text = entity.name
+        binding.apply {
 
-        var selected =
+            viewholderExerciseAddName.text = entity.name
+
+            val adapter = viewholderWorkoutExercisesMuscles.adapter as TargetMusclesAdapter
+            adapter.muscles = entity.targetMuscles
+            adapter.notifyItemRangeChanged(0, entity.targetMuscles.size)
+
+        }
+
+        val selected =
             selectedItems.containsKey(entity.recordId)
-
-        recyclerViewMuscles.adapter = TargetMusclesAdapter(entity.targetMuscles)
 
         updateCheckBox(selected)
         updateItemViewCheck(selected)

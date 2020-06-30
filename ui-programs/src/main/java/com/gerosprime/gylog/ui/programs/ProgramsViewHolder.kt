@@ -1,20 +1,19 @@
 package com.gerosprime.gylog.ui.programs
 
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.programs.ProgramEntity
+import com.gerosprime.gylog.ui.programs.databinding.ViewholderProgramTileItemBinding
 
 class ProgramsViewHolder(
     itemView: View,
     private var clickListener: OnItemClickListener<ProgramItemClick>?
 ) : RecyclerView.ViewHolder(itemView) {
 
-    var programImage : ImageView = itemView.findViewById(R.id.viewholder_program_tile_item_photo)
-    var titleText : TextView = itemView.findViewById(R.id.viewholder_program_tile_item_name)
+
+    private val binding = ViewholderProgramTileItemBinding.bind(itemView)
 
     lateinit var program : ProgramEntity
     private var programPosition : Int = -1
@@ -26,11 +25,15 @@ class ProgramsViewHolder(
     fun set(program : ProgramEntity, position : Int) {
         this.program = program
         this.programPosition = position
-        titleText.text = program.name
 
-        if (program.imageUri.isNotEmpty())
-            Glide.with(itemView).load(program.imageUri).into(programImage)
-        // programImage.ima
+        binding.apply {
+            binding.viewholderProgramTileItemName.text = program.name
+
+            if (program.imageUri.isNotEmpty())
+                Glide.with(itemView).load(program.imageUri)
+                    .into(binding.viewholderProgramTileItemPhoto)
+        }
+
     }
 
 

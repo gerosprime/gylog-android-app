@@ -141,7 +141,6 @@ class ViewModelModule {
     fun provideDefaultProgramDetailViewModel(programModelCacheLoader: ProgramModelCacheLoader
                                             ): ViewModel {
         return DefaultProgramDetailViewModel(
-            MutableLiveData(), MutableLiveData(),
             programModelCacheLoader,
             AndroidSchedulers.mainThread(), Schedulers.io())
     }

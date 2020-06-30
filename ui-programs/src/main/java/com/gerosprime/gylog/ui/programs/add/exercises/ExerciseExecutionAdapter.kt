@@ -8,9 +8,9 @@ import com.gerosprime.gylog.models.exercises.templates.ExerciseTemplateEntity
 import com.gerosprime.gylog.ui.programs.R
 
 internal class ExerciseExecutionAdapter(
-    private var exercises: List<ExerciseTemplateEntity>,
+    var exercises: List<ExerciseTemplateEntity>,
     private var workoutIndex: Int,
-    private var exerciseClickListener: OnItemClickListener<ExerciseExecutionClicked>?
+    private var exerciseClickListener: OnItemClickListener<ExerciseExecutionClicked>? = null
 )
     : RecyclerView.Adapter<ExerciseExecutionViewHolder>() {
 
