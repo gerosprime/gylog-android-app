@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
-import com.gerosprime.gylog.models.programs.ProgramEntity
+import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import com.gerosprime.gylog.ui.programs.R
 
 
-class ProgramDetailAdapter(private val entity : ProgramEntity)
+class ProgramDetailAdapter(var workouts : List<WorkoutEntity>)
 
     : RecyclerView.Adapter<ProgramDetailViewHolder>() {
 
@@ -28,9 +28,9 @@ class ProgramDetailAdapter(private val entity : ProgramEntity)
 
     }
 
-    override fun getItemCount(): Int = entity.workouts!!.size
+    override fun getItemCount(): Int = workouts.size
 
     override fun onBindViewHolder(holder: ProgramDetailViewHolder, position: Int) {
-        holder.set(entity.workouts!![position], position)
+        holder.set(workouts[position], position)
     }
 }

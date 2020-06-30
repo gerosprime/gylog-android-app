@@ -1,5 +1,6 @@
 package com.gerosprime.gylog.ui.programs.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
@@ -10,12 +11,13 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 
 class DefaultProgramDetailViewModel(
-    override val fetchStateMLD: MutableLiveData<FetchState>,
-    override val programEntityCacheLoadMLD: MutableLiveData<LoadProgramFromCacheResult>,
     private val programModelCacheLoader: ProgramModelCacheLoader,
     private val uiScheduler: Scheduler?,
     private val backgroundScheduler: Scheduler?
 ) : BaseViewModel(), ProgramDetailViewModel {
+
+    private val fetchStateMLD = MutableLiveData<FetchState>()
+    private val programEntityCacheLoadMLD = MutableLiveData<LoadProgramFromCacheResult>()
 
     private val compositeDisposable  = CompositeDisposable()
 
@@ -35,4 +37,8 @@ class DefaultProgramDetailViewModel(
 
     }
 
+    override val fetchStateLiveData: LiveData<FetchState>
+        get() = fetchStateMLD
+    override val programEntityCacheLoadLiveData: LiveData<LoadProgramFromCacheResult>
+        get() = programEntityCacheLoadMLD
 }

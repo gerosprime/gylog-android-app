@@ -7,19 +7,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.programs.detail.LoadProgramFromCacheResult
 import com.gerosprime.gylog.ui.programs.R
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
+import com.gerosprime.gylog.ui.programs.databinding.ActivityProgramDetailBinding
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity.Extras.PROGRAM_RECORD_ID
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity.RequestCodes.PROGRAM_EDIT
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity.RequestCodes.WORKOUT_SESSION
@@ -59,39 +56,36 @@ class ProgramDetailActivity : AppCompatActivity(),
     lateinit var factory: ViewModelProvider.Factory
     private lateinit var viewModel: ProgramDetailViewModel
 
-    private lateinit var toolbar: Toolbar
-    private lateinit var descriptionTextView: TextView
-    private lateinit var emptyTextView: TextView
-    private lateinit var workoutLabelTextView: TextView
-    private lateinit var workoutsRecyclerView: RecyclerView
-    private lateinit var programImage : ImageView
+    private lateinit var binding : ActivityProgramDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_program_detail)
+
+        binding = ActivityProgramDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         viewModel = ViewModelProvider(this, factory)
             .get(DefaultProgramDetailViewModel::class.java)
 
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        binding.let {
+            setSupportActionBar(it.toolbar)
 
-        descriptionTextView = findViewById(R.id.activity_program_detail_description)
-        emptyTextView = findViewById(R.id.activity_program_detail_empty)
-        workoutLabelTextView = findViewById(R.id.activity_program_detail_workouts_label)
-        programImage = findViewById(R.id.activity_program_detail_image)
-        workoutsRecyclerView = findViewById(R.id.activity_program_detail_workouts)
-        workoutsRecyclerView.layoutManager = LinearLayoutManager(this,
-            LinearLayoutManager.HORIZONTAL, false)
+            val adapter = ProgramDetailAdapter(mutableListOf())
+            it.activityProgramDetailWorkouts.adapter = adapter
+            it.activityProgramDetailWorkouts.layoutManager = LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false)
 
-        viewModel.programEntityCacheLoadMLD.observe(this, Observer {
-            populateProgram(it)
-        })
+            adapter.itemClickListener = object : OnItemClickListener<Long> {
+                override fun onItemClicked(item: Long) {
+                    showWorkoutDetailDialog(item)
+                }
+            }
 
-        viewModel.fetchStateMLD.observe(this, Observer {
+        }
 
-        })
+        viewModel.programEntityCacheLoadLiveData.observe(this, Observer { populateProgram(it) })
+        viewModel.fetchStateLiveData.observe(this, Observer {})
 
         if (savedInstanceState == null) {
 
@@ -156,41 +150,38 @@ class ProgramDetailActivity : AppCompatActivity(),
         }
     }
 
-    private fun refreshWorkouts() {
-        val adapter = workoutsRecyclerView.adapter
-        adapter?.notifyDataSetChanged()
-    }
-
     private fun getProgramRecordId() : Long {
         return intent.getLongExtra(PROGRAM_RECORD_ID, -1)
     }
 
     private fun populateProgram(result : LoadProgramFromCacheResult) {
-        descriptionTextView.text = result.programEntity!!.description
 
-        val adapter = ProgramDetailAdapter(result.programEntity!!)
-        adapter.itemClickListener = object : OnItemClickListener<Long> {
-            override fun onItemClicked(item: Long) {
-                showWorkoutDetailDialog(item)
+        binding.let {
+
+            val entity = result.programEntity
+
+            it.activityProgramDetailDescription.text = entity.description
+
+            val adapter = it.activityProgramDetailWorkouts.adapter as ProgramDetailAdapter
+
+
+            val programEntity = result.programEntity
+            if (programEntity.imageUri.isNotEmpty())
+                Glide.with(this).load(programEntity.imageUri)
+                    .into(it.activityProgramDetailImage)
+
+            it.toolbar.title = entity.name
+            if (adapter.itemCount == 0) {
+                it.activityProgramDetailEmpty.visibility = View.VISIBLE
+                it.activityProgramDetailWorkouts.visibility = View.INVISIBLE
+                it.activityProgramDetailWorkoutsLabel.visibility = View.INVISIBLE
+            } else {
+                it.activityProgramDetailEmpty.visibility = View.INVISIBLE
+                it.activityProgramDetailWorkouts.visibility = View.VISIBLE
+                it.activityProgramDetailWorkoutsLabel.visibility = View.VISIBLE
             }
         }
 
-        val programEntity = result.programEntity!!
-        if (programEntity.imageUri.isNotEmpty())
-            Glide.with(this).load(programEntity.imageUri).into(programImage)
-
-        toolbar.title = result.programEntity!!.name
-        workoutsRecyclerView.adapter = adapter
-
-        if (adapter.itemCount == 0) {
-            emptyTextView.visibility = View.VISIBLE
-            workoutsRecyclerView.visibility = View.INVISIBLE
-            workoutLabelTextView.visibility = View.INVISIBLE
-        } else {
-            emptyTextView.visibility = View.INVISIBLE
-            workoutsRecyclerView.visibility = View.VISIBLE
-            workoutLabelTextView.visibility = View.VISIBLE
-        }
     }
 
     private fun showWorkoutDetailDialog(workoutRecordId : Long) {

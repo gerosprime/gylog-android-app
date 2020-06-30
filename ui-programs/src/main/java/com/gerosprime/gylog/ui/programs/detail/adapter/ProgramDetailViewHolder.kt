@@ -1,11 +1,11 @@
 package com.gerosprime.gylog.ui.programs.detail.adapter
 
 import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.workouts.WorkoutEntity
 import com.gerosprime.gylog.ui.programs.R
+import com.gerosprime.gylog.ui.programs.databinding.ViewholderProgramDetailWorkoutBinding
 
 
 class ProgramDetailViewHolder(itemView : View,
@@ -16,13 +16,7 @@ class ProgramDetailViewHolder(itemView : View,
 
     private val resources = itemView.resources
 
-    private val dayTextView : TextView = itemView.findViewById(R.id.viewholder_program_detail_workout_day)
-
-    private val nameTextView: TextView
-            = itemView.findViewById(R.id.viewholder_program_detail_workout_name)
-
-    private val exercisesTextView: TextView
-            = itemView.findViewById(R.id.viewholder_program_detail_workout_exercises)
+    private val binding = ViewholderProgramDetailWorkoutBinding.bind(itemView)
 
     init {
         itemView.setOnClickListener {
@@ -36,10 +30,11 @@ class ProgramDetailViewHolder(itemView : View,
         val exercises = resources.getQuantityString(R.plurals.exercises_format,
             workoutEntity.exercises.size, workoutEntity.exercises.size)
 
-        dayTextView.text = resources.getString(R.string.day_format, position + 1)
-
-        nameTextView.text = workoutEntity.name
-        exercisesTextView.text = exercises
+        binding.apply {
+            viewholderProgramDetailWorkoutDay.text = resources.getString(R.string.day_format, position + 1)
+            viewholderProgramDetailWorkoutName.text = workoutEntity.name
+            viewholderProgramDetailWorkoutExercises.text = exercises
+        }
 
     }
 
