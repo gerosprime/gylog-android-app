@@ -7,13 +7,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.base.utils.TimeFormatUtil
 import com.gerosprime.gylog.models.workouts.runningsession.create.WorkoutSessionCreationResult
@@ -158,13 +154,11 @@ class WorkoutSessionActivity : AppCompatActivity(),
             .get(DefaultWorkoutSessionViewModel::class.java)
 
         binding.activityWorkoutSessionExercises.adapter = PerformedExerciseAdapter(
-            mutableListOf(),
+            listOf(),
             exerciseClickListener, setItemClick,
             addClickListener, removeItemClick, unRemoveItemClick)
 
-        binding.activityWorkoutSessionTimerContainer.visibility =
-            if (viewModel.isResting()) View.VISIBLE
-            else View.GONE
+        showRestimerIfTimerRunning()
 
         if (savedInstanceState == null) {
 
@@ -207,6 +201,19 @@ class WorkoutSessionActivity : AppCompatActivity(),
         viewModel.finalizedSessionLiveData.observe(this, observerFinalize)
         viewModel.savedSessionLiveData.observe(this, observerSave)
 
+    }
+
+    private fun showRestimerIfTimerRunning() {
+        when (viewModel.isResting()) {
+            true -> {
+                binding.activityWorkoutSessionTimerContainer.visibility = View.VISIBLE
+                updateTimerLabel(viewModel.restTimerLiveData.value!!)
+            }
+            else -> {
+                binding.activityWorkoutSessionTimerContainer.visibility = View.GONE
+                updateTimerLabel("")
+            }
+        }
     }
 
     private fun startWorkoutService(workoutId : Long) {
@@ -345,7 +352,7 @@ class WorkoutSessionActivity : AppCompatActivity(),
         val adapter = binding.activityWorkoutSessionExercises.adapter
                 as PerformedExerciseAdapter
         adapter.performedExercises = prePerformedExercises
-        adapter.notifyItemMoved(0, prePerformedExercises.size)
+        adapter.notifyItemRangeChanged(0, prePerformedExercises.size)
     }
 
     private fun populateCreatedSession(result: WorkoutSessionCreationResult) {

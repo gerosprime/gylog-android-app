@@ -163,7 +163,7 @@ class ProgramDetailActivity : AppCompatActivity(),
             it.activityProgramDetailDescription.text = entity.description
 
             val adapter = it.activityProgramDetailWorkouts.adapter as ProgramDetailAdapter
-
+            adapter.workouts = entity.workouts
 
             val programEntity = result.programEntity
             if (programEntity.imageUri.isNotEmpty())

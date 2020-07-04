@@ -11,7 +11,7 @@ import com.gerosprime.gylog.ui.workouts.session.adapters.sets.PerformedSetAdapte
 
 
 internal class PerformedSetAdapter(
-    var performedSets: ArrayList<PerformedSetEntity>,
+    var performedSets: List<PerformedSetEntity>,
     private var setItemClick: OnItemClickListener<Int>,
     private var addItemClick: AddSetClickListener,
     private var removeSetClick: OnItemClickListener<Int>,

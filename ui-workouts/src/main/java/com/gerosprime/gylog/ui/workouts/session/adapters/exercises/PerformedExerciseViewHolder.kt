@@ -29,7 +29,7 @@ internal class PerformedExerciseViewHolder
     private val binding = ViewholderWorkoutSessionExercisesBinding.bind(itemView)
 
     private lateinit var performedExercise : ExercisePerformedEntity
-    private var exercisePosition : Int = -1
+    private var exercisePosition : Int = adapterPosition
 
     private val internalExerciseClickListener = object : OnItemClickListener<Int> {
         override fun onItemClicked(item: Int) {
@@ -74,7 +74,7 @@ internal class PerformedExerciseViewHolder
 
         binding.apply {
             viewholderWorkoutSessionPerformedsets.adapter = PerformedSetAdapter(
-                performedExercise.performedSets,
+                listOf(),
                 internalSetClickListener, internalAddClickListener,
                 internalRemoveSetClickListener, internalUnRemoveSetClickListener)
 

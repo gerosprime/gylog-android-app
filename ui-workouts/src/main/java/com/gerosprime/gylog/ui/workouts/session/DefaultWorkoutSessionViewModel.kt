@@ -3,6 +3,7 @@ package com.gerosprime.gylog.ui.workouts.session
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.FetchState
+import com.gerosprime.gylog.base.components.android.SingleLiveEvent
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
 import com.gerosprime.gylog.base.utils.TimeFormatUtil
 import com.gerosprime.gylog.models.timer.CountDownEntity
@@ -29,6 +30,7 @@ import com.gerosprime.gylog.models.workouts.runningsession.save.WorkoutSessionSa
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
 import io.reactivex.functions.Consumer
 import java.util.*
 
@@ -56,24 +58,28 @@ class DefaultWorkoutSessionViewModel(
     private val fetchStateMLD =  MutableLiveData<FetchState>()
     private val workoutSessionLoadMLD =  MutableLiveData<WorkoutSessionCacheLoadResult>()
     private val workoutSessionCreateMLD =  MutableLiveData<WorkoutSessionCreationResult>()
-    private val addSetMutableLiveData =  MutableLiveData<AddPerformedSetResult>()
-    private val removeSetMutableLiveData =  MutableLiveData<RemoveWorkoutSessionSetResult>()
-    private val unFlagRemoveSetMutableLiveData =  MutableLiveData<UnflagRemovePerformedSetResult>()
-    private val completeSetMutableLiveData =  MutableLiveData<EditPerformedSetResult>()
-    private val clearSetMutableLiveData =  MutableLiveData<ClearPerformedSetResult>()
-    private val sessionTimerMLD =  MutableLiveData<String>()
-    private val restTimerMLD =  MutableLiveData<String>()
-    private val finalizedSessionMLD =  MutableLiveData<FinalizedRunningSessionResult>()
-    private val savedSessionMLD =  MutableLiveData<WorkoutSessionSaveResult>()
-    private val discardSessionMLD =  MutableLiveData<RunningWorkoutSessionDiscardResult>()
+    
+    // Single Live Event Only 
+    private val addSetMutableLiveData =  SingleLiveEvent<AddPerformedSetResult>()
+    private val removeSetMutableLiveData =  SingleLiveEvent<RemoveWorkoutSessionSetResult>()
+    private val unFlagRemoveSetMutableLiveData =  SingleLiveEvent<UnflagRemovePerformedSetResult>()
+    private val completeSetMutableLiveData =  SingleLiveEvent<EditPerformedSetResult>()
+    private val clearSetMutableLiveData =  SingleLiveEvent<ClearPerformedSetResult>()
+    private val sessionTimerMLD =  SingleLiveEvent<String>()
+    private val restTimerMLD =  SingleLiveEvent<String>()
+    private val finalizedSessionMLD =  SingleLiveEvent<FinalizedRunningSessionResult>()
+    private val savedSessionMLD =  SingleLiveEvent<WorkoutSessionSaveResult>()
+    private val discardSessionMLD =  SingleLiveEvent<RunningWorkoutSessionDiscardResult>()
 
 
     private val compositeDisposable = CompositeDisposable()
 
-    private var disposableTimer : Disposable? = null
+    private var disposableTimer : Disposable = Disposables.disposed()
 
     private val countDownTimer = CountDownTimer()
-    private var countDownEntity : CountDownEntity? = null
+
+    private val countDownZero = CountDownEntity(0)
+    private var countDownEntity : CountDownEntity = countDownZero
 
     override fun createWorkoutSession(workoutRecordId: Long) {
 
@@ -223,12 +229,12 @@ class DefaultWorkoutSessionViewModel(
         }))
     }
 
-    override fun isResting(): Boolean = countDownEntity != null && countDownEntity!!.seconds > 0
+    override fun isResting(): Boolean = countDownEntity.seconds > 0
 
     override fun restSet(duration : Int) {
 
-        if (disposableTimer != null && !disposableTimer!!.isDisposed)
-            disposableTimer!!.dispose()
+        if (!disposableTimer.isDisposed)
+            disposableTimer.dispose()
 
         countDownEntity = CountDownEntity(duration)
         var timer = countDownTimer.create(countDownEntity).map { it.seconds.toLong() }
@@ -243,16 +249,19 @@ class DefaultWorkoutSessionViewModel(
             if (it > 0) {
                 restTimerMLD.value = TimeFormatUtil.secondsToString(it)
             } else {
-                restTimerMLD.value = null
+                restTimerMLD.value = ""
                 cancelRest()
             }
         }
     }
 
     override fun cancelRest() {
-        if (disposableTimer != null && !disposableTimer!!.isDisposed)
-            disposableTimer!!.dispose()
-        disposableTimer = null
+        if (!disposableTimer.isDisposed)
+            disposableTimer.dispose()
+
+        restTimerMLD.value = ""
+        countDownEntity = countDownZero
+
     }
 
     override val fetchStateLiveData: LiveData<FetchState>
