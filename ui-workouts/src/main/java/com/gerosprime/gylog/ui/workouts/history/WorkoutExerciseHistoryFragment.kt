@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
+import com.google.android.material.appbar.MaterialToolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -27,11 +27,11 @@ class WorkoutExerciseHistoryFragment : BottomSheetDialogFragment() {
     @Inject
     lateinit var factory : ViewModelProvider.Factory
 
-    lateinit var toolbar : Toolbar
+    lateinit var toolbar : MaterialToolbar
 
-    lateinit var recyclerViewHistory : RecyclerView
+    private lateinit var recyclerViewHistory : RecyclerView
 
-    lateinit var emptyTextView : TextView
+    private lateinit var emptyTextView : TextView
 
     companion object {
         fun createInstance(workoutId : Long, exerciseId : Long)

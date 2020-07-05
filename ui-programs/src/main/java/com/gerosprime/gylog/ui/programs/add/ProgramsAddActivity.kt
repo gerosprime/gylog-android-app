@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -31,8 +30,10 @@ import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.Result.EXTRA_PRO
 import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity.Result.EXTRA_PROGRAM_EDIT_MODE
 import com.gerosprime.gylog.ui.programs.add.exercises.ExerciseExecutionClicked
 import com.gerosprime.gylog.ui.programs.add.workouts.ProgramWorkoutsAdapter
+import com.gerosprime.gylog.ui.programs.databinding.ActivityAddProgramsBinding
 import com.gerosprime.gylog.ui.programs.workouts.AddWorkoutDialogFragment
 import com.gerosprime.gylog.ui.workouts.exercises.WorkoutExerciseEditActivity
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputLayout
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -41,19 +42,11 @@ import javax.inject.Inject
 
 class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listener {
 
-
-    private lateinit var nameEditText : TextInputLayout
-    private lateinit var descriptionEditText : TextInputLayout
-    private lateinit var imageProgram : ImageView
-
     @Inject
     lateinit var factory : ViewModelProvider.Factory
     private lateinit var viewModel : ProgramsAddViewModel
 
-    private lateinit var workoutsRecyclerView: RecyclerView
-    private lateinit var workoutAddButton : Button
-
-    private lateinit var toolbar : Toolbar
+    private lateinit var binding : ActivityAddProgramsBinding
 
     private var pictureUri : Uri? = null
     private var mode : Int = -1
@@ -94,26 +87,32 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
         viewModel = ViewModelProvider(this, factory)
             .get(DefaultProgramsAddViewModel::class.java)
 
-        setContentView(R.layout.activity_add_programs)
+        binding = ActivityAddProgramsBinding.inflate(layoutInflater)
 
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
 
-        imageProgram = findViewById(R.id.activity_add_programs_image)
-        imageProgram.setOnClickListener {
-            pickPicture()
+        binding.apply {
+            val adapter = ProgramWorkoutsAdapter(listOf())
+            fragmentAddProgramsWorkouts.adapter = adapter
+
+            adapter.exerciseWorkoutListener = object : OnItemClickListener<Int> {
+                override fun onItemClicked(item: Int) {
+                    editWorkoutExercises(item)
+                }
+            }
+            adapter.exerciseExecutionListener = object : OnItemClickListener<ExerciseExecutionClicked> {
+                override fun onItemClicked(item: ExerciseExecutionClicked) {
+                    editExerciseExecution(item)
+                }
+            }
+
+            fragmentAddProgramsAddWorkout.setOnClickListener { showCreateWorkoutDialog() }
         }
 
-        nameEditText = findViewById(R.id.fragment_add_programs_name_layout)
-        descriptionEditText = findViewById(R.id.fragment_add_programs_description_layout)
-        workoutsRecyclerView = findViewById(R.id.fragment_add_programs_workouts)
-        workoutAddButton = findViewById(R.id.fragment_add_programs_add_workout)
-        workoutAddButton.setOnClickListener { showCreateWorkoutDialog() }
-
         viewModel.programSetToCacheResultMLD.observe(this, Observer { newProgramLoaded(it) })
-        viewModel.workoutAddToCacheResultMLD.observe(this,
-            Observer { workoutAddedToCache(it) })
+        viewModel.workoutAddToCacheResultMLD.observe(this, Observer { workoutAddedToCache(it) })
         viewModel.saveProgramResultMLD.observe(this, Observer { programSaved(it) })
 
         if (savedInstanceState == null)
@@ -185,8 +184,8 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
                         -1
                     )
 
-                    var adapter = workoutsRecyclerView.adapter as ProgramWorkoutsAdapter?
-                    adapter!!.refreshWorkoutContent(workoutIndex)
+                    val adapter = binding.fragmentAddProgramsWorkouts.adapter as ProgramWorkoutsAdapter
+                    adapter.refreshWorkoutContent(workoutIndex)
                 }
             }
             TEMPLATE_SET_EDIT -> {
@@ -196,14 +195,15 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
                         -1
                     )
 
-                    var adapter = workoutsRecyclerView.adapter as ProgramWorkoutsAdapter?
-                    adapter!!.refreshWorkoutContent(workoutIndex)
+                    val adapter = binding.fragmentAddProgramsWorkouts.adapter
+                            as ProgramWorkoutsAdapter
+                    adapter.refreshWorkoutContent(workoutIndex)
                 }
             }
             IMAGE_PICKER -> {
                 if (resultCode == Activity.RESULT_OK) {
                     pictureUri = data!!.data!!
-                    Glide.with(this).load(pictureUri).into(imageProgram)
+                    // Glide.with(this).load(pictureUri).into(binding.imageProgram)
                 }
             }
         }
@@ -213,27 +213,17 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
 
         mode = editProgramSetToCacheResult.mode
 
-        val adapter = ProgramWorkoutsAdapter(editProgramSetToCacheResult.workouts)
-        adapter.exerciseWorkoutListener = object : OnItemClickListener<Int> {
-            override fun onItemClicked(item: Int) {
-                editWorkoutExercises(item)
-            }
-        }
-        adapter.exerciseExecutionListener = object : OnItemClickListener<ExerciseExecutionClicked> {
-            override fun onItemClicked(item: ExerciseExecutionClicked) {
-                editExerciseExecution(item)
-            }
-        }
-        workoutsRecyclerView.adapter = adapter
+        val adapter = binding.fragmentAddProgramsWorkouts.adapter
+                as ProgramWorkoutsAdapter
+        adapter.items = editProgramSetToCacheResult.workouts
+        adapter.notifyItemRangeChanged(0, adapter.itemCount)
 
         val programEntity = editProgramSetToCacheResult.programEntity
 
-        if (programEntity.imageUri.isNotEmpty())
-            Glide.with(this).load(programEntity.imageUri).into(imageProgram)
-
-
-        nameEditText.editText!!.setText(programEntity.name)
-        descriptionEditText.editText!!.setText(programEntity.description)
+        binding.apply {
+            fragmentAddProgramsNameEdittext.setText(programEntity.name)
+            fragmentAddProgramsDescriptionEdittext.setText(programEntity.description)
+        }
 
     }
 
@@ -260,10 +250,11 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
 
     private fun workoutAddedToCache(result: WorkoutAddToCacheResult) {
 
-        // TODO Fix null pointer crash
-        var adapter = workoutsRecyclerView.adapter as ProgramWorkoutsAdapter?
-        adapter!!.notifyItemInserted(result.itemPosition)
-        workoutsRecyclerView.smoothScrollToPosition(result.itemPosition)
+        binding.apply {
+            val adapter = fragmentAddProgramsWorkouts.adapter as ProgramWorkoutsAdapter
+            adapter.notifyItemInserted(result.itemPosition)
+            fragmentAddProgramsWorkouts.smoothScrollToPosition(result.itemPosition)
+        }
     }
 
     override fun workoutNameDescriptionDefined(newWorkout: WorkoutEntity) {
@@ -275,7 +266,7 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
     }
 
     private fun showCreateWorkoutDialog() {
-        var workoutCreateDialog = AddWorkoutDialogFragment()
+        val workoutCreateDialog = AddWorkoutDialogFragment()
         workoutCreateDialog.show(supportFragmentManager, TAG_ADD_WORKOUT_DIALOG)
     }
 
@@ -286,15 +277,16 @@ class ProgramsAddActivity : AppCompatActivity(), AddWorkoutDialogFragment.Listen
 
     private fun saveProgram() {
 
-        val name = nameEditText.editText?.text.toString()
-        val description = descriptionEditText.editText?.text.toString()
-        if (name.isNotEmpty()) {
-            viewModel.saveProgramToDB(name, description, pictureUri.toString())
-        } else {
-            nameEditText.error = getString(R.string.program_name_is_required)
+        binding.apply {
+
+            val name = fragmentAddProgramsNameEdittext.text.toString()
+            val description = fragmentAddProgramsDescriptionEdittext.text.toString()
+            if (name.isNotEmpty()) {
+                viewModel.saveProgramToDB(name, description, pictureUri.toString())
+            } else {
+                fragmentAddProgramsNameLayout.error = getString(R.string.program_name_is_required)
+            }
         }
-
-
 
     }
 

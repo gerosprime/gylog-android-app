@@ -67,6 +67,7 @@ class ProgramWorkoutsViewHolder(itemView : View,
             val adapter = viewholderProgramWorkoutsExercises.adapter
                     as ExerciseExecutionAdapter
             adapter.exercises = exercises
+            adapter.workoutIndex = workoutIndex
             adapter.notifyItemRangeChanged(0, exercises.size)
 
         }

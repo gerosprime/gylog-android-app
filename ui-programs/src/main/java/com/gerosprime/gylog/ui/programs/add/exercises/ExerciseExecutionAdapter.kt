@@ -9,7 +9,7 @@ import com.gerosprime.gylog.ui.programs.R
 
 internal class ExerciseExecutionAdapter(
     var exercises: List<ExerciseTemplateEntity>,
-    private var workoutIndex: Int,
+    var workoutIndex: Int,
     private var exerciseClickListener: OnItemClickListener<ExerciseExecutionClicked>? = null
 )
     : RecyclerView.Adapter<ExerciseExecutionViewHolder>() {
@@ -20,7 +20,7 @@ internal class ExerciseExecutionAdapter(
         if (layoutInflater == null)
             layoutInflater = LayoutInflater.from(parent.context)
 
-        var inflated = layoutInflater!!.
+        val inflated = layoutInflater!!.
             inflate(R.layout.viewholder_workout_exercise_execs, parent, false)
 
         return ExerciseExecutionViewHolder(inflated, exerciseClickListener)

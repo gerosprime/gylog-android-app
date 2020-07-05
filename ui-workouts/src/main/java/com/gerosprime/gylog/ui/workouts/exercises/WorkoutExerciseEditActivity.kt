@@ -7,7 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import com.google.android.material.appbar.MaterialToolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -38,7 +38,7 @@ class WorkoutExerciseEditActivity : AppCompatActivity(),
     private lateinit var viewModel : WorkoutExerciseEditViewModel
 
     lateinit var exercisesRecyclerView: RecyclerView
-    lateinit var toolbar: Toolbar
+    lateinit var toolbar: MaterialToolbar
 
     private lateinit var buttonFilter : Button
 

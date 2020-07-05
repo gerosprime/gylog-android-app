@@ -21,7 +21,7 @@ class ProgramWorkoutsAdapter(var items : List<WorkoutEntity>)
         if (layoutInflater == null)
             layoutInflater = LayoutInflater.from(parent.context)
 
-        var inflated = layoutInflater!!.
+        val inflated = layoutInflater!!.
             inflate(R.layout.viewholder_program_workouts, parent, false)
 
         return ProgramWorkoutsViewHolder(inflated, exerciseWorkoutListener,

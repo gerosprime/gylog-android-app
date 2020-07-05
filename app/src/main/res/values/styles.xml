@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
+        <item name="toolbarStyle">@style/Widget.AppTheme.Toolbar</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -16,6 +17,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Widget.AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+
+    </style>
+
+
     <item name="themeRef" type="style">@style/AppTheme.NoActionBar</item>
+    <item name="themeToolbarRef" type="style">@style/Widget.AppTheme.Toolbar</item>
 
 </resources>

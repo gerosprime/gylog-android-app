@@ -10,8 +10,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.GridLayoutManager
 import com.gerosprime.gylog.base.OnItemClickListener
 import com.gerosprime.gylog.models.programs.detail.LoadProgramFromCacheResult
 import com.gerosprime.gylog.ui.programs.R
@@ -73,8 +72,7 @@ class ProgramDetailActivity : AppCompatActivity(),
 
             val adapter = ProgramDetailAdapter(mutableListOf())
             it.activityProgramDetailWorkouts.adapter = adapter
-            it.activityProgramDetailWorkouts.layoutManager = LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false)
+            it.activityProgramDetailWorkouts.layoutManager = GridLayoutManager(this, 2)
 
             adapter.itemClickListener = object : OnItemClickListener<Long> {
                 override fun onItemClicked(item: Long) {
@@ -164,11 +162,6 @@ class ProgramDetailActivity : AppCompatActivity(),
 
             val adapter = it.activityProgramDetailWorkouts.adapter as ProgramDetailAdapter
             adapter.workouts = entity.workouts
-
-            val programEntity = result.programEntity
-            if (programEntity.imageUri.isNotEmpty())
-                Glide.with(this).load(programEntity.imageUri)
-                    .into(it.activityProgramDetailImage)
 
             it.toolbar.title = entity.name
             if (adapter.itemCount == 0) {
