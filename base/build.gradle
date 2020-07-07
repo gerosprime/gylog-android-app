@@ -29,7 +29,7 @@ android {
 }
 
 def room_version = '2.2.2'
-def dagger_version = '2.26'
+def dagger_version = '2.28.1'
 
 def cardview_version = '1.0.0'
 

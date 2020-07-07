@@ -23,6 +23,7 @@
     </plurals>
 
     <string name="weight_format">%.2f KG</string>
+    <string name="fat_format">%.0f%%</string>
 
     <string name="workout_session_set_number_format">Set #%d</string>
     <string name="restore">Restore</string>

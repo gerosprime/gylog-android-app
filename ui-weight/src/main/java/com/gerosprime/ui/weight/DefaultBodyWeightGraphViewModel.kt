@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gerosprime.gylog.base.components.android.SingleLiveEvent
 import com.gerosprime.gylog.base.components.viewmodel.BaseViewModel
-import com.gerosprime.gylog.models.body.weight.AllBodyWeightsCacheLoadResult
-import com.gerosprime.gylog.models.body.weight.BodyWeightCacheLoader
-import com.gerosprime.gylog.models.body.weight.BodyWeightDatabaseSaver
-import com.gerosprime.gylog.models.body.weight.BodyWeightSaveResult
+import com.gerosprime.gylog.models.body.weight.*
 import io.reactivex.Scheduler
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import java.util.*
@@ -23,31 +21,38 @@ class DefaultBodyWeightGraphViewModel
 
 
     private val bodyWeightDataMLD = MutableLiveData<AllBodyWeightsCacheLoadResult>()
+    private val bodyWeightLatestDataMLD = MutableLiveData<LatestBodyWeightLoadResult>()
     private val savedBodyWeightDataMLD = SingleLiveEvent<BodyWeightSaveResult>()
 
     private val compositeDisposable = CompositeDisposable()
 
     override fun loadData() {
 
-        var loader = bodyWeightLoader.loadAll()
-        if (uiScheduler != null)
-            loader = loader.observeOn(uiScheduler)
-
-        if (backgroundScheduler != null)
-            loader = loader.subscribeOn(backgroundScheduler)
+        val loader = attachAvailableObservers(bodyWeightLoader.loadAll())
 
         compositeDisposable.add(loader.subscribe(Consumer { bodyWeightDataMLD.value = it }))
 
     }
 
-    override fun saveBodyWeightLog(recordId: Long?, weight: Float, date: Date, notes: String) {
-        var saver = bodyWeightSaver.save(recordId, weight, date, notes)
+    override fun loadLatest() {
+        var loader = bodyWeightLoader.loadLatest()
+        loader = attachAvailableObservers(loader)
 
+        compositeDisposable.add(loader.subscribe(Consumer { bodyWeightLatestDataMLD.value = it }))
+    }
+
+    private fun <T> attachAvailableObservers(singleRxInstance: Single<T>): Single<T> {
+        var singleRx = singleRxInstance
         if (uiScheduler != null)
-            saver = saver.observeOn(uiScheduler)
+            singleRx = singleRx.observeOn(uiScheduler)
 
         if (backgroundScheduler != null)
-            saver = saver.subscribeOn(backgroundScheduler)
+            singleRx = singleRx.subscribeOn(backgroundScheduler)
+        return singleRx
+    }
+
+    override fun saveBodyWeightLog(recordId: Long?, weight: Float, date: Date, notes: String) {
+        val saver = attachAvailableObservers(bodyWeightSaver.save(recordId, weight, date, notes))
 
         compositeDisposable.add(saver.subscribe(Consumer {
             savedBodyWeightDataMLD.value = it
@@ -60,5 +65,8 @@ class DefaultBodyWeightGraphViewModel
 
     override val savedBodyWeightDataLiveData: LiveData<BodyWeightSaveResult>
         get() = savedBodyWeightDataMLD
+
+    override val bodyWeightLatestLiveData: LiveData<LatestBodyWeightLoadResult>
+        get() = bodyWeightLatestDataMLD
 
 }

@@ -8,6 +8,7 @@ import com.gerosprime.gylog.ui.programs.add.ProgramsAddActivity
 import com.gerosprime.gylog.ui.programs.detail.ProgramDetailActivity
 import com.gerosprime.gylog.ui.workouts.exercises.WorkoutExerciseEditActivity
 import com.gerosprime.gylog.ui.workouts.session.WorkoutSessionActivity
+import com.gerosprime.gylog.ui.you.YouFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -36,6 +37,9 @@ abstract class ActivityBuilders {
 
     @ContributesAndroidInjector
     abstract fun contributeExerciseDetailActivity() : ExerciseDetailActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeYouFragment() : YouFragment
 
 
 }

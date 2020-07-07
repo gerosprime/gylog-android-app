@@ -3,12 +3,11 @@ package com.gerosprime.ui.weight
 import com.gerosprime.gylog.models.body.weight.BodyWeightEntity
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.formatter.ValueFormatter
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 class DateXValueFormatter(
     private val dateFormat: SimpleDateFormat,
-    private val points : ArrayList<BodyWeightEntity>)
+    private val points : MutableList<BodyWeightEntity>)
     : ValueFormatter() {
 
     override fun getAxisLabel(value: Float, axis: AxisBase?): String {

@@ -53,6 +53,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/fragment_you_latest_weight"
                             tools:text="49 KG"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:layout_width="wrap_content"
@@ -74,6 +75,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/fragment_you_latest_fat"
                             tools:text="49 %"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:layout_width="wrap_content"
@@ -96,6 +98,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/fragment_you_tab_cardview"
             android:layout_marginBottom="@dimen/dimen_8dp"
             android:layout_marginLeft="@dimen/dimen_16dp"
             android:layout_marginRight="@dimen/dimen_16dp"
@@ -103,6 +106,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/fragment_you_tab_container"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -115,12 +119,10 @@
 
                     <com.google.android.material.tabs.TabItem
                         android:text="@string/weight"
-                        android:id="@+id/fragment_you_body_measurement_tab_item_weight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <com.google.android.material.tabs.TabItem
-                        android:id="@+id/fragment_you_body_measurement_tab_item_fat"
                         android:text="@string/fat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

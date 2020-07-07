@@ -153,7 +153,7 @@ class BodyWeightGraphFragment : Fragment(),
         }
 
         dialog.listener = this
-            dialog.show(fragmentManager!!, BODY_WEIGHT_LOG)
+            dialog.show(parentFragmentManager, BODY_WEIGHT_LOG)
 
     }
 
