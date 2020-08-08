@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             app:layout_collapseMode="pin"
             app:theme="@style/themeRef"
-            app:popupTheme="@style/themeRef"
+            app:popupTheme="@style/themeToolbarRef"
             app:navigationIcon="@drawable/ic_close_white_24dp"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize" />

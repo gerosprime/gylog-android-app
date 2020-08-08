@@ -6,5 +6,6 @@
     </style>
 
     <item name="themeRef" type="style" />
+    <item name="themeToolbarRef" type="style" />
 
 </resources>

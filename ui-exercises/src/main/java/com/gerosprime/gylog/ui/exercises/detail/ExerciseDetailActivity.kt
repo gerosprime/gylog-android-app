@@ -20,6 +20,7 @@ import com.gerosprime.gylog.ui.exercises.detail.ExerciseDetailActivity.Extras.EX
 import com.gerosprime.gylog.ui.exercises.detail.ExerciseDetailActivity.RequestCodes.EXERCISE_EDIT
 import com.google.android.material.appbar.MaterialToolbar
 import dagger.android.AndroidInjection
+import kotlinx.android.synthetic.main.activity_template_sets.*
 import javax.inject.Inject
 
 class ExerciseDetailActivity : AppCompatActivity() {
@@ -59,13 +60,14 @@ class ExerciseDetailActivity : AppCompatActivity() {
             .get(DefaultExerciseDetailViewModel::class.java)
 
         binding = ActivityExerciseDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         binding.let {
             setSupportActionBar(it.toolbar)
             it.activityExerciseDetailMuscles.layoutManager = LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false)
         }
+
+        setContentView(binding.root)
+
 
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -143,7 +145,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
         binding.apply {
             activityExerciseDetailDescription.text = result.description
             activityExerciseDetailDirections.text = result.directions
-            supportActionBar?.title = result.name
+            collapsingToolbar.title = result.name
             activityExerciseDetailMuscles.adapter = TargetMusclesAdapter(result.muscles)
         }
 

@@ -13,8 +13,6 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            app:theme="@style/themeRef"
-            app:popupTheme="@style/themeRef"
             app:navigationIcon="@drawable/ic_close_white_24dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             android:layout_width="match_parent"
