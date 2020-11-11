@@ -87,6 +87,6 @@ dependencies {
     implementation project(path: ':ui-fat')
     implementation project(path: ':ui-settings')
     implementation project(path: ':base')
-    implementation project(path: ':models')
+    implementation project(path: ':core')
 
 }

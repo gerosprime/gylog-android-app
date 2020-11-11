@@ -37,7 +37,7 @@ dependencies {
 
     implementation 'androidx.preference:preference:1.1.0'
 
-    implementation project(path: ':models')
+    implementation project(path: ':core')
     implementation project(path: ':base')
 
     implementation 'me.jfenn:Attribouter:0.1.5'

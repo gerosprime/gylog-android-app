@@ -33,7 +33,7 @@ def dagger_version = '2.26'
 
 dependencies {
 
-    implementation project(path: ':models')
+    implementation project(path: ':core')
     implementation project(path: ':base')
 
     androidTestImplementation 'androidx.test:runner:1.2.0'

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="Gylog.app" target="1.8" />
+      <module name="Gylog.base" target="1.8" />
+      <module name="Gylog.core" target="1.8" />
+      <module name="Gylog.ui-exercises" target="1.8" />
+      <module name="Gylog.ui-fat" target="1.8" />
+      <module name="Gylog.ui-muscles" target="1.8" />
+      <module name="Gylog.ui-programs" target="1.8" />
+      <module name="Gylog.ui-settings" target="1.8" />
+      <module name="Gylog.ui-weight" target="1.8" />
+      <module name="Gylog.ui-workouts" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
